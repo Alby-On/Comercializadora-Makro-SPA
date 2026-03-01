@@ -1,9 +1,3 @@
-// 1. Configuración de Shopify Storefront API
-const shopifyConfig = {
-    domain: 'zidiwr-ax.myshopify.com',
-    accessToken: '22259948ae8b45daf91294ada0ff44b4',
-    apiVersion: '2024-01'
-};
 const shopifyConfig = {
     // Asegúrate de que termine exactamente en /graphql.json
     url: 'https://gerardoferreteria.myshopify.com/api/2024-01/graphql.json',
