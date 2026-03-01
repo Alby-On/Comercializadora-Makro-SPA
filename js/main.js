@@ -1,10 +1,8 @@
+// 1. Configuración de Shopify Storefront API
 const shopifyConfig = {
-    // Asegúrate de que termine exactamente en /graphql.json
-    url: 'https://gerardoferreteria.myshopify.com/api/2024-01/graphql.json',
-    headers: {
-        'X-Shopify-Storefront-Access-Token': '22259948ae8b45daf91294ada0ff44b4',
-        'Content-Type': 'application/json'
-    }
+    domain: 'zidiwr-ax.myshopify.com',
+    accessToken: '22259948ae8b45daf91294ada0ff44b4',
+    apiVersion: '2024-01'
 };
 // Función para cargar componentes estáticos (Header/Footer)
 function loadComponent(id, file) {
