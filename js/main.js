@@ -493,92 +493,112 @@ function toggleCamposFactura() {
    ========================================================================== */
 
 async function prepararCheckout() {
-    const tipo = document.getElementById('tipo-documento').value;
-    const rutInput = document.getElementById('rut-cliente').value;
+    // 1. Capturar elementos y validar que existan en el DOM
+    const elTipo = document.getElementById('tipo-documento');
+    const elRut = document.getElementById('rut-cliente');
     const cartId = localStorage.getItem('shopify_cart_id');
 
-    // 1. Validar el RUT antes de cualquier otra cosa
-    if (!validarRut(rutInput)) {
-        alert("Por favor, ingresa un RUT válido (ej: 12.345.678-9 o 12345678-9).");
-        document.getElementById('rut-cliente').focus();
-        return; // Detiene la ejecución
+    if (!elTipo || !elRut) {
+        console.error("Error: No se encontraron los inputs en el HTML.");
+        return;
     }
 
-    // 2. Construimos la nota base
+    const tipo = elTipo.value;
+    const rutInput = elRut.value.trim();
+
+    // 2. Validar el RUT (Sin puntos, con guion)
+    if (!validarRut(rutInput)) {
+        alert("RUT inválido. Por favor ingresa el formato: 12345678-9 (Sin puntos y con guion).");
+        elRut.focus();
+        return;
+    }
+
+    // 3. Validar Carrito existente
+    if (!cartId) {
+        alert("Tu carrito parece haber expirado. Agrega un producto de nuevo.");
+        return;
+    }
+
+    // 4. Construir la nota
     let notaFinal = `Documento: ${tipo.toUpperCase()} | RUT: ${rutInput}`;
     
-    // 3. Si es Factura, validar campos adicionales
     if (tipo === 'factura') {
-        const rs = document.getElementById('razon-social').value.trim();
-        const giro = document.getElementById('giro-empresa').value.trim();
+        const rs = document.getElementById('razon-social')?.value.trim();
+        const giro = document.getElementById('giro-empresa')?.value.trim();
 
         if (!rs || !giro) {
-            alert("Para Factura, la Razón Social y el Giro son obligatorios.");
-            return; // Detiene la ejecución
+            alert("Razón Social y Giro son obligatorios para Factura.");
+            return;
         }
-        
         notaFinal += ` | Razón: ${rs} | Giro: ${giro}`;
     }
 
-    // 4. Actualizamos el carrito en Shopify con la nota tributaria
+    // 5. Proceso de envío a Shopify
     const query = `
         mutation cartUpdate($cartId: ID!, $note: String) {
             cartUpdate(cartId: $cartId, note: $note) {
-                cart {
-                    checkoutUrl
-                }
-                userErrors {
-                    field
-                    message
-                }
+                cart { checkoutUrl }
+                userErrors { field message }
             }
         }
     `;
 
+    const btn = document.querySelector('.btn-checkout');
+    const originalText = btn ? btn.innerText : "Finalizar Compra";
+
     try {
-        // Mostramos un mensaje de carga (opcional pero profesional)
-        const btn = document.querySelector('.btn-checkout');
-        const originalText = btn.innerText;
-        btn.innerText = "Procesando...";
-        btn.disabled = true;
+        if (btn) {
+            btn.innerText = "Procesando...";
+            btn.disabled = true;
+        }
 
         const response = await fetch(shopifyConfig.url, {
             method: 'POST',
             headers: shopifyConfig.headers,
-            body: JSON.stringify({ query, variables: { cartId, note: notaFinal } })
+            body: JSON.stringify({ 
+                query, 
+                variables: { cartId: cartId, note: notaFinal } 
+            })
         });
 
         const result = await response.json();
-        
-        if (result.errors || result.data.cartUpdate.userErrors.length > 0) {
-            throw new Error("Error en la respuesta de Shopify");
+
+        // Revisar si Shopify devolvió errores específicos de usuario
+        if (result.errors || (result.data?.cartUpdate?.userErrors?.length > 0)) {
+            const errorMsg = result.data?.cartUpdate?.userErrors[0]?.message || "Error de validación";
+            throw new Error(errorMsg);
         }
 
-        // 5. Redirigimos al checkout con los datos ya vinculados en la "Nota" del pedido
-        window.location.href = result.data.cartUpdate.cart.checkoutUrl;
+        const checkoutUrl = result.data?.cartUpdate?.cart?.checkoutUrl;
+        if (checkoutUrl) {
+            window.location.href = checkoutUrl;
+        } else {
+            throw new Error("No se pudo generar la URL de pago.");
+        }
 
     } catch (e) {
-        console.error("Error al vincular el RUT", e);
-        alert("Hubo un problema al conectar con el checkout. Inténtalo de nuevo.");
+        console.error("Error técnico:", e);
+        alert("Error: " + e.message);
         
-        // Restaurar botón en caso de error
-        const btn = document.querySelector('.btn-checkout');
-        btn.innerText = "Finalizar Compra";
-        btn.disabled = false;
+        if (btn) {
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }
     }
 }
+
 /* ==========================================================================
-    FUNCIONES DE VALIDACIÓN
+    Validación de RUT 
    ========================================================================== */
 
 function validarRut(rut) {
-    // 1. Limpiar puntos, guiones y espacios
-    const valor = rut.replace(/\./g, '').replace(/-/g, '').trim().toUpperCase();
+    if (!rut) return false;
+    const limpio = rut.trim().toUpperCase();
     
-    // 2. Validación básica de longitud (8 a 9 caracteres para Chile)
-    if (valor.length < 8 || valor.length > 9) return false;
-    
-    // 3. Validación de formato (solo números y la letra K al final)
-    const regex = /^[0-9]+[0-9K]$/;
-    return regex.test(valor);
+    // REGLA: Debe tener guion y NO debe tener puntos
+    if (!limpio.includes('-') || limpio.includes('.')) return false;
+
+    // Validar formato básico: números antes del guion, y un número o K después
+    const regex = /^[0-9]+-[0-9K]$/;
+    return regex.test(limpio);
 }
