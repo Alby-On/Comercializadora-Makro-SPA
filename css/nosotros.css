@@ -3,14 +3,15 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 60px 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente más limpia */
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 /* Sección Hero */
 .nosotros-hero {
     text-align: center;
     padding: 80px 20px;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), #333; /* Gradiente opcional para profundidad */
+    /* Fondo con gradiente oscuro para resaltar el texto blanco */
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), #333; 
     color: white;
     border-radius: 15px;
     margin-bottom: 50px;
@@ -21,105 +22,104 @@
     font-size: 3rem;
     margin-bottom: 15px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 }
 
-/* Grid de Contenido */
-.nosotros-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
+/* Bloque de Contenido Central */
+.nosotros-texto-full {
+    max-width: 850px; /* Ancho controlado para que las líneas de texto no sean infinitas */
+    margin: 0 auto;
+    text-align: center; /* Centrado de títulos y párrafos */
 }
 
-/* Ajuste de Texto y Títulos Centrados */
-.nosotros-texto {
-    text-align: center; /* Centra todo el contenido del bloque de texto */
-}
-
-.nosotros-texto h2 {
-    color: #d9534f; /* Rojo Albyon Digital */
-    font-size: 2.2rem;
+.nosotros-texto-full h2 {
+    color: #d9534f; /* Rojo Albyon Digital / Gerardo Ferretería */
+    font-size: 2.5rem;
     margin-bottom: 25px;
     position: relative;
-    display: inline-block; /* Para que el centrado sea preciso con el texto */
+    display: inline-block;
 }
 
-/* Línea decorativa opcional bajo el título */
-.nosotros-texto h2::after {
+/* Línea decorativa bajo el título principal */
+.nosotros-texto-full h2::after {
     content: '';
     display: block;
-    width: 60px;
-    height: 3px;
+    width: 80px;
+    height: 4px;
     background: #d9534f;
-    margin: 10px auto 0;
+    margin: 15px auto 0;
+    border-radius: 2px;
 }
 
-.nosotros-texto p {
+.nosotros-texto-full p {
     line-height: 1.9;
     color: #444;
-    margin-bottom: 35px;
-    font-size: 1.1rem;
+    margin-bottom: 25px;
+    font-size: 1.15rem;
 }
 
 /* Tarjetas de Misión y Visión */
 .mision-vision {
     display: flex;
-    gap: 25px;
+    gap: 30px;
     justify-content: center;
+    margin: 50px 0;
 }
 
 .mv-card {
-    background: #fdfdfd;
-    padding: 30px 20px;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+    background: #ffffff;
+    padding: 40px 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     flex: 1;
-    text-align: center; /* Centra iconos, títulos y párrafos internos */
-    transition: transform 0.3s ease;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0;
 }
 
 .mv-card:hover {
-    transform: translateY(-5px); /* Efecto sutil al pasar el mouse */
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
 }
 
 .mv-card i {
-    font-size: 2.5rem;
+    font-size: 3rem;
     color: #d9534f;
     margin-bottom: 20px;
 }
 
 .mv-card h3 {
-    font-size: 1.4rem;
-    margin-bottom: 12px;
-    color: #333;
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    color: #222;
 }
 
-/* Imagen */
-.nosotros-imagen img {
-    width: 100%;
-    height: auto;
-    border-radius: 15px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-    object-fit: cover;
+/* Frase final destacada */
+.final-quote {
+    margin-top: 50px;
+    font-size: 1.4rem;
+    color: #d9534f;
+    font-weight: 600;
+    font-style: italic;
 }
 
 /* --- Responsive --- */
-@media (max-width: 900px) {
-    .nosotros-grid {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-    
+@media (max-width: 768px) {
     .nosotros-hero h1 {
         font-size: 2.2rem;
     }
-
-    .nosotros-imagen {
-        order: -1; /* Mueve la imagen arriba del texto en móviles */
+    
+    .nosotros-texto-full h2 {
+        font-size: 2rem;
     }
 
     .mision-vision {
         flex-direction: column;
+        align-items: center;
+    }
+
+    .mv-card {
+        width: 100%;
+        max-width: 400px;
     }
 }
