@@ -501,31 +501,32 @@ async function prepararCheckout() {
         return;
     }
 
-    // --- NUEVO: VALIDACIÓN DE STOCK ANTES DE PROSEGUIR ---
-    const queryValidacion = `
-    query checkStock($id: ID!) {
-      cart(id: $id) {
-        lines(first: 20) {
-          edges {
-            node {
-              quantity
-              merchandise {
-                ... on ProductVariant {
-                  title
-                  quantityAvailable
-                }
-              }
-            }
-          }
-        }
-      }
-    }`;
-
     const btn = document.querySelector('.btn-checkout');
     const originalText = btn ? btn.innerText : "Finalizar Compra";
 
     try {
         if (btn) { btn.innerText = "Validando Stock..."; btn.disabled = true; }
+
+        // 1. Consultar stock actual
+        const queryValidacion = `
+        query checkStock($id: ID!) {
+          cart(id: $id) {
+            lines(first: 20) {
+              edges {
+                node {
+                  id
+                  quantity
+                  merchandise {
+                    ... on ProductVariant {
+                      title
+                      quantityAvailable
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }`;
 
         const resValidacion = await fetch(`https://${shopifyConfig.domain}/api/${shopifyConfig.apiVersion}/graphql.json`, {
             method: 'POST',
@@ -536,31 +537,58 @@ async function prepararCheckout() {
         const dataValidacion = await resValidacion.json();
         const lineas = dataValidacion.data?.cart?.lines?.edges || [];
 
-        // Buscamos si hay algún producto que supere el stock disponible
-        let productosAgotados = [];
+        let lineasAActualizar = [];
+        let nombresErrores = [];
+
         lineas.forEach(item => {
             const solicitado = item.node.quantity;
             const disponible = item.node.merchandise.quantityAvailable;
+            const lineId = item.node.id;
+
             if (disponible < solicitado) {
-                productosAgotados.push(`${item.node.merchandise.title} (Solo quedan ${disponible})`);
+                nombresErrores.push(`${item.node.merchandise.title} (Disponible: ${disponible})`);
+                // Preparamos la línea para corregirla en Shopify (si es 0, se elimina sola)
+                lineasAActualizar.push({ id: lineId, quantity: disponible });
             }
         });
 
-        if (productosAgotados.length > 0) {
-            alert("⚠️ Stock insuficiente detectado:\n\n" + productosAgotados.join("\n") + "\n\nEl carrito se actualizará. Por favor revisa las cantidades.");
+        // --- LÓGICA DE CORRECCIÓN AUTOMÁTICA ---
+        if (lineasAActualizar.length > 0) {
+            alert("⚠️ Algunos productos ya no tienen stock suficiente:\n\n" + nombresErrores.join("\n") + "\n\nEl carrito se ajustará automáticamente al máximo disponible.");
+
+            const mutationUpdate = `
+                mutation cartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+                    cartLinesUpdate(cartId: $cartId, lines: $lines) {
+                        cart { id }
+                        userErrors { message }
+                    }
+                }
+            `;
+
+            await fetch(`https://${shopifyConfig.domain}/api/${shopifyConfig.apiVersion}/graphql.json`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': shopifyConfig.accessToken },
+                body: JSON.stringify({ 
+                    query: mutationUpdate, 
+                    variables: { cartId: cartId, lines: lineasAActualizar } 
+                })
+            });
+
+            // Refrescamos la interfaz del usuario
             if (typeof actualizarVisualizacionCarro === "function") await actualizarVisualizacionCarro();
+            
             if (btn) { btn.innerText = originalText; btn.disabled = false; }
-            return; // DETENEMOS EL PROCESO AQUÍ
+            return; // Detenemos para que el usuario vea el cambio y presione de nuevo
         }
 
-        // --- SI EL STOCK ESTÁ OK, CONTINUAMOS CON LA NOTA Y EL CHECKOUT ---
+        // --- SI TODO ESTÁ OK, ACTUALIZAMOS NOTA Y VAMOS AL CHECKOUT ---
         if (btn) btn.innerText = "Preparando Pago...";
 
         let notaFinal = `Documento: ${tipo.toUpperCase()} | RUT: ${rutInput}`;
         if (tipo === 'factura') {
             const rs = document.getElementById('razon-social')?.value.trim();
             const giro = document.getElementById('giro-empresa')?.value.trim();
-            if (!rs || !giro) { alert("Datos de factura incompletos."); return; }
+            if (!rs || !giro) { alert("Datos de factura incompletos."); if (btn) { btn.innerText = originalText; btn.disabled = false; } return; }
             notaFinal += ` | Razón: ${rs} | Giro: ${giro}`;
         }
 
@@ -576,10 +604,7 @@ async function prepararCheckout() {
         const responseNota = await fetch(`https://${shopifyConfig.domain}/api/${shopifyConfig.apiVersion}/graphql.json`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': shopifyConfig.accessToken },
-            body: JSON.stringify({ 
-                query: mutationNota, 
-                variables: { cartId: cartId, note: notaFinal } 
-            })
+            body: JSON.stringify({ query: mutationNota, variables: { cartId: cartId, note: notaFinal } })
         });
 
         const resultNota = await responseNota.json();
@@ -588,12 +613,12 @@ async function prepararCheckout() {
         if (checkoutUrl) {
             window.location.href = checkoutUrl;
         } else {
-            throw new Error("Error al generar el enlace de pago.");
+            throw new Error("No se pudo obtener la URL de pago.");
         }
 
     } catch (e) {
-        console.error("Error:", e);
-        alert("Ocurrió un error: " + e.message);
+        console.error("Error en checkout:", e);
+        alert("Hubo un problema: " + e.message);
         if (btn) { btn.innerText = originalText; btn.disabled = false; }
     }
 }
@@ -671,4 +696,32 @@ function ordenarProductosShopify() {
     });
 
     console.log("Productos ordenados correctamente.");
+}
+async function actualizarCantidadLinea(cartId, lineId, nuevaCantidad) {
+    const mutation = `
+        mutation cartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+            cartLinesUpdate(cartId: $cartId, lines: $lines) {
+                cart { id }
+                userErrors { message }
+            }
+        }
+    `;
+
+    const variables = {
+        cartId: cartId,
+        lines: [{ id: lineId, quantity: nuevaCantidad }]
+    };
+
+    try {
+        await fetch(`https://${shopifyConfig.domain}/api/${shopifyConfig.apiVersion}/graphql.json`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Shopify-Storefront-Access-Token': shopifyConfig.accessToken
+            },
+            body: JSON.stringify({ query: mutation, variables })
+        });
+    } catch (e) {
+        console.error("Error actualizando stock:", e);
+    }
 }
