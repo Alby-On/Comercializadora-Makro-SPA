@@ -1059,3 +1059,37 @@ body {
         text-align: center;
     }
 }
+.filtros-container {
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto 20px;
+    display: flex;
+    justify-content: flex-end; /* Lo movemos a la derecha como las grandes tiendas */
+    padding: 0 10px;
+}
+
+.ordenar-por {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ordenar-por label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.ordenar-por select {
+    padding: 8px 15px;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    outline: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.ordenar-por select:focus {
+    border-color: #d9534f; /* Tu rojo de marca */
+}
