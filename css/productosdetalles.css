@@ -632,69 +632,92 @@
     }
 }
 /* ==========================================================================
-   OPTIMIZACIÓN DE CATEGORÍAS Y FILTROS (Móvil)
+    OPTIMIZACIÓN DE CATEGORÍAS Y FILTROS (Móvil - Final)
    ========================================================================== */
 @media (max-width: 600px) {
-    /* 1. Ordenar las categorías en una fila limpia */
+    /* 1. Categorías en scroll horizontal */
     .sidebar-filtros h3 {
-        font-size: 0.9rem !important;
-        color: #666;
+        font-size: 0.85rem !important;
+        color: #888;
         text-transform: uppercase;
-        margin-bottom: 10px !important;
+        margin-bottom: 8px !important;
         text-align: left !important;
         padding-left: 5%;
+        letter-spacing: 1px;
     }
 
     .filtro-lista {
         display: flex !important;
         overflow-x: auto !important;
-        padding: 5px 5% 20px 5% !important; /* Padding lateral para que no peguen al borde */
+        padding: 5px 5% 15px 5% !important;
         gap: 10px !important;
         -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
     }
+    .filtro-lista::-webkit-scrollbar { display: none; }
 
     .btn-categoria {
-        background: #f1f5f9 !important; /* Gris muy claro */
+        background: #f1f5f9 !important;
         border: 1px solid #e2e8f0 !important;
         color: #1e293b !important;
-        padding: 10px 20px !important;
-        border-radius: 50px !important; /* Estilo cápsula moderna */
+        padding: 8px 18px !important;
+        border-radius: 50px !important;
         font-size: 13px !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+        white-space: nowrap !important;
     }
 
-    /* 2. Optimizar el selector "Ordenar Por" */
+    /* 2. Contenedor de Filtros (Ajuste para Contador + Selector) */
     .filtros-container {
+        display: flex !important;
+        flex-direction: column !important; /* Apila contador arriba y selector abajo */
         width: 100% !important;
         padding: 10px 5% !important;
-        justify-content: center !important;
+        gap: 12px !important; /* Espacio entre los dos elementos */
         box-sizing: border-box !important;
-    }
-
-    .ordenar-por {
-        width: 100% !important;
-        background: #fff !important;
-        border: 2px solid #333 !important; /* Borde más fuerte para que parezca botón */
-        border-radius: 8px !important;
-        padding: 12px 15px !important;
-        display: flex !important;
-        justify-content: space-between !important;
         align-items: center !important;
     }
 
+    /* Estilo para el texto "Mostrando productos..." */
+    .total-productos {
+        width: 100% !important;
+        text-align: center !important;
+        font-size: 0.8rem !important;
+        color: #94a3b8 !important; /* Gris suave informativo */
+        text-transform: none !important;
+        border-bottom: 1px solid #f1f5f9;
+        padding-bottom: 5px;
+    }
+
+    /* 3. El Selector de "Ordenar Por" (Ancho total y centrado) */
+    .ordenar-por {
+        width: 100% !important;
+        background: #fff !important;
+        border: 2px solid #1e293b !important; /* Borde oscuro firme */
+        border-radius: 10px !important;
+        padding: 10px 15px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        box-sizing: border-box !important;
+    }
+
     .ordenar-por label {
-        font-size: 12px !important;
-        color: #333 !important;
+        font-size: 11px !important;
+        color: #1e293b !important;
         font-weight: 800 !important;
+        text-transform: uppercase;
+        margin: 0 !important;
     }
 
     .ordenar-por select {
-        font-size: 16px !important; /* Evita zoom molesto */
-        font-weight: 600 !important;
-        color: #e63946 !important; /* Rojo para destacar la selección */
+        font-size: 16px !important; /* Tamaño obligatorio para evitar zoom en iPhone/Android */
+        font-weight: 700 !important;
+        color: #e63946 !important; /* Rojo ferretería para la opción elegida */
         border: none !important;
         background: transparent !important;
+        outline: none !important;
         flex-grow: 1;
         text-align: right;
+        padding-left: 10px;
     }
 }
