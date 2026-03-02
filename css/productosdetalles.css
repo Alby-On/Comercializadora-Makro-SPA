@@ -574,10 +574,10 @@
     }
 }
 /* ==========================================================================
-   SOLUCIÓN DEFINITIVA: CENTRADO TOTAL DE PRODUCTOS
+    SOLUCIÓN DEFINITIVA: CENTRADO TOTAL DE PRODUCTOS Y TÍTULO
    ========================================================================== */
 @media (max-width: 600px) {
-    /* 1. Limpiamos los contenedores padres que pueden estar empujando a la derecha */
+    /* 1. Reset de contenedores padres */
     .tienda-layout, 
     .catalogo-container, 
     .main-content-area {
@@ -589,11 +589,24 @@
         display: block !important;
     }
 
-    /* 2. Forzamos el contenedor de productos a ser el centro del mundo */
+    /* 2. CENTRADO ESPECÍFICO DEL TÍTULO EN MÓVIL */
+    .catalogo-container h2, 
+    .main-content-area h2,
+    .ofertas-header h2 {
+        text-align: center !important;
+        margin: 20px auto !important; /* Centrado con margen arriba y abajo */
+        width: 100% !important;
+        padding: 0 10px !important;
+        display: block !important;
+        left: 0 !important;
+        font-size: 1.8rem !important; /* Tamaño ajustado para S22 Ultra */
+    }
+
+    /* 3. Contenedor de productos centrado */
     #shopify-products-load {
         display: flex !important;
         flex-direction: column !important;
-        align-items: center !important; /* Centra las tarjetas hijos */
+        align-items: center !important; 
         justify-content: center !important;
         width: 100% !important;
         margin: 0 auto !important;
@@ -601,20 +614,19 @@
         gap: 20px !important;
     }
 
-    /* 3. La tarjeta ahora se auto-centra con márgenes laterales */
+    /* 4. Tarjetas auto-centradas */
     .tarjeta-oferta {
-        width: 85% !important; /* Un poco más angosta para asegurar que el centrado se note */
-        margin: 0 auto !important; /* Esto es lo que centra la caja */
+        width: 85% !important; 
+        margin: 0 auto !important; 
         float: none !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
         padding: 20px !important;
         box-sizing: border-box !important;
-        left: 0 !important; /* Resetea cualquier posición absoluta */
     }
 
-    /* 4. Asegurar que la imagen no tenga desplazamientos */
+    /* 5. Imagen y Textos centrados */
     .tarjeta-oferta .img-container {
         width: 100% !important;
         margin: 0 auto 15px auto !important;
@@ -622,7 +634,6 @@
         justify-content: center !important;
     }
 
-    /* 5. Forzar textos al centro */
     .tarjeta-oferta .producto-titulo, 
     .tarjeta-oferta .precio-monto,
     .tarjeta-oferta .btn-detalles {
