@@ -11,7 +11,7 @@
 
     <div id="header-placeholder"></div>
 
-    <main class="container">
+  <main class="container">
         <div id="product-detail-container" class="detalle-producto">
             <div class="detalle-grid">
                 
@@ -23,25 +23,34 @@
                     <h1 id="prod-title">Cargando producto...</h1>
                     <p id="prod-price" class="precio-grande"></p>
                     
+                    <p id="prod-stock" class="stock-info">Verificando existencias...</p>
+
                     <div class="acciones-compra">
-                    <div class="selector-cantidad">
-                        <label for="cantidad">Cantidad:</label>
-                        <input type="number" id="cantidad" value="1" min="1" max="99">
-                    </div>
-                        <button id="btn-add-cart" class="btn-comprar-ahora">Añadir al Carro</button>
+                        <div class="compra-container"> <div class="selector-cantidad">
+                                <label for="cantidad">Cantidad:</label>
+                                <input type="number" id="cantidad" value="1" min="1" max="99">
+                            </div>
+                            <button id="btn-add-cart" class="btn-comprar-ahora">
+                                <i class="fas fa-shopping-cart"></i> Añadir al Carro
+                            </button>
+                        </div>
                     </div>
 
                     <hr>
 
                     <div id="prod-description" class="descripcion-texto">
-                        </div>
+                        <p>Cargando especificaciones...</p>
+                    </div>
 
-                    <a href="productos.html" class="btn-volver">← Volver al catálogo</a>
+                    <div class="footer-detalles">
+                        <a href="productos.html" class="btn-volver">← Volver al catálogo</a>
+                    </div>
                 </div>
 
             </div>
         </div>
     </main>
+    
     <div id="carrito-placeholder"></div>
     <div id="whatsapp-placeholder"></div>
     <div id="footer-placeholder"></div>
