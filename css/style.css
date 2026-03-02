@@ -474,6 +474,57 @@ body {
     color: #1e293b;
     transform: scale(1.02);
 }
+/* --- Estilos del Contenido Principal --- */
+.main-content-area {
+    padding: 60px 20px;
+    background-color: #f8fafc; /* Fondo suave para que resalten las tarjetas blancas */
+    text-align: center;
+}
+
+.ofertas-header {
+    margin-bottom: 40px;
+}
+
+.ofertas-header h2 {
+    font-size: 2.8rem;
+    color: #1e293b;
+    margin-bottom: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+}
+
+.ofertas-header p {
+    color: #64748b;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Animación para el texto de carga */
+.loading-text {
+    grid-column: 1 / -1;
+    font-style: italic;
+    color: #94a3b8;
+    padding: 40px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .ofertas-header h2 {
+        font-size: 2rem;
+    }
+    .main-content-area {
+        padding: 40px 15px;
+    }
+}
 /* ==========================================================================
     BOTON WHATSAPP
    ========================================================================== */
