@@ -574,46 +574,56 @@
     }
 }
 /* ==========================================================================
-   FORZAR COLUMNA ÚNICA EN MÓVIL (1 producto por fila)
+   SOLUCIÓN: PRODUCTO CENTRADO EN COLUMNA ÚNICA
    ========================================================================== */
 @media (max-width: 600px) {
-    /* Forzamos una sola columna */
+    /* 1. Forzamos que el contenedor no tenga espacios extra a los lados */
     #shopify-products-load {
-        grid-template-columns: 1fr !important; 
-        gap: 20px !important;
-        padding: 10px !important;
+        display: flex !important; /* Cambiamos de grid a flex para asegurar centrado total */
+        flex-direction: column !important;
+        align-items: center !important; 
+        gap: 25px !important;
+        padding: 10px 0 !important; /* Quitamos padding lateral que podría estar empujando */
+        width: 100% !important;
+        margin: 0 auto !important;
     }
 
-    /* Ajustamos la tarjeta para que no sea excesivamente alta */
+    /* 2. Ajustamos la tarjeta para que sea simétrica */
     .tarjeta-oferta {
+        width: 90% !important; /* No usamos el 100% para que no toque los bordes del celular */
+        margin: 0 auto !important; /* Centra la tarjeta en la pantalla */
+        padding: 20px !important;
+        box-sizing: border-box !important; /* Evita que el padding sume ancho extra */
         display: flex !important;
         flex-direction: column !important;
-        padding: 20px !important;
-        max-width: 100% !important;
+        align-items: center !important;
+        border-radius: 12px !important;
+        float: none !important; /* Por si hay algún float heredado */
     }
 
-    /* Controlamos la imagen para que se vea bien en el centro */
+    /* 3. Aseguramos que la imagen ocupe su lugar central */
     .tarjeta-oferta .img-container {
-        height: 250px !important; /* Altura ideal para una sola columna */
-        margin-bottom: 15px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 220px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        margin: 0 0 15px 0 !important;
     }
 
-    /* Título y Precio más grandes ya que ahora hay más espacio */
-    .tarjeta-oferta .producto-titulo {
-        font-size: 16px !important;
-        min-height: auto !important; /* Ya no necesitamos altura fija */
-        margin-bottom: 10px !important;
+    .tarjeta-oferta .img-container img {
+        display: block !important;
+        margin: 0 auto !important;
+        max-height: 100% !important;
+        object-fit: contain !important;
     }
 
+    /* 4. Título y Precio centrados por texto */
+    .tarjeta-oferta .producto-titulo,
     .tarjeta-oferta .precio-monto {
-        font-size: 1.5rem !important;
-        margin-bottom: 15px !important;
-    }
-
-    /* Botón ancho completo y fácil de presionar */
-    .tarjeta-oferta .btn-detalles {
-        padding: 15px !important;
-        font-size: 14px !important;
-        text-transform: uppercase !important;
+        width: 100% !important;
+        text-align: center !important;
+        justify-content: center !important;
     }
 }
