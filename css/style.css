@@ -890,3 +890,116 @@ body {
         padding: 10px 5%;
     }
 }
+
+/* ==========================================================================
+    SECCIÓN CATEGORÍAS - DISEÑO DE ALTO IMPACTO (8 ITEMS)
+   ========================================================================== */
+
+.seccion-categorias {
+    padding: 60px 5%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.grid-categorias {
+    display: grid;
+    /* 4 Columnas Fijas para mantener simetría */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px;
+    width: 100%;
+    max-width: 1400px;
+    margin-top: 40px;
+}
+
+.card-categoria {
+    position: relative;
+    height: 300px; /* Altura ideal para 2 filas */
+    border-radius: 20px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: flex-end;
+    text-decoration: none;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Oscurecimiento para que el texto resalte */
+.card-categoria::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(30, 41, 59, 0.9) 0%, rgba(30, 41, 59, 0.3) 60%, transparent 100%);
+    transition: background 0.4s ease;
+    z-index: 1;
+}
+
+.overlay-categoria {
+    position: relative;
+    z-index: 2;
+    padding: 25px;
+    width: 100%;
+    transition: transform 0.4s ease;
+}
+
+.card-categoria h3 {
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+.btn-explorar {
+    color: #ffb703; /* Amarillo corporativo */
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    transform: translateX(-10px);
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+/* --- EFECTOS HOVER (REACCIÓN AL MOUSE) --- */
+
+.card-categoria:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    /* Zoom a la imagen de fondo */
+    background-size: 110%; 
+}
+
+/* Al pasar el mouse, el gradiente cambia al rojo de la marca */
+.card-categoria:hover::before {
+    background: linear-gradient(to top, rgba(217, 83, 79, 0.9) 0%, rgba(217, 83, 79, 0.4) 100%);
+}
+
+.card-categoria:hover .btn-explorar {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* --- RESPONSIVO --- */
+
+@media (max-width: 1200px) {
+    .grid-categorias { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+    .grid-categorias { 
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .card-categoria { height: 220px; }
+    .card-categoria h3 { font-size: 1.2rem; }
+}
