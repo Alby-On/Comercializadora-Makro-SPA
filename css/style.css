@@ -1005,91 +1005,83 @@ body {
     FILTROS DE PRODUCTOS
    ========================================================================== */
 
-.filtros-container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto 30px auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 0;
-    border-bottom: 1px solid #e2e8f0;
-}
+/* ==========================================================================
+    FILTROS DE PRODUCTOS - ESTILO MODERNO (Albyon Digital)
+   ========================================================================== */
 
-.total-productos {
-    color: #64748b;
-    font-size: 0.95rem;
-    font-weight: 500;
-}
-
-.ordenar-por {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.ordenar-por label {
-    font-size: 0.9rem;
-    color: #1e293b;
-    font-weight: 600;
-}
-
-.ordenar-por select {
-    padding: 10px 15px;
-    border-radius: 10px;
-    border: 1px solid #cbd5e1;
-    background-color: white;
-    color: #334155;
-    font-size: 0.9rem;
-    outline: none;
-    cursor: pointer;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.ordenar-por select:focus {
-    border-color: #d9534f; /* Rojo de tu marca */
-    box-shadow: 0 0 0 3px rgba(217, 83, 79, 0.1);
-}
-
-/* Ajuste para móvil */
-@media (max-width: 600px) {
-    .filtros-container {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-}
 .filtros-container {
     width: 90%;
     max-width: 1400px;
-    margin: 0 auto 20px;
+    margin: 0 auto 30px;
     display: flex;
-    justify-content: flex-end; /* Lo movemos a la derecha como las grandes tiendas */
-    padding: 0 10px;
+    justify-content: flex-end; /* Alineado a la derecha como grandes e-commerce */
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f1f5f9; /* Línea divisoria muy sutil */
 }
 
 .ordenar-por {
     display: flex;
     align-items: center;
-    gap: 10px;
-}
-
-.ordenar-por label {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #475569;
-}
-
-.ordenar-por select {
-    padding: 8px 15px;
-    border-radius: 12px;
-    border: 2px solid #e2e8f0;
-    outline: none;
-    cursor: pointer;
-    font-family: inherit;
+    gap: 15px;
+    background: #f8fafc; /* Fondo gris suave para resaltar el selector */
+    padding: 8px 20px;
+    border-radius: 50px; /* Estilo cápsula */
+    border: 1px solid #e2e8f0;
     transition: all 0.3s ease;
 }
 
-.ordenar-por select:focus {
-    border-color: #d9534f; /* Tu rojo de marca */
+.ordenar-por:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.ordenar-por label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ordenar-por select {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1e293b;
+    cursor: pointer;
+    font-family: inherit;
+    padding-right: 5px;
+    /* Quitamos el estilo por defecto del sistema */
+    appearance: none; 
+    -webkit-appearance: none;
+}
+
+/* Agregamos una flechita personalizada vía CSS (Opcional) */
+.ordenar-por::after {
+    content: "▼";
+    font-size: 10px;
+    color: #d9534f; /* Tu rojo de marca */
+    margin-left: -5px;
+    pointer-events: none;
+}
+
+.ordenar-por:focus-within {
+    border-color: #d9534f;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(217, 83, 79, 0.1);
+}
+
+/* Ajuste para móviles (S22 Ultra) */
+@media (max-width: 768px) {
+    .filtros-container {
+        justify-content: center; /* Centramos en móvil */
+        margin-bottom: 20px;
+    }
+    .ordenar-por {
+        width: 100%;
+        justify-content: space-between;
+    }
 }
