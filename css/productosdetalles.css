@@ -573,3 +573,47 @@
         color: #999;
     }
 }
+/* ==========================================================================
+   FORZAR COLUMNA ÚNICA EN MÓVIL (1 producto por fila)
+   ========================================================================== */
+@media (max-width: 600px) {
+    /* Forzamos una sola columna */
+    #shopify-products-load {
+        grid-template-columns: 1fr !important; 
+        gap: 20px !important;
+        padding: 10px !important;
+    }
+
+    /* Ajustamos la tarjeta para que no sea excesivamente alta */
+    .tarjeta-oferta {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 20px !important;
+        max-width: 100% !important;
+    }
+
+    /* Controlamos la imagen para que se vea bien en el centro */
+    .tarjeta-oferta .img-container {
+        height: 250px !important; /* Altura ideal para una sola columna */
+        margin-bottom: 15px !important;
+    }
+
+    /* Título y Precio más grandes ya que ahora hay más espacio */
+    .tarjeta-oferta .producto-titulo {
+        font-size: 16px !important;
+        min-height: auto !important; /* Ya no necesitamos altura fija */
+        margin-bottom: 10px !important;
+    }
+
+    .tarjeta-oferta .precio-monto {
+        font-size: 1.5rem !important;
+        margin-bottom: 15px !important;
+    }
+
+    /* Botón ancho completo y fácil de presionar */
+    .tarjeta-oferta .btn-detalles {
+        padding: 15px !important;
+        font-size: 14px !important;
+        text-transform: uppercase !important;
+    }
+}
