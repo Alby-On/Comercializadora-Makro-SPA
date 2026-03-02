@@ -280,12 +280,6 @@
     .filtro-lista li { flex: 0 0 auto !important; }
     .btn-categoria { white-space: nowrap !important; padding: 10px 15px !important; }
 
-    /* 2. Grid de 2 columnas forzado */
-    #shopify-products-load {
-        grid-template-columns: repeat(2, 1fr) !important; 
-        gap: 10px !important;
-        padding: 5px !important;
-    }
 
     /* 3. Ajuste de tarjetas para que quepan bien */
     .tarjeta-oferta { padding: 10px !important; border-radius: 12px !important; }
