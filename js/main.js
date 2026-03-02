@@ -629,50 +629,59 @@ function validarRut(rut) {
  * Función para ordenar productos cargados dinámicamente desde Shopify
  */
 function ordenarProductosShopify() {
-    // 1. Buscamos el contenedor donde Shopify mete los productos
     const contenedor = document.getElementById('shopify-products-load');
     const selector = document.getElementById('sort-price');
     const orden = selector.value;
 
-    if (!contenedor) {
-        console.error("No se encontró el contenedor #shopify-products-load");
-        return;
-    }
+    if (!contenedor || orden === 'default') return;
 
-    // 2. Intentamos capturar los productos. 
-    // Buscamos 'tarjeta-oferta' o cualquier div directo que sea hijo del contenedor
+    // 1. Capturamos los productos actuales
     let productos = Array.from(contenedor.children);
 
     if (productos.length === 0) {
-        alert("Espera a que carguen los productos para ordenar.");
+        console.warn("No hay productos cargados aún.");
         return;
     }
 
-    console.log("Productos encontrados para ordenar:", productos.length);
-
-    // 3. Proceso de Ordenamiento
+    // 2. Proceso de Ordenamiento Numérico
     productos.sort((a, b) => {
-        // Buscamos el precio dentro de .precio-oferta o cualquier clase que contenga 'price'
-        const textoA = a.querySelector('.precio-oferta')?.innerText || a.innerText;
-        const textoB = b.querySelector('.precio-oferta')?.innerText || b.innerText;
+        // Función interna para extraer el precio real de una tarjeta
+        const extraerPrecio = (el) => {
+            // Prioridad 1: Buscar la clase específica de precio oferta que creamos
+            // Prioridad 2: Buscar cualquier clase que use Shopify para el precio actual
+            const selectorPrecio = el.querySelector('.precio-oferta') || 
+                                   el.querySelector('.shopify-buy__product__actual-price') ||
+                                   el.querySelector('.price');
+            
+            let texto = selectorPrecio ? selectorPrecio.innerText : el.innerText;
 
-        // Extraemos solo los números (ej: "$ 45.000" -> 45000)
-        const precioA = parseInt(textoA.replace(/\D/g, "")) || 0;
-        const precioB = parseInt(textoB.replace(/\D/g, "")) || 0;
+            // Si hay dos precios (el tachado y el nuevo), nos quedamos solo con el primero
+            // Esto evita que "15.990 $20.000" se convierta en 1599020000
+            if (texto.includes('$')) {
+                texto = texto.split('$')[1]; // Agarramos lo que está después del primer $
+            }
 
-        if (orden === 'asc') return precioA - precioB;
-        if (orden === 'desc') return precioB - precioA;
+            // Limpiamos: dejamos solo números. "15.990" -> "15990"
+            const numeroPuro = texto.replace(/\D/g, "");
+            return parseInt(numeroPuro, 10) || 0;
+        };
+
+        const precioA = extraerPrecio(a);
+        const precioB = extraerPrecio(b);
+
+        // Debug para verificar en consola (F12)
+        console.log(`Ordenando: ${precioA} vs ${precioB}`);
+
+        if (orden === 'asc') return precioA - precioB; // Menor a Mayor
+        if (orden === 'desc') return precioB - precioA; // Mayor a Menor
         return 0;
     });
 
-    // 4. Re-inyectamos los productos en el nuevo orden
-    // Limpiamos el contenedor
+    // 3. Re-inyección limpia en el DOM
     contenedor.innerHTML = '';
-    
-    // Los volvemos a meter uno por uno
     productos.forEach(p => {
         contenedor.appendChild(p);
     });
-    
-    console.log("Ordenamiento completado en orden:", orden);
+
+    console.log("Productos ordenados correctamente.");
 }
