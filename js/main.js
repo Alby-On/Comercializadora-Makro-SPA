@@ -625,24 +625,31 @@ function validarRut(rut) {
     const regex = /^[0-9]+-[0-9K]$/;
     return regex.test(limpio);
 }
-function ordenarProductos() {
+function ordenarPorPrecio() {
     const contenedor = document.getElementById('shopify-products-load');
-    const criterio = document.getElementById('sort-price').value;
+    const selector = document.getElementById('sort-price');
+    const orden = selector.value;
     
-    // Obtenemos todas las tarjetas actuales
+    // 1. Convertimos los hijos del contenedor (las tarjetas) en un Array
     const productos = Array.from(contenedor.getElementsByClassName('tarjeta-oferta'));
 
-    if (criterio === 'default') return;
-
+    // 2. Aplicamos el algoritmo de ordenamiento
     productos.sort((a, b) => {
-        // Extraemos el precio limpiando el símbolo $ y puntos de miles
-        const precioA = parseInt(a.querySelector('.precio-oferta').innerText.replace(/[^0-9]/g, ''));
-        const precioB = parseInt(b.querySelector('.precio-oferta').innerText.replace(/[^0-9]/g, ''));
+        // Extraemos el texto del precio y lo convertimos a número puro
+        // Eliminamos "$", "." y cualquier espacio
+        const precioA = parseFloat(a.querySelector('.precio-oferta').innerText.replace(/[^0-9.-]+/g, ""));
+        const precioB = parseFloat(b.querySelector('.precio-oferta').innerText.replace(/[^0-9.-]+/g, ""));
 
-        return criterio === 'low' ? precioA - precioB : precioB - precioA;
+        if (orden === 'asc') {
+            return precioA - precioB; // Menor a Mayor
+        } else {
+            return precioB - precioA; // Mayor a Menor
+        }
     });
 
-    // Limpiamos y re-inyectamos ordenados
+    // 3. Limpiamos el contenedor y reinsertamos los productos en el nuevo orden
     contenedor.innerHTML = '';
-    productos.forEach(p => contenedor.appendChild(p));
+    productos.forEach(producto => {
+        contenedor.appendChild(producto);
+    });
 }
