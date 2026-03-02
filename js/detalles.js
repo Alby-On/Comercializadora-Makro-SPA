@@ -69,16 +69,20 @@
         }
     }
 
-    // --- NUEVA LÓGICA ACUMULATIVA ---
+    // --- LÓGICA ACUMULATIVA CORREGIDA ---
 
     async function gestionarCarrito(variantId) {
         const btn = document.getElementById('btn-add-cart');
         
-        // --- AQUÍ CAPTURAMOS LA CANTIDAD DEL INPUT ---
-        // Asumiendo que tu input tiene el ID 'product-quantity' o similar
-        const inputCantidad = document.getElementById('product-quantity');
-        const cantidad = inputCantidad ? parseInt(inputCantidad.value) : 1; 
-        // --------------------------------------------
+        // --- CORRECCIÓN TÉCNICA: Capturamos el valor real del input 'cantidad' ---
+        const inputCantidad = document.getElementById('cantidad');
+        const cantidad = inputCantidad ? parseInt(inputCantidad.value) : 1;
+        
+        // Validación básica de seguridad
+        if (isNaN(cantidad) || cantidad < 1) {
+            alert("Por favor, ingresa una cantidad válida.");
+            return;
+        }
 
         btn.innerText = "Añadiendo...";
         btn.disabled = true;
@@ -87,16 +91,19 @@
 
         try {
             if (!cartId) {
-                await crearCarritoNuevo(variantId, cantidad); // Pasamos cantidad
+                await crearCarritoNuevo(variantId, cantidad); 
             } else {
-                await añadirProductoAlCarrito(cartId, variantId, cantidad); // Pasamos cantidad
+                await añadirProductoAlCarrito(cartId, variantId, cantidad); 
             }
             
-            await actualizarVisualizacionCarro(); 
+            // Actualiza el sidebar del carrito si la función existe globalmente
+            if (typeof actualizarVisualizacionCarro === "function") {
+                await actualizarVisualizacionCarro(); 
+            }
 
             btn.innerText = "¡Añadido!";
             setTimeout(() => {
-                btn.innerText = "Añadir más";
+                btn.innerText = "Añadir al Carro";
                 btn.disabled = false;
             }, 2000);
 
@@ -106,6 +113,7 @@
             btn.disabled = false;
         }
     }
+
     async function crearCarritoNuevo(variantId, cantidad) {
         const mutation = `
         mutation {
