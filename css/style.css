@@ -1001,3 +1001,61 @@ body {
     .card-categoria { height: 220px; }
     .card-categoria h3 { font-size: 1.2rem; }
 }
+/* ==========================================================================
+    FILTROS DE PRODUCTOS
+   ========================================================================== */
+
+.filtros-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto 30px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.total-productos {
+    color: #64748b;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.ordenar-por {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ordenar-por label {
+    font-size: 0.9rem;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.ordenar-por select {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    background-color: white;
+    color: #334155;
+    font-size: 0.9rem;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.ordenar-por select:focus {
+    border-color: #d9534f; /* Rojo de tu marca */
+    box-shadow: 0 0 0 3px rgba(217, 83, 79, 0.1);
+}
+
+/* Ajuste para móvil */
+@media (max-width: 600px) {
+    .filtros-container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
