@@ -483,122 +483,118 @@ function toggleCamposFactura() {
    ========================================================================== */
 
 async function prepararCheckout() {
-    // 1. Capturar elementos y validar que existan en el DOM
     const elTipo = document.getElementById('tipo-documento');
     const elRut = document.getElementById('rut-cliente');
     const cartId = localStorage.getItem('shopify_cart_id');
 
-    if (!elTipo || !elRut) {
-        console.error("Error: No se encontraron los inputs en el HTML.");
+    if (!elTipo || !elRut || !cartId) {
+        alert("Error de sesión o datos faltantes. Intenta recargar la página.");
         return;
     }
 
     const tipo = elTipo.value;
     const rutInput = elRut.value.trim();
 
-    // 2. Validar el RUT (Sin puntos, con guion)
     if (!validarRut(rutInput)) {
-        alert("RUT inválido. Por favor ingresa el formato: 12345678-9 (Sin puntos y con guion).");
+        alert("RUT inválido.");
         elRut.focus();
         return;
     }
 
-    // 3. Validar Carrito existente
-    if (!cartId) {
-        alert("Tu carrito parece haber expirado. Agrega un producto de nuevo.");
-        return;
-    }
-
-    // 4. Construir la nota (Asegurando que no sea un string vacío)
-    let notaFinal = `Documento: ${tipo.toUpperCase()} | RUT: ${rutInput}`;
-    
-    if (tipo === 'factura') {
-        const rs = document.getElementById('razon-social')?.value.trim();
-        const giro = document.getElementById('giro-empresa')?.value.trim();
-
-        if (!rs || !giro) {
-            alert("Razón Social y Giro son obligatorios para Factura.");
-            return;
-        }
-        notaFinal += ` | Razón: ${rs} | Giro: ${giro}`;
-    }
-
-    // 5. Proceso de envío a Shopify (CORRECCIÓN DE TIPADO String!)
-    const query = `
-        mutation cartNoteUpdate($cartId: ID!, $note: String!) {
-            cartNoteUpdate(cartId: $cartId, note: $note) {
-                cart { 
-                    checkoutUrl 
+    // --- NUEVO: VALIDACIÓN DE STOCK ANTES DE PROSEGUIR ---
+    const queryValidacion = `
+    query checkStock($id: ID!) {
+      cart(id: $id) {
+        lines(first: 20) {
+          edges {
+            node {
+              quantity
+              merchandise {
+                ... on ProductVariant {
+                  title
+                  quantityAvailable
                 }
-                userErrors { 
-                    field 
-                    message 
-                }
+              }
             }
+          }
         }
-    `;
+      }
+    }`;
 
     const btn = document.querySelector('.btn-checkout');
     const originalText = btn ? btn.innerText : "Finalizar Compra";
 
-    // URL y Headers usando tu configuración
-    const apiUrl = `https://${shopifyConfig.domain}/api/${shopifyConfig.apiVersion}/graphql.json`;
-    const apiHeaders = {
-        'X-Shopify-Storefront-Access-Token': shopifyConfig.accessToken,
-        'Content-Type': 'application/json'
-    };
-
     try {
-        if (btn) {
-            btn.innerText = "Procesando...";
-            btn.disabled = true;
+        if (btn) { btn.innerText = "Validando Stock..."; btn.disabled = true; }
+
+        const resValidacion = await fetch(`https://${shopifyConfig.domain}/api/${shopifyConfig.apiVersion}/graphql.json`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': shopifyConfig.accessToken },
+            body: JSON.stringify({ query: queryValidacion, variables: { id: cartId } })
+        });
+
+        const dataValidacion = await resValidacion.json();
+        const lineas = dataValidacion.data?.cart?.lines?.edges || [];
+
+        // Buscamos si hay algún producto que supere el stock disponible
+        let productosAgotados = [];
+        lineas.forEach(item => {
+            const solicitado = item.node.quantity;
+            const disponible = item.node.merchandise.quantityAvailable;
+            if (disponible < solicitado) {
+                productosAgotados.push(`${item.node.merchandise.title} (Solo quedan ${disponible})`);
+            }
+        });
+
+        if (productosAgotados.length > 0) {
+            alert("⚠️ Stock insuficiente detectado:\n\n" + productosAgotados.join("\n") + "\n\nEl carrito se actualizará. Por favor revisa las cantidades.");
+            if (typeof actualizarVisualizacionCarro === "function") await actualizarVisualizacionCarro();
+            if (btn) { btn.innerText = originalText; btn.disabled = false; }
+            return; // DETENEMOS EL PROCESO AQUÍ
         }
 
-        console.log("Actualizando nota del carrito en:", apiUrl);
+        // --- SI EL STOCK ESTÁ OK, CONTINUAMOS CON LA NOTA Y EL CHECKOUT ---
+        if (btn) btn.innerText = "Preparando Pago...";
 
-        const response = await fetch(apiUrl, {
+        let notaFinal = `Documento: ${tipo.toUpperCase()} | RUT: ${rutInput}`;
+        if (tipo === 'factura') {
+            const rs = document.getElementById('razon-social')?.value.trim();
+            const giro = document.getElementById('giro-empresa')?.value.trim();
+            if (!rs || !giro) { alert("Datos de factura incompletos."); return; }
+            notaFinal += ` | Razón: ${rs} | Giro: ${giro}`;
+        }
+
+        const mutationNota = `
+            mutation cartNoteUpdate($cartId: ID!, $note: String!) {
+                cartNoteUpdate(cartId: $cartId, note: $note) {
+                    cart { checkoutUrl }
+                    userErrors { message }
+                }
+            }
+        `;
+
+        const responseNota = await fetch(`https://${shopifyConfig.domain}/api/${shopifyConfig.apiVersion}/graphql.json`, {
             method: 'POST',
-            headers: apiHeaders,
+            headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': shopifyConfig.accessToken },
             body: JSON.stringify({ 
-                query, 
-                variables: { 
-                    cartId: cartId, 
-                    note: notaFinal // El valor ya está validado como String no nulo
-                } 
+                query: mutationNota, 
+                variables: { cartId: cartId, note: notaFinal } 
             })
         });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error("Respuesta de error:", errorText);
-            throw new Error(`Servidor respondió con código ${response.status}.`);
-        }
+        const resultNota = await responseNota.json();
+        const checkoutUrl = resultNota.data?.cartNoteUpdate?.cart?.checkoutUrl;
 
-        const result = await response.json();
-
-        // 6. Revisar errores usando el esquema correcto
-        if (result.errors || (result.data?.cartNoteUpdate?.userErrors?.length > 0)) {
-            const errorMsg = result.data?.cartNoteUpdate?.userErrors?.[0]?.message || result.errors?.[0]?.message || "Error de validación";
-            throw new Error(errorMsg);
-        }
-
-        const checkoutUrl = result.data?.cartNoteUpdate?.cart?.checkoutUrl;
-        
         if (checkoutUrl) {
-            // ÉXITO: Redirigir al checkout oficial de Shopify
             window.location.href = checkoutUrl;
         } else {
-            throw new Error("No se pudo generar la URL de pago.");
+            throw new Error("Error al generar el enlace de pago.");
         }
 
     } catch (e) {
-        console.error("Error técnico detallado:", e);
-        alert("Error: " + e.message);
-        
-        if (btn) {
-            btn.innerText = originalText;
-            btn.disabled = false;
-        }
+        console.error("Error:", e);
+        alert("Ocurrió un error: " + e.message);
+        if (btn) { btn.innerText = originalText; btn.disabled = false; }
     }
 }
 /* ==========================================================================
