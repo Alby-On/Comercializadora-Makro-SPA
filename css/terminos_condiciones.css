@@ -1,0 +1,94 @@
+/* ==========================================================================
+    CSS ESPECÍFICO PARA TÉRMINOS Y CONDICIONES
+   ========================================================================== */
+
+.legal-container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+    background: white;
+    padding: 50px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    text-align: left; /* Alineación profesional */
+    box-sizing: border-box; /* Previene desbordamiento */
+}
+
+.legal-section.intro-box {
+    background: #f8fafc;
+    padding: 30px;
+    border-radius: 15px;
+    border-left: 5px solid #d9534f;
+    margin-bottom: 40px;
+}
+
+.legal-content h4 {
+    color: #1e293b;
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-top: 35px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.legal-content p {
+    color: #475569;
+    line-height: 1.8;
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+}
+
+.compliance-box {
+    margin-top: 50px;
+    padding: 30px;
+    background: #1e293b;
+    color: #f8fafc !important;
+    border-radius: 15px;
+}
+
+.compliance-box p {
+    color: #cbd5e1 !important;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+/* --- OPTIMIZACIÓN MÓVIL (S22 ULTRA) --- */
+@media (max-width: 768px) {
+    .legal-container {
+        padding: 25px 20px; /* Espacio más cómodo para pulgares */
+        width: 95%;
+        margin: 20px auto; /* Reducimos margen superior en móvil */
+        border-radius: 15px; /* Bordes un poco más simples en móvil */
+    }
+    
+    .legal-section.intro-box {
+        padding: 20px;
+        margin-bottom: 25px;
+    }
+
+    .legal-content h4 {
+        font-size: 1rem;
+        margin-top: 25px;
+    }
+
+    .legal-content p {
+        font-size: 0.92rem; /* Tamaño optimizado para lectura móvil */
+        line-height: 1.6;
+    }
+
+    .compliance-box {
+        padding: 20px;
+        margin-top: 30px;
+    }
+}
+
+/* Ajuste extra para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    .legal-container {
+        padding: 15px;
+        width: 98%;
+    }
+}
