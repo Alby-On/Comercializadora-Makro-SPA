@@ -1133,9 +1133,7 @@ html, body {
     .card-categoria h3 { font-size: 0.9rem; }
     .btn-explorar { display: none; } /* Limpiamos ruido visual */
 }
-/* ==========================================================================
-    FILTROS DE PRODUCTOS
-   ========================================================================== */
+
 /* ==========================================================================
     FILTROS DE PRODUCTOS - DISEÑO MODERNO
    ========================================================================== */
@@ -1210,5 +1208,47 @@ html, body {
     .ordenar-por {
         width: 100%;
         justify-content: space-between;
+    }
+}
+
+
+/* ==========================================================================
+    Logo Header
+   ========================================================================== */
+
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo img {
+    /* Ajusta la altura según prefieras, 50px-60px es el estándar para headers */
+    height: 55px; 
+    width: auto;
+    display: block;
+    /* Evita que el logo se estire */
+    object-fit: contain; 
+    /* Suavizado para PNG de alta resolución */
+    image-rendering: -webkit-optimize-contrast; 
+    transition: transform 0.3s ease;
+}
+
+/* Efecto sutil al pasar el mouse */
+.logo a:hover img {
+    transform: scale(1.05);
+}
+
+/* Ajuste para el S22 Ultra (Móvil) */
+@media (max-width: 480px) {
+    .logo img {
+        height: 45px; /* Un poco más compacto en pantallas pequeñas */
     }
 }
