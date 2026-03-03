@@ -1241,7 +1241,6 @@ html, body {
 /* ==========================================================================
     Logo Header
    ========================================================================== */
-
 .logo {
     display: flex;
     align-items: center;
@@ -1255,8 +1254,8 @@ html, body {
 }
 
 .logo img {
-    /* Altura incrementada un 15% (de 55px a 63px) */
-    height: 63px; 
+    /* Altura incrementada un 20% (de 63px a 76px) */
+    height: 76px; 
     width: auto;
     display: block;
     object-fit: contain; 
@@ -1272,7 +1271,7 @@ html, body {
 /* Ajuste para el S22 Ultra (Móvil) */
 @media (max-width: 480px) {
     .logo img {
-        /* Altura incrementada un 15% en móvil (de 45px a 52px) */
-        height: 52px; 
+        /* Altura incrementada un 20% en móvil (de 52px a 62px) */
+        height: 62px; 
     }
 }
