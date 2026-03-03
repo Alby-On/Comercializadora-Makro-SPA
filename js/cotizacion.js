@@ -1,52 +1,75 @@
+// Asegúrate de que este archivo se cargue DESPUÉS de tu main.js para que reconozca queryShopify
 document.addEventListener('DOMContentLoaded', () => {
-    // Pequeño retraso para asegurar que el DOM esté listo
-    setTimeout(renderizarResumenCotizacion, 100);
+    // Pequeño delay para asegurar que los componentes carguen
+    setTimeout(renderizarCotizacionDesdeShopify, 500);
 });
 
-function renderizarResumenCotizacion() {
+async function renderizarCotizacionDesdeShopify() {
+    const cartId = localStorage.getItem('shopify_cart_id');
     const container = document.getElementById('lista-cotizacion-items');
     const totalLabel = document.getElementById('total-ref-cot');
 
-    // 1. Intentar obtener el carrito
-    const cartData = localStorage.getItem('cart');
-    
-    if (!cartData) {
-        console.error("No se encontró la llave 'cart' en localStorage");
-        container.innerHTML = "<p style='color:red;'>Error: No hay datos en el carrito.</p>";
+    if (!cartId) {
+        container.innerHTML = "<p>No hay productos para cotizar. Vuelve a la tienda.</p>";
         return;
     }
 
-    const cart = JSON.parse(cartData);
-    let html = '';
-    let totalAcumulado = 0;
+    // Usamos la misma lógica de tu main.js para consultar a Shopify
+    const query = `{
+      cart(id: "${cartId}") {
+        cost { totalAmount { amount } }
+        lines(first: 20) {
+          edges {
+            node {
+              quantity
+              merchandise {
+                ... on ProductVariant {
+                  product { title }
+                  price { amount }
+                }
+              }
+            }
+          }
+        }
+      }
+    }`;
 
-    if (cart.length === 0) {
-        container.innerHTML = "<p>El carrito está vacío.</p>";
-        return;
+    try {
+        const response = await queryShopify(query);
+        const cart = response.data?.cart;
+
+        if (!cart || cart.lines.edges.length === 0) {
+            container.innerHTML = "<p>Tu carrito está vacío en Shopify.</p>";
+            return;
+        }
+
+        let html = '';
+        const totalNeto = Number(cart.cost.totalAmount.amount);
+
+        cart.lines.edges.forEach(item => {
+            const prod = item.node.merchandise;
+            const qty = item.node.quantity;
+            const price = Number(prod.price.amount);
+            const subtotal = price * qty;
+
+            html += `
+                <div class="item-cot" style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+                    <div style="text-align: left;">
+                        <span style="display: block; font-weight: bold; color: #333;">${prod.product.title}</span>
+                        <small style="color: #666;">Cant: ${qty} x $${Math.round(price).toLocaleString('es-CL')}</small>
+                    </div>
+                    <div style="font-weight: bold; color: #e63946;">
+                        $${Math.round(subtotal).toLocaleString('es-CL')}
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+        totalLabel.textContent = `$${Math.round(totalNeto).toLocaleString('es-CL')}`;
+
+    } catch (error) {
+        console.error("Error cargando cotización:", error);
+        container.innerHTML = "<p>Error al conectar con el servidor de productos.</p>";
     }
-
-    cart.forEach((item) => {
-        // Mapeo flexible: Busca 'title' o 'name'. Busca 'price' o 'price_original'.
-        const nombre = item.title || item.name || item.product_title || "Producto";
-        const precio = parseFloat(item.price) || 0;
-        const cantidad = parseInt(item.quantity) || 0;
-        const subtotal = precio * cantidad;
-        
-        totalAcumulado += subtotal;
-
-        html += `
-            <div class="item-cot" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee;">
-                <div style="text-align:left;">
-                    <span style="display:block; font-weight:bold;">${nombre}</span>
-                    <small>Cant: ${cantidad} x $${precio.toLocaleString('es-CL')}</small>
-                </div>
-                <div style="font-weight:bold; color:#e63946;">
-                    $${subtotal.toLocaleString('es-CL')}
-                </div>
-            </div>
-        `;
-    });
-
-    container.innerHTML = html;
-    totalLabel.innerText = `$${totalAcumulado.toLocaleString('es-CL')}`;
 }
