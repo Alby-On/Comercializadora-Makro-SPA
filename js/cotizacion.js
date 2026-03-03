@@ -1,7 +1,18 @@
-// Asegúrate de que este archivo se cargue DESPUÉS de tu main.js para que reconozca queryShopify
 document.addEventListener('DOMContentLoaded', () => {
-    // Pequeño delay para asegurar que los componentes carguen
+    // 1. Carga inicial
     setTimeout(renderizarCotizacionDesdeShopify, 500);
+
+    // 2. ESCUCHA ACTIVA: Si el carrito cambia en otra pestaña o mediante el lateral
+    window.addEventListener('storage', (event) => {
+        if (event.key === 'shopify_cart_id' || event.key === 'shopify_checkout_url') {
+            console.log("Cambio detectado en el carrito, actualizando vista...");
+            renderizarCotizacionDesdeShopify();
+        }
+    });
+
+    // 3. POLLING (Opcional): Por si los cambios ocurren dentro de la misma página 
+    // sin recargar (como el carrito lateral). Ejecuta cada 2 segundos.
+    setInterval(renderizarCotizacionDesdeShopify, 2000);
 });
 
 async function renderizarCotizacionDesdeShopify() {
@@ -10,11 +21,10 @@ async function renderizarCotizacionDesdeShopify() {
     const totalLabel = document.getElementById('total-ref-cot');
 
     if (!cartId) {
-        container.innerHTML = "<p>No hay productos para cotizar. Vuelve a la tienda.</p>";
+        if (container) container.innerHTML = "<p>Tu carrito está vacío.</p>";
         return;
     }
 
-    // Usamos la misma lógica de tu main.js para consultar a Shopify
     const query = `{
       cart(id: "${cartId}") {
         cost { totalAmount { amount } }
@@ -38,8 +48,10 @@ async function renderizarCotizacionDesdeShopify() {
         const response = await queryShopify(query);
         const cart = response.data?.cart;
 
+        // Si no hay respuesta o el carrito se vació en Shopify
         if (!cart || cart.lines.edges.length === 0) {
-            container.innerHTML = "<p>Tu carrito está vacío en Shopify.</p>";
+            container.innerHTML = "<p>No hay productos seleccionados.</p>";
+            totalLabel.textContent = "$0";
             return;
         }
 
@@ -53,23 +65,26 @@ async function renderizarCotizacionDesdeShopify() {
             const subtotal = price * qty;
 
             html += `
-                <div class="item-cot" style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
-                    <div style="text-align: left;">
-                        <span style="display: block; font-weight: bold; color: #333;">${prod.product.title}</span>
-                        <small style="color: #666;">Cant: ${qty} x $${Math.round(price).toLocaleString('es-CL')}</small>
+                <div class="item-cot" style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee;">
+                    <div style="text-align: left; padding-right: 10px;">
+                        <span style="display: block; font-weight: bold; color: #222; font-size: 0.95rem;">${prod.product.title}</span>
+                        <small style="color: #777;">${qty} unidad(es) x $${Math.round(price).toLocaleString('es-CL')}</small>
                     </div>
-                    <div style="font-weight: bold; color: #e63946;">
+                    <div style="font-weight: bold; color: #e63946; white-space: nowrap;">
                         $${Math.round(subtotal).toLocaleString('es-CL')}
                     </div>
                 </div>
             `;
         });
 
-        container.innerHTML = html;
-        totalLabel.textContent = `$${Math.round(totalNeto).toLocaleString('es-CL')}`;
+        // Solo actualizamos el DOM si el HTML generado es distinto al actual 
+        // (para evitar parpadeos innecesarios en el S22 Ultra)
+        if (container.innerHTML !== html) {
+            container.innerHTML = html;
+            totalLabel.textContent = `$${Math.round(totalNeto).toLocaleString('es-CL')}`;
+        }
 
     } catch (error) {
-        console.error("Error cargando cotización:", error);
-        container.innerHTML = "<p>Error al conectar con el servidor de productos.</p>";
+        console.error("Error en sincronización de cotización:", error);
     }
 }
