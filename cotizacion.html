@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Cotización - Comercializadora Makro SpA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/contactanos.css">
+</head>
+<body>
+
+    <main class="content-wrapper">
+        <div class="page-title">
+            <h1>Solicitud de Presupuesto</h1>
+            <p>Completa tus datos y recibirás una cotización formal en tu correo.</p>
+        </div>
+
+        <section class="cotizacion-grid">
+            <div class="resumen-cotizacion">
+                <h3>Productos a Cotizar</h3>
+                <div id="lista-cotizacion-items">
+                    </div>
+                <div class="total-referencial">
+                    <strong>Total Neto Referencial: </strong>
+                    <span id="total-ref-cot"></span>
+                </div>
+            </div>
+
+            <div class="contact-card">
+                <form id="cotizacion-form">
+                    <div class="form-group">
+                        <label>Nombre o Razón Social</label>
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="cot-nombre" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>RUT Empresa / Personal</label>
+                        <i class="fas fa-id-card"></i>
+                        <input type="text" id="cot-rut" class="form-input" placeholder="12.345.678-9">
+                    </div>
+                    <div class="form-group">
+                        <label>WhatsApp de Contacto</label>
+                        <i class="fab fa-whatsapp"></i>
+                        <input type="tel" id="cot-telefono" class="form-input" placeholder="+569..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email donde recibirá la cotización</label>
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="cot-email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mensaje Adicional</label>
+                        <textarea id="cot-mensaje" class="form-input" placeholder="Ej: Indicar si necesita despacho a obra en Parral..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="btn-enviar-cot">
+                        <span>Enviar Solicitud</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                    <a href="carro_compras.html" class="back-link">Volver al carrito</a>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <div id="carrito-placeholder"></div>
+    <div id="whatsapp-placeholder"></div>
+    <footer id="footer-placeholder" class="main-footer"></footer>
+    <script src="js/main.js"></script>
+</body>
+</html>
