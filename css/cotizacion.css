@@ -1,0 +1,165 @@
+/* --- Contenedor Principal de Cotización --- */
+.cotizacion-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr; /* Resumen a la izquierda, Formulario a la derecha */
+    gap: 30px;
+    margin: 40px 0;
+    align-items: start;
+}
+
+/* --- Columna Izquierda: Resumen de Productos --- */
+.resumen-cotizacion {
+    background: #fdfdfd;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    position: sticky; /* Se queda fijo al hacer scroll en PC */
+    top: 100px;
+}
+
+.resumen-cotizacion h3 {
+    border-bottom: 2px solid #e63946; /* Color Makro */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.item-cot {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.95rem;
+}
+
+.total-referencial {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-align: right;
+    font-size: 1.1rem;
+}
+
+.total-referencial strong {
+    color: #333;
+}
+
+.total-referencial span {
+    color: #e63946;
+    font-weight: 800;
+}
+
+/* --- Columna Derecha: Formulario --- */
+.contact-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+.form-group i {
+    position: absolute;
+    left: 15px;
+    top: 42px;
+    color: #e63946;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 15px 12px 45px; /* Espacio para el icono */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-input:focus {
+    border-color: #e63946;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
+}
+
+textarea.form-input {
+    height: 120px;
+    resize: none;
+}
+
+/* --- Botón y Enlaces --- */
+.submit-btn {
+    width: 100%;
+    background: #e63946;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.3s;
+}
+
+.submit-btn:hover {
+    background: #c32f3a;
+}
+
+.submit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* --- OPTIMIZACIÓN MÓVIL (S22 Ultra y otros) --- */
+@media (max-width: 992px) {
+    .cotizacion-grid {
+        grid-template-columns: 1fr; /* Una sola columna */
+    }
+    
+    .resumen-cotizacion {
+        position: static; /* Quita el sticky en móvil */
+        order: 2; /* El resumen pasa abajo del formulario o viceversa */
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title h1 {
+        font-size: 1.5rem;
+    }
+    
+    .contact-card {
+        padding: 20px;
+    }
+    
+    .form-input {
+        font-size: 16px; /* Evita que iOS/Android haga zoom automático al enfocar */
+    }
+}
