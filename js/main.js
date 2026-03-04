@@ -52,8 +52,10 @@ async function queryShopify(query) {
 }
 
 function templateProducto(prod) {
-    const precio = Math.round(prod.variants.edges[0].node.price.amount);
+    // Extraemos los datos necesarios (mantenemos el precio en la lógica por si la query lo exige, pero no lo imprimimos)
     const imagen = prod.images.edges[0]?.node.url || 'img/placeholder.jpg';
+    
+    // El ID de Shopify viene en Base64, lo codificamos para la URL de detalles
     const idProducto = btoa(prod.id); 
 
     return `
@@ -62,10 +64,12 @@ function templateProducto(prod) {
                 <img src="${imagen}" alt="${prod.title}">
             </div>
             <h3 class="producto-titulo">${prod.title}</h3>
-            <div class="precio-monto">$${precio.toLocaleString('es-CL')}</div>
-            <a href="detalles.html?id=${idProducto}" class="btn-detalles">
-                Ver Detalles
-            </a>
+            
+            <div class="acciones-producto">
+                <a href="detalles.html?id=${idProducto}" class="btn-detalles">
+                    <i class="fas fa-file-invoice-dollar"></i> Cotizar Producto
+                </a>
+            </div>
         </div>
     `;
 }
