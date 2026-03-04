@@ -268,35 +268,39 @@ html, body {
     }
 }
 /* ==========================================================================
-    4. MENÚ DESPLEGABLE (Ajustado a la izquierda - Versión Precisa)
+    4. MENÚ DESPLEGABLE (Área de contacto quirúrgica - Versión Final)
    ========================================================================== */
 .dropdown {
     position: relative;
-    display: flex;
-    align-items: center; /* Centrado vertical: reduce el área de contacto al alto del botón */
+    /* inline-flex hace que el contenedor mida exactamente lo que mide el botón */
+    display: inline-flex; 
+    align-items: center; 
+    height: 100%; /* Se mantiene en el alto de la navbar */
+    vertical-align: middle;
 }
 
 .dropdown-content {
     display: block;
     position: absolute;
-    top: 100%;
+    /* Forzamos el inicio justo al final de la navbar (55px) */
+    top: 55px; 
     left: 0; 
     background-color: white;
     min-width: 280px;
     box-shadow: 0px 10px 20px rgba(0,0,0,0.1);
     z-index: 1000;
     
-    /* SEGURIDAD: Evita que el menú "exista" para el mouse si no es visible */
+    /* BLOQUEO DE SEGURIDAD: El menú no existe para el mouse si no es visible */
     visibility: hidden;
     opacity: 0;
     pointer-events: none; 
     
-    transform: translateY(5px); /* Animación más corta para evitar activaciones falsas */
+    transform: translateY(5px);
     transition: all 0.2s ease-in-out;
-    border-top: 2px solid #d9534f;
+    border-top: 3px solid #d9534f;
 }
 
-/* Solo se activa si el mouse está REALMENTE sobre el botón o el contenido */
+/* Solo se activa si el puntero toca el botón .dropdown */
 .dropdown:hover .dropdown-content {
     visibility: visible;
     opacity: 1;
@@ -311,6 +315,7 @@ html, body {
     display: block !important;
     border-bottom: 1px solid #f0f0f0;
     transition: 0.2s;
+    text-align: left;
 }
 
 .dropdown-content a:hover {
@@ -319,15 +324,23 @@ html, body {
     color: #d9534f !important;
 }
 
-/* --- RESPONSIVO --- */
+/* --- RESPONSIVO (S22 Ultra) --- */
 @media (max-width: 768px) {
+    .dropdown {
+        display: flex; /* En móvil vuelve a flex para ocupar el ancho asignado */
+        width: 100%;
+    }
     .dropdown-content {
         width: 90vw; 
         left: 50% !important;
         transform: translateX(-50%) translateY(-10px);
         position: fixed; 
         top: 160px; 
-        pointer-events: auto; /* Permitimos interacción táctil */
+        pointer-events: auto;
+    }
+    
+    .dropdown:hover .dropdown-content {
+        transform: translateX(-50%) translateY(0);
     }
 }
 /* ==========================================================================
