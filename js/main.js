@@ -188,26 +188,40 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function mostrarSubcategorias(catPadre) {
-    // Buscamos o creamos el contenedor donde irán las subcategorías
+    // 1. Intentar encontrar el contenedor o crearlo si no existe
     let subContainer = document.getElementById('subcategorias-dinamicas');
     
     if (!subContainer) {
-        // Si no existe en el HTML, lo creamos dinámicamente debajo del menú
         subContainer = document.createElement('div');
         subContainer.id = 'subcategorias-dinamicas';
         subContainer.className = 'subcategorias-wrapper';
-        document.getElementById('menu-categorias').after(subContainer);
+        // Lo insertamos justo después del menú de categorías
+        const menuCat = document.getElementById('menu-categorias');
+        if (menuCat) {
+            menuCat.parentNode.insertBefore(subContainer, menuCat.nextSibling);
+        }
     }
 
-    subContainer.innerHTML = ''; // Limpiamos las anteriores
+    subContainer.innerHTML = ''; // Limpiar
 
+    // 2. Mapear y crear botones
     if (mapeoCategorias[catPadre]) {
         mapeoCategorias[catPadre].forEach(sub => {
             const btn = document.createElement('button');
             btn.className = 'btn-sub-pastilla';
             btn.textContent = sub;
-            // Al hacer clic, busca en Shopify por el TAG exacto
-            btn.onclick = () => ejecutarBusquedaPorTag(sub);
+            
+            // Lógica: Si el tag en Shopify tiene prefijo, se lo sumamos aquí
+            const tagCompleto = `${catPadre}:${sub}`; 
+            
+            btn.onclick = () => {
+                // Quitamos clase activa de otras pastillas y se la damos a esta
+                document.querySelectorAll('.btn-sub-pastilla').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Ejecutamos la búsqueda por el tag completo "elec_domiciliaria:Conductores"
+                ejecutarBusquedaPorTag(tagCompleto);
+            };
             subContainer.appendChild(btn);
         });
     }
