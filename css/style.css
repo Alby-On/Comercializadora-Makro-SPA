@@ -1016,7 +1016,7 @@ html, body {
     }
 }
 /* ==========================================================================
-    SECCIÓN CATEGORÍAS - DISEÑO DE 10 ITEMS (5x2)
+    SECCIÓN CATEGORÍAS - DISEÑO DE 10 ITEMS (5x2) - ANIMACIONES COMPLETAS
    ========================================================================== */
 
 .seccion-categorias {
@@ -1047,11 +1047,13 @@ html, body {
     align-items: flex-end;
     text-decoration: none;
     overflow: hidden;
+    /* Mantenemos la animación de suavizado total */
     transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     box-shadow: 0 8px 15px rgba(0,0,0,0.08);
     border: 1px solid rgba(0,0,0,0.05);
 }
 
+/* Capa de oscurecimiento inicial */
 .card-categoria::before {
     content: "";
     position: absolute;
@@ -1081,20 +1083,55 @@ html, body {
 
 /* --- BOTÓN EXPLORAR (Ver Colección) EN BLANCO --- */
 .btn-explorar {
-    color: #ffffff; /* CAMBIO: Ahora es blanco */
+    color: #ffffff; /* Texto en blanco como pediste */
     font-size: 0.85rem;
     font-weight: 700;
     display: flex;
     align-items: center;
     gap: 8px;
     margin-top: 10px;
-    transform: translateX(-10px); /* Inicia un poco a la izquierda */
-    opacity: 0; /* Oculto por defecto */
+    /* Mantenemos la animación de entrada lateral */
+    transform: translateX(-15px); 
+    opacity: 0;
     transition: all 0.4s ease;
 }
 
-/* --- EFECTOS HOVER --- */
-.card-categoria:
+/* --- TODAS LAS ANIMACIONES DE HOVER ACTIVADAS --- */
+.card-categoria:hover {
+    transform: translateY(-8px); /* 1. Elevación de la card */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    background-size: 115%; /* 2. Zoom dinámico de la imagen de fondo */
+}
+
+/* 3. El gradiente cambia suavemente al rojo de la marca */
+.card-categoria:hover::before {
+    background: linear-gradient(to top, rgba(217, 83, 79, 0.95) 0%, rgba(217, 83, 79, 0.5) 100%);
+}
+
+/* 4. El texto blanco "Ver Colección" aparece y se desliza */
+.card-categoria:hover .btn-explorar {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* --- RESPONSIVO --- */
+@media (max-width: 1300px) {
+    .grid-categorias { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 900px) {
+    .grid-categorias { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+    .grid-categorias { 
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 10px;
+    }
+    .card-categoria { height: 160px; }
+    .card-categoria h3 { font-size: 0.85rem; }
+    .btn-explorar { display: none; } /* Oculto en móvil para limpiar el diseño táctil */
+}
 /* ==========================================================================
     FILTROS DE PRODUCTOS - DISEÑO MODERNO
    ========================================================================== */
