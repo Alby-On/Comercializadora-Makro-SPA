@@ -465,6 +465,34 @@ window.quitarProducto = async function(lineId) {
     // 3. Refrescar el contador del header (el numerito del icono del carro)
     actualizarVisualizacionCarro(); 
 };
+/* ==========================================================================
+    FUNCIÓN: Quitar Producto de forma Instantánea
+   ========================================================================== */
+window.quitarProductoInstantaneo = function(btn, lineId) {
+    // 1. Buscamos el contenedor del producto (la fila completa)
+    const row = btn.closest('.carrito-item-row');
+    
+    if (row) {
+        // 2. Aplicamos una animación de salida para que se sienta fluido
+        row.style.transition = 'all 0.3s ease';
+        row.style.opacity = '0';
+        row.style.transform = 'translateX(30px)'; // Se desliza hacia la derecha
+        
+        // 3. Lo eliminamos del DOM después de la animación
+        setTimeout(() => {
+            row.remove();
+            
+            // Si el carrito queda vacío después de borrar, mostramos el mensaje
+            const listContainer = document.getElementById('carrito-items-lista');
+            if (listContainer && listContainer.children.length === 0) {
+                listContainer.innerHTML = '<p class="carrito-vacio">Tu lista de cotización está vacía</p>';
+            }
+        }, 300);
+    }
+
+    // 4. Avisamos a Shopify en segundo plano (sin bloquear al usuario)
+    window.quitarProducto(lineId);
+};
 async function ejecutarCargaTodosLosProductos() {
     const contenedor = document.getElementById('shopify-products-load');
     const titulo = document.getElementById('titulo-coleccion');
