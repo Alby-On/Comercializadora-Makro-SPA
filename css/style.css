@@ -134,7 +134,7 @@ html, body {
     }
 }
 /* ==========================================================================
-   3. NAVBAR PRINCIPAL (Separación Optimizada)
+   3. NAVBAR PRINCIPAL (Centrado Total con Separación Interna)
    ========================================================================== */
 .navbar {
     background: #333;
@@ -147,7 +147,7 @@ html, body {
 
 .nav-container {
     display: flex;
-    justify-content: space-between; /* Cambiado a space-between para distribuir los bloques */
+    justify-content: center; /* Centra todo el contenido del bloque */
     align-items: center;
     max-width: 1400px;
     margin: 0 auto;
@@ -158,10 +158,9 @@ html, body {
 .nav-left {
     display: flex;
     align-items: center;
-    flex-grow: 1; /* Permite que este contenedor use el espacio disponible */
+    /* No usamos flex-grow para que no empuje hacia los lados */
 }
 
-/* --- EL TRUCO DE SEPARACIÓN --- */
 .nav-links {
     list-style: none;
     display: flex;
@@ -169,11 +168,8 @@ html, body {
     gap: 30px; 
     margin: 0;
     padding: 0;
-    margin-left: 80px; /* Separación base fija entre Categorías e Inicio */
+    margin-left: 80px; /* Mantiene la distancia exacta con el botón Categorías */
 }
-
-/* Si quieres que los links estén totalmente a la derecha y el botón a la izquierda:
-   Cambia el margin-left: 80px; por margin-left: auto; */
 
 .dropbtn-cat {
     background-color: #f9f9f9; 
@@ -182,17 +178,17 @@ html, body {
     font-size: 14px;
     font-weight: bold;
     border: none;
-    border-radius: 4px; /* Un pequeño redondeo lo hace ver más moderno */
+    border-radius: 4px;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 10px;
-    height: 40px; /* Reducimos un poco para que no toque los bordes de la navbar */
+    height: 40px;
     transition: all 0.3s;
 }
 
 .dropbtn-cat:hover {
-    background-color: #e63946; /* Rojo Makro al pasar el mouse */
+    background-color: #e63946;
     color: white;
 }
 
@@ -204,9 +200,10 @@ html, body {
     transition: 0.3s;
     padding: 10px 5px;
     position: relative;
+    white-space: nowrap; /* Evita que los links se rompan en dos líneas */
 }
 
-/* Línea sutil debajo de los links al hacer hover */
+/* Efecto hover */
 .nav-links a::after {
     content: '';
     position: absolute;
@@ -227,12 +224,21 @@ html, body {
 }
 
 .nav-right {
-    margin-left: 40px;
+    margin-left: 80px; /* Separación simétrica para el carrito a la derecha */
     display: flex;
     align-items: center;
 }
 
 /* --- AJUSTES MÓVILES (S22 Ultra) --- */
+@media (max-width: 992px) {
+    .nav-links {
+        margin-left: 30px; /* Reducimos espacio en tablets */
+    }
+    .nav-right {
+        margin-left: 30px;
+    }
+}
+
 @media (max-width: 768px) {
     .navbar {
         height: auto;
@@ -248,10 +254,13 @@ html, body {
         gap: 10px;
     }
     .nav-links {
-        margin-left: 0; /* Eliminamos el margen en móvil */
+        margin-left: 0;
         gap: 15px;
         justify-content: center;
         width: 100%;
+    }
+    .nav-right {
+        margin-left: 0;
     }
     .dropbtn-cat {
         width: 90%;
