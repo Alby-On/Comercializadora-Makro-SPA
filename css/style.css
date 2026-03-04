@@ -1132,6 +1132,41 @@ html, body {
     .card-categoria h3 { font-size: 0.85rem; }
     .btn-explorar { display: none; } /* Oculto en móvil para limpiar el diseño táctil */
 }
+.ofertas-header {
+    text-align: center; /* Centra el texto */
+    margin-bottom: 40px; /* Espacio antes de que empiece la grid de categorías */
+    padding: 0 20px;
+    width: 100%;
+}
+
+.ofertas-header h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.ofertas-header h2 span {
+    color: #d9534f; /* Tu rojo de marca para resaltar "Categorías" */
+}
+
+.ofertas-header p {
+    font-size: 1.1rem;
+    color: #64748b;
+    max-width: 700px;
+    margin: 0 auto; /* Centra el bloque del párrafo si llega a tener más de una línea */
+}
+
+/* Ajuste para el S22 Ultra */
+@media (max-width: 600px) {
+    .ofertas-header h2 {
+        font-size: 1.6rem;
+    }
+    .ofertas-header p {
+        font-size: 0.95rem;
+    }
+}
 /* ==========================================================================
     FILTROS DE PRODUCTOS - DISEÑO MODERNO
    ========================================================================== */
