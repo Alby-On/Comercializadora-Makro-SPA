@@ -323,6 +323,9 @@ async function actualizarVisualizacionCarro() {
     const cartId = localStorage.getItem('shopify_cart_id');
     if (!cartId) return;
 
+    // Recuperamos el respaldo local para cruzar los datos
+    const respaldo = JSON.parse(localStorage.getItem('respaldo_cotizacion') || '{}');
+
     const query = `{
       cart(id: "${cartId}") {
         totalQuantity
@@ -353,14 +356,19 @@ async function actualizarVisualizacionCarro() {
         return;
     }
 
-    // 1. Contador del Header
+    // 1. Contador del Header (Lo calculamos sumando el respaldo para precisión total)
     const countEl = document.getElementById('cart-count');
     if (countEl) {
-        countEl.textContent = cart.totalQuantity;
-        countEl.style.display = cart.totalQuantity > 0 ? 'inline-block' : 'none';
+        let totalReal = 0;
+        cart.lines.edges.forEach(item => {
+            const lineId = item.node.id;
+            totalReal += (respaldo[lineId] || item.node.quantity);
+        });
+        countEl.textContent = totalReal;
+        countEl.style.display = totalReal > 0 ? 'inline-block' : 'none';
     }
 
-    // 2. Footer con mensaje de cotización (Precio oculto)
+    // 2. Footer con mensaje de cotización
     const totalEl = document.getElementById('carrito-total-monto');
     if (totalEl) {
         totalEl.innerHTML = `<span style="font-size: 0.9rem; color: #64748b; font-weight: bold;">Precio: Pendiente de Cotización</span>`;
@@ -380,11 +388,12 @@ async function actualizarVisualizacionCarro() {
     cart.lines.edges.forEach(item => {
         const prod = item.node.merchandise;
         const lineId = item.node.id;
-        const qty = item.node.quantity;
         const imageUrl = prod.image ? prod.image.url : 'img/placeholder.jpg';
+        
+        // LÓGICA MAESTRA: Priorizar el número del respaldo local
+        const qtyFinal = respaldo[lineId] || item.node.quantity;
 
         const div = document.createElement('div');
-        // Importante: mantenemos la clase para que quitarProducto pueda ocultarla
         div.className = 'carrito-item-row'; 
         div.style.cssText = 'display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; gap: 12px;';
 
@@ -397,7 +406,7 @@ async function actualizarVisualizacionCarro() {
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 8px;">
                     <div style="display: flex; align-items: center; background: #f1f5f9; border-radius: 6px; overflow: hidden;">
                         <button onclick="ajustarCantidadLocal(this, '${lineId}', -1)" style="padding: 6px 12px; border: none; background: none; cursor: pointer; font-weight: bold; font-size: 1.1rem;">-</button>
-                        <span style="padding: 0 10px; font-size: 1rem; font-weight: 700; min-width: 25px; text-align: center;">${qty}</span>
+                        <span style="padding: 0 10px; font-size: 1rem; font-weight: 700; min-width: 25px; text-align: center;">${qtyFinal}</span>
                         <button onclick="ajustarCantidadLocal(this, '${lineId}', 1)" style="padding: 6px 12px; border: none; background: none; cursor: pointer; font-weight: bold; font-size: 1.1rem;">+</button>
                     </div>
                 </div>
