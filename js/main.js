@@ -327,7 +327,6 @@ async function actualizarVisualizacionCarro() {
       cart(id: "${cartId}") {
         totalQuantity
         checkoutUrl
-        cost { totalAmount { amount } }
         lines(first: 20) {
           edges {
             node {
@@ -337,7 +336,6 @@ async function actualizarVisualizacionCarro() {
                 ... on ProductVariant {
                   product { title }
                   image { url }
-                  price { amount }
                 }
               }
             }
@@ -349,7 +347,6 @@ async function actualizarVisualizacionCarro() {
     const response = await queryShopify(query);
     const cart = response.data?.cart;
 
-    // Si el carrito no existe en Shopify (ej: expiró), limpiamos localmente
     if (!cart) {
         localStorage.removeItem('shopify_cart_id');
         const listContainer = document.getElementById('carrito-items-lista');
@@ -357,44 +354,37 @@ async function actualizarVisualizacionCarro() {
         return;
     }
 
-    // 1. Guardar URL de checkout para el botón de "Finalizar Compra"
-    localStorage.setItem('shopify_checkout_url', cart.checkoutUrl);
-
-    // 2. Actualizar contador en el icono del carrito (Header)
-    const countEl = document.getElementById('cart-count'); // Asegúrate que tu span del header tenga este ID
+    // 1. Contador del Header
+    const countEl = document.getElementById('cart-count');
     if (countEl) {
         countEl.textContent = cart.totalQuantity;
         countEl.style.display = cart.totalQuantity > 0 ? 'inline-block' : 'none';
     }
 
-    // 3. Actualizar el Monto Total en el footer del carrito
+    // 2. Ocultar Monto Total en el footer del carrito
     const totalEl = document.getElementById('carrito-total-monto');
     if (totalEl) {
-        const total = Number(cart.cost.totalAmount.amount);
-        totalEl.textContent = `$${Math.round(total).toLocaleString('es-CL')}`;
+        totalEl.innerHTML = `<span style="font-size: 0.9rem; color: #64748b;">Precio: Pendiente de Cotización</span>`;
     }
 
-    // 4. Renderizado de los productos en la lista
+    // 3. Renderizado de productos
     const listContainer = document.getElementById('carrito-items-lista');
     if (!listContainer) return;
 
     if (cart.lines.edges.length === 0) {
-        listContainer.innerHTML = '<p class="carrito-vacio">Tu carrito está vacío</p>';
+        listContainer.innerHTML = '<p class="carrito-vacio">No hay productos seleccionados</p>';
         return;
     }
 
-    listContainer.innerHTML = ''; // Limpiar antes de rellenar
+    listContainer.innerHTML = ''; 
 
     cart.lines.edges.forEach(item => {
         const prod = item.node.merchandise;
         const lineId = item.node.id;
         const qty = item.node.quantity;
-        const unitPrice = Number(prod.price.amount);
-        const lineSubtotal = unitPrice * qty;
         const imageUrl = prod.image ? prod.image.url : 'img/placeholder.jpg';
 
         const div = document.createElement('div');
-        // Estilos en línea para mantener la estructura flex
         div.style.cssText = 'display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; gap: 12px;';
 
         div.innerHTML = `
@@ -404,7 +394,7 @@ async function actualizarVisualizacionCarro() {
                     ${prod.product.title}
                 </div>
                 <div style="font-size: 0.85rem; color: #64748b;">
-                    ${qty} x $${Math.round(unitPrice).toLocaleString('es-CL')}
+                    Cantidad: ${qty}
                 </div>
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
                     <div style="display: flex; align-items: center; background: #f1f5f9; border-radius: 6px; overflow: hidden;">
@@ -412,14 +402,10 @@ async function actualizarVisualizacionCarro() {
                         <span style="padding: 0 8px; font-size: 0.85rem; font-weight: 600;">${qty}</span>
                         <button onclick="cambiarCantidad('${lineId}', ${qty + 1})" style="padding: 4px 10px; border: none; background: none; cursor: pointer; font-weight: bold;">+</button>
                     </div>
-                    <span style="font-size: 0.95rem; font-weight: 800; color: #d9534f;">
-                        $${Math.round(lineSubtotal).toLocaleString('es-CL')}
-                    </span>
                 </div>
             </div>
             <button onclick="quitarProducto('${lineId}')" 
-                style="background: #fff1f0; border: none; color: #ff4d4f; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;" 
-                title="Quitar producto">🗑️</button>
+                style="background: #fff1f0; border: none; color: #ff4d4f; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">🗑️</button>
         `;
         listContainer.appendChild(div);
     });
