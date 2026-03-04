@@ -268,45 +268,39 @@ html, body {
     }
 }
 /* ==========================================================================
-    4. MENÚ DESPLEGABLE (Ajustado a la izquierda)
+    4. MENÚ DESPLEGABLE (Ajustado a la izquierda - Versión Precisa)
    ========================================================================== */
 .dropdown {
     position: relative;
     display: flex;
-    align-items: stretch;
+    align-items: center; /* Centrado vertical: reduce el área de contacto al alto del botón */
 }
 
 .dropdown-content {
     display: block;
     position: absolute;
     top: 100%;
-    
-    /* AJUSTE: 'left: 0' lo alinea exacto al borde izquierdo del botón. 
-       Si quieres que se desplace más allá del botón hacia la izquierda, 
-       puedes usar un valor negativo como el que tenías (-50px, etc.) */
     left: 0; 
-    
     background-color: white;
     min-width: 280px;
     box-shadow: 0px 10px 20px rgba(0,0,0,0.1);
     z-index: 1000;
+    
+    /* SEGURIDAD: Evita que el menú "exista" para el mouse si no es visible */
     visibility: hidden;
     opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.3s ease-in-out;
+    pointer-events: none; 
+    
+    transform: translateY(5px); /* Animación más corta para evitar activaciones falsas */
+    transition: all 0.2s ease-in-out;
     border-top: 2px solid #d9534f;
 }
 
-/* Para asegurar que no se corte en pantallas pequeñas */
-@media (max-width: 768px) {
-    .dropdown-content {
-        left: -10px; /* Un ajuste ligero para móviles */
-    }
-}
-
+/* Solo se activa si el mouse está REALMENTE sobre el botón o el contenido */
 .dropdown:hover .dropdown-content {
     visibility: visible;
     opacity: 1;
+    pointer-events: auto;
     transform: translateY(0);
 }
 
@@ -324,20 +318,20 @@ html, body {
     padding-left: 30px;
     color: #d9534f !important;
 }
+
+/* --- RESPONSIVO --- */
 @media (max-width: 768px) {
     .dropdown-content {
-        width: 90vw; /* Ocupa casi todo el ancho de la pantalla */
+        width: 90vw; 
         left: 50% !important;
         transform: translateX(-50%) translateY(-10px);
-        position: fixed; /* Lo hace más fácil de navegar en móvil */
-        top: 160px; /* Ajusta según la altura de tu header */
+        position: fixed; 
+        top: 160px; 
+        pointer-events: auto; /* Permitimos interacción táctil */
     }
-    .dropdown:hover .dropdown-content {
-        transform: translateX(-50%) translateY(0);
-    }
-}
-/* CARRUSEL MARCAS */
-/* --- COMPONENTE: CARRUSEL INFINITO INTEGRADO (Albyon Digital) --- */
+/* ==========================================================================
+    5. CARRUSEL DE MARCAS
+   ========================================================================== */
 .galeria-infinita {
     width: 100%;
     overflow: hidden;
