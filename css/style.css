@@ -1020,7 +1020,7 @@ html, body {
    ========================================================================== */
 
 .seccion-categorias {
-    padding: 60px 2%; /* Reducimos padding lateral para dar más espacio a las 5 columnas */
+    padding: 60px 2%;
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
@@ -1029,18 +1029,17 @@ html, body {
 
 .grid-categorias {
     display: grid;
-    /* CAMBIO CLAVE: 5 columnas exactas para tus 10 categorías */
     grid-template-columns: repeat(5, 1fr); 
-    gap: 15px; /* Reducimos un poco el gap para que quepan bien las 5 */
+    gap: 15px; 
     width: 100%;
-    max-width: 1600px; /* Aumentamos el ancho máximo para que no se vean apretadas */
+    max-width: 1600px; 
     margin-top: 40px;
 }
 
 .card-categoria {
     position: relative;
-    height: 280px; /* Reducimos un poco la altura para balancear el ancho menor */
-    border-radius: 15px; /* Bordes ligeramente más finos para diseño compacto */
+    height: 280px; 
+    border-radius: 15px; 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1053,7 +1052,6 @@ html, body {
     border: 1px solid rgba(0,0,0,0.05);
 }
 
-/* Capa de oscurecimiento */
 .card-categoria::before {
     content: "";
     position: absolute;
@@ -1066,14 +1064,14 @@ html, body {
 .overlay-categoria {
     position: relative;
     z-index: 2;
-    padding: 15px; /* Padding interno más compacto */
+    padding: 15px; 
     width: 100%;
     transition: transform 0.4s ease;
 }
 
 .card-categoria h3 {
     color: white;
-    font-size: 1.1rem; /* Reducimos fuente: nombres como 'Automatización' son largos */
+    font-size: 1.1rem; 
     font-weight: 800;
     margin: 0;
     text-transform: uppercase;
@@ -1081,39 +1079,22 @@ html, body {
     line-height: 1.1;
 }
 
+/* --- BOTÓN EXPLORAR (Ver Colección) EN BLANCO --- */
+.btn-explorar {
+    color: #ffffff; /* CAMBIO: Ahora es blanco */
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    transform: translateX(-10px); /* Inicia un poco a la izquierda */
+    opacity: 0; /* Oculto por defecto */
+    transition: all 0.4s ease;
+}
+
 /* --- EFECTOS HOVER --- */
-.card-categoria:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
-    background-size: 110%;
-}
-
-.card-categoria:hover::before {
-    background: linear-gradient(to top, rgba(217, 83, 79, 0.95) 0%, rgba(217, 83, 79, 0.5) 100%);
-}
-
-/* --- RESPONSIVO (Ajustado para 10 categorías) --- */
-
-@media (max-width: 1300px) {
-    /* En pantallas medianas pasamos a 3 o 4 columnas para que no se vean muy flacas */
-    .grid-categorias { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (max-width: 900px) {
-    /* Tablets y pantallas pequeñas */
-    .grid-categorias { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 600px) {
-    /* S22 Ultra / Móviles */
-    .grid-categorias { 
-        grid-template-columns: repeat(2, 1fr); /* Mantenemos 2x2 para no hacer scroll eterno */
-        gap: 10px;
-    }
-    .card-categoria { height: 160px; }
-    .card-categoria h3 { font-size: 0.85rem; }
-    .btn-explorar { display: none; }
-}
+.card-categoria:
 /* ==========================================================================
     FILTROS DE PRODUCTOS - DISEÑO MODERNO
    ========================================================================== */
