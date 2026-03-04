@@ -410,52 +410,59 @@ async function actualizarVisualizacionCarro() {
 }
 
 window.ajustarCantidadLocal = function(btn, lineId, cambio) {
-    // Obtenemos el span que está al lado del botón
+    // 1. Buscamos el span que está justo al lado del botón presionado
     const span = btn.parentElement.querySelector('span');
-    const cantidadActual = parseInt(span.innerText);
+    if (!span) return;
+
+    const cantidadActual = parseInt(span.innerText) || 0;
     const nuevaCantidad = cantidadActual + cambio;
 
-    // Llamamos a tu función que ya tienes lista
-    window.cambiarCantidad(lineId, nuevaCantidad);
-};
-
-// Función para sumar o restar
-window.cambiarCantidad = function(lineId, nuevaCantidad) {
+    // 2. Si la cantidad llega a 0, ejecutamos la función de quitar
     if (nuevaCantidad <= 0) {
-        quitarProducto(lineId);
+        window.quitarProducto(lineId);
         return;
     }
 
-    // --- PASO 1: ACTUALIZACIÓN VISUAL INMEDIATA ---
-    // Buscamos el elemento span que contiene el número en el carrito lateral
+    // 3. Si no, ejecutamos el cambio visual e informamos a Shopify
+    window.cambiarCantidad(lineId, nuevaCantidad);
+};
+
+window.cambiarCantidad = function(lineId, nuevaCantidad) {
+    // ACTUALIZACIÓN VISUAL: Buscamos todos los spans de ese producto (por si hay varios)
     const botones = document.querySelectorAll(`button[onclick*="${lineId}"]`);
     botones.forEach(btn => {
         const span = btn.parentElement.querySelector('span');
         if (span) {
-            span.innerText = nuevaCantidad; // El cambio es instantáneo a la vista
-            span.style.fontWeight = "bold";
-            span.style.color = "#e63946"; // Feedback visual de que cambió
+            span.innerText = nuevaCantidad;
+            span.style.color = "#e63946"; // Rojo Makro momentáneo
+            setTimeout(() => { span.style.color = ""; }, 500);
         }
     });
 
-    // --- PASO 2: SINCRONIZACIÓN SILENCIOSA CON SHOPIFY ---
+    // SINCRONIZACIÓN: Enviamos a Shopify sin bloquear
     const cartId = localStorage.getItem('shopify_cart_id');
     const mutation = `mutation { cartLinesUpdate(cartId: "${cartId}", lines: [{ id: "${lineId}", quantity: ${nuevaCantidad} }]) { cart { id } } }`;
     
-    // No usamos 'await' aquí para no bloquear el hilo principal
-    queryShopify(mutation).then(response => {
-        console.log("Sincronizado con Shopify por detrás");
-    }).catch(err => {
-        console.error("Error silencioso:", err);
-    });
+    queryShopify(mutation).catch(err => console.error("Error en sync:", err));
 };
 
 // Función para ELIMINAR totalmente
 window.quitarProducto = async function(lineId) {
+    // 1. Efecto visual inmediato: buscamos la fila y la ocultamos
+    const botones = document.querySelectorAll(`button[onclick*="${lineId}"]`);
+    botones.forEach(btn => {
+        const fila = btn.closest('div[style*="display: flex"]');
+        if (fila) fila.style.display = 'none';
+    });
+
+    // 2. Avisar a Shopify
     const cartId = localStorage.getItem('shopify_cart_id');
     const mutation = `mutation { cartLinesRemove(cartId: "${cartId}", lineIds: ["${lineId}"]) { cart { id } } }`;
+    
     await queryShopify(mutation);
-    actualizarVisualizacionCarro();
+    
+    // 3. Refrescar el contador del header (el numerito del icono del carro)
+    actualizarVisualizacionCarro(); 
 };
 async function ejecutarCargaTodosLosProductos() {
     const contenedor = document.getElementById('shopify-products-load');
