@@ -936,19 +936,17 @@ async function ejecutarBusquedaGlobalPadre(categoriaPadre, nombre) {
     if (titulo) titulo.textContent = nombre || "Catálogo Completo";
     if (contenedor) contenedor.innerHTML = '<div class="loader">Cargando categoría completa...</div>';
 
-    // 1. Construimos la lista de tags con COMILLAS para evitar errores por los ":"
-    // Esto generará: tag:"elec_domiciliaria" OR tag:"elec_domiciliaria:Conductores" ...
-    let listaTags = [`tag:\"${categoriaPadre}\"`];
-    
+    // 1. Creamos el array de tags
+    let listaTags = [categoriaPadre];
     if (mapeoCategorias[categoriaPadre]) {
         mapeoCategorias[categoriaPadre].forEach(sub => {
-            listaTags.push(`tag:\"${categoriaPadre}:${sub}\"`);
+            listaTags.push(`${categoriaPadre}:${sub}`);
         });
     }
 
-    // Unimos todo con OR
-    const queryOR = listaTags.join(' OR ');
-    console.log("Query final enviada a Shopify:", queryOR); // Revisa esto en tu consola F12
+    // 2. Construimos la query de Shopify usando comillas simples para la frase
+    // Formato: (tag:'tag1') OR (tag:'tag2')
+    const queryOR = listaTags.map(t => `(tag:'${t}')`).join(' OR ');
 
     const query = `{
       products(first: 50, query: "${queryOR}") {
@@ -975,17 +973,16 @@ async function ejecutarBusquedaGlobalPadre(categoriaPadre, nombre) {
         const productos = response.data?.products?.edges || [];
         
         if (productos.length === 0) {
-            // Si falla, mostramos qué tags intentó buscar para ayudarte a debuguear
             contenedor.innerHTML = `
                 <div style="text-align:center; padding:20px;">
-                    <p>No se encontraron productos.</p>
-                    <small style="color:gray;">Tags buscados: ${queryOR}</small>
+                    <p>No se encontraron productos con estos tags en Shopify.</p>
+                    <small style="color:gray;">Intentamos buscar: ${queryOR}</small>
                 </div>`;
         } else {
             renderizarProductos(productos);
         }
     } catch (error) {
         console.error("Error en búsqueda:", error);
-        contenedor.innerHTML = "<p>Error crítico de conexión.</p>";
+        contenedor.innerHTML = "<p>Error al conectar con Shopify.</p>";
     }
 }
