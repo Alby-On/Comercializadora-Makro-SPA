@@ -1365,3 +1365,8 @@ html, body {
     color: white;
     border-color: #e63946;
 }
+.btn-categoria.active {
+    color: #e63946;
+    font-weight: bold;
+    border-bottom: 2px solid #e63946;
+}
