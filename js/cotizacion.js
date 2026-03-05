@@ -158,40 +158,50 @@ async function enviarCorreo(datos, productosArray) {
     const btn = document.getElementById('btn-enviar-cot');
     const originalText = btn.innerHTML;
     
-    // 1. Bloqueo de botón para evitar doble envío
+    // 1. Bloqueo de botón para evitar doble envío y feedback visual
     btn.disabled = true;
     btn.innerHTML = '<span>Enviando...</span> <i class="fas fa-spinner fa-spin"></i>';
 
-    // 2. Formatear la lista de productos para la plantilla
+    // 2. Formatear la lista de productos para que llegue ordenada al correo
     const listaTexto = productosArray.map(p => `- ${p.nombre} (Cant: ${p.cantidad})`).join('\n');
 
-    // 3. Parámetros exactos de tu plantilla de EmailJS
+    // 3. Parámetros vinculados a tu plantilla de EmailJS {{variable}}
     const templateParams = {
         nombre: datos.nombre,
         rut: datos.rut,
         email: datos.email,
         telefono: datos.telefono,
         mensaje: datos.mensaje,
-        productos: listaTexto // Aquí va el detalle del carrito
+        productos: listaTexto 
     };
 
     try {
-        // REEMPLAZA ESTOS 3 VALORES CON TUS IDS DE EMAILJS
+        // IDs Reales de tu cuenta Makro SPA
         const SERVICE_ID = 'service_skk8kaa';
         const TEMPLATE_ID = 'template_clwo0tq';
         const PUBLIC_KEY = 'h3oIE9KDa7Ujtsnw_';
 
+        // Enviamos usando los 4 parámetros para forzar la validación
         const response = await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
 
         if (response.status === 200) {
             alert("¡Solicitud enviada con éxito! Revisaremos tu pedido a la brevedad.");
-            // Opcional: Redirigir o limpiar el formulario
+            
+            // Limpiamos el formulario
             document.getElementById('cotizacion-form').reset();
+            
+            // OPCIONAL: Si tienes una función para vaciar el carrito de Shopify tras el éxito
+            // if (typeof window.vaciarCarrito === 'function') window.vaciarCarrito();
         }
     } catch (error) {
-        console.error("Error al enviar correo:", error);
-        alert("Hubo un error al enviar el correo. Por favor, intenta por WhatsApp.");
+        // Log detallado para soporte técnico
+        console.error("Error detallado de EmailJS:", error);
+        
+        // Si el error tiene texto descriptivo, lo mostramos, si no, damos el mensaje genérico
+        const msgError = error.text || "No se pudo conectar con el servidor de correos.";
+        alert("Hubo un error: " + msgError + ". Por favor, intenta por WhatsApp.");
     } finally {
+        // Restauramos el botón a su estado original
         btn.disabled = false;
         btn.innerHTML = originalText;
     }
