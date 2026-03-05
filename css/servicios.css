@@ -50,21 +50,23 @@
 
 .hero-content h1 span { color: #e63946; }
 
-/* AJUSTE DE LOGO (Reducido 50%) */
+/* AJUSTE DE LOGOS (Logo Makro +20% y alineación) */
 .hero-logos {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 25px;
+    gap: 30px;
     margin-top: 30px;
 }
 
+/* Selector ajustado al nombre de clase de tu HTML */
 .logo-hero-grande { 
-    height: 45px !important; /* Reducción a tamaño equilibrado */
+    height: 60px !important; /* Aumentado un 20% sobre la base de 50px */
     width: auto !important;
+    filter: drop-shadow(0 0 10px rgba(0,0,0,0.3));
 }
 
-.plus { font-size: 1.5rem; font-weight: bold; color: #e63946; }
+.plus { font-size: 2rem; font-weight: bold; color: #e63946; }
 
 .inglobal-header {
     text-align: left;
@@ -74,8 +76,10 @@
 
 .inglobal-name {
     display: block;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 800;
+    color: white;
+    line-height: 1;
 }
 
 .inglobal-sub {
@@ -104,55 +108,59 @@
     color: #64748b;
 }
 
-/* --- GRID SERVICIOS (Ajuste 2x2 Ordenado) --- */
-.servicios-grid-section { padding: 80px 0; }
+/* --- GRID SERVICIOS (Configuración 2x2 Centrada) --- */
+.servicios-grid-section { padding: 60px 0; }
 
 .grid-servicios-2x2 {
     display: grid;
-    /* Forzamos 2 columnas iguales */
+    /* Forzamos 2 columnas exactas para ver las 4 tarjetas agrupadas */
     grid-template-columns: repeat(2, 1fr); 
     gap: 30px;
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
 .servicio-card {
     background: white;
-    padding: 40px;
+    padding: 45px;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease;
-    border-top: 5px solid #e63946; /* Estilo industrial superior */
-    text-align: center;
+    transition: all 0.3s ease;
+    border-top: 5px solid #e63946; /* Borde industrial superior */
+    text-align: center; /* Contenido centrado */
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.servicio-card:hover { transform: translateY(-10px); }
+.servicio-card:hover { 
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(230, 57, 70, 0.1);
+}
 
 .icon-box {
-    width: 65px; height: 65px;
+    width: 70px; height: 70px;
     background: #f1f5f9;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
-.icon-box i { font-size: 1.8rem; color: #e63946; }
+.icon-box i { font-size: 2rem; color: #e63946; }
 
 .servicio-card h3 { 
     margin-bottom: 15px; 
-    color: #1e293b; 
+    color: #1e293b;
     font-weight: 800;
+    font-size: 1.4rem;
 }
 
 .servicio-card p {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: #64748b;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #475569;
 }
 
 /* --- CTA --- */
@@ -178,15 +186,19 @@
     transition: 0.3s;
 }
 
-.btn-industrial:hover { background: #c52e39; }
+.btn-industrial:hover { 
+    background: #c52e39; 
+    transform: scale(1.05);
+}
 
 /* --- MOBILE S22 Ultra --- */
 @media (max-width: 850px) {
     .grid-servicios-2x2 {
-        grid-template-columns: 1fr; /* Una columna para el celular */
+        grid-template-columns: 1fr; /* Una columna para que sea legible en móvil */
+        padding: 0 10px;
     }
     
     .hero-content h1 { font-size: 2.2rem; }
-    .logo-hero-grande { height: 35px !important; }
+    .logo-hero-grande { height: 45px !important; } /* Un poco más pequeño en móvil */
     .cta-box { padding: 40px 20px; }
 }
