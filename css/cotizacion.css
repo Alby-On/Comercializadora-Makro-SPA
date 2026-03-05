@@ -1,5 +1,4 @@
 /* --- RESET GLOBAL PARA EL FORMULARIO --- */
-/* Esto asegura que el padding no sume ancho extra a los inputs */
 .contact-card *, .contact-card *::before, .contact-card *::after {
     box-sizing: border-box;
 }
@@ -57,6 +56,32 @@
     font-size: 1.1rem;
 }
 
+/* Botón Volver a Productos (Dentro del Resumen o la Card) */
+.btn-volver-productos {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #1e293b; /* Gris oscuro moderno */
+    color: #fff;
+    padding: 14px 25px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    border: none;
+    width: 100%; /* Ocupa el ancho del contenedor */
+    text-align: center;
+}
+
+.btn-volver-productos:hover {
+    background: #e63946; /* Rojo Makro en hover */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(230, 57, 70, 0.2);
+}
+
 .item-cot {
     display: flex;
     justify-content: space-between;
@@ -81,14 +106,14 @@
     color: #e63946;
 }
 
-/* --- Estilos Columna Derecha (Formulario) CORREGIDO --- */
+/* --- Estilos Columna Derecha (Formulario) --- */
 .contact-card {
     background: #ffffff;
     padding: 40px;
     border-radius: 15px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.06);
-    width: 100%; /* Asegura que la card mande */
-    overflow: hidden; /* Evita cualquier desborde visual */
+    width: 100%;
+    overflow: hidden;
 }
 
 .contact-card h2 {
@@ -100,7 +125,7 @@
 .form-group {
     margin-bottom: 25px;
     position: relative;
-    width: 100%; /* El grupo ocupa el ancho de la card */
+    width: 100%;
 }
 
 .form-group label {
@@ -114,21 +139,21 @@
 .form-group i {
     position: absolute;
     left: 15px;
-    top: 44px; /* Ajustado para centrar con el input */
+    top: 44px;
     color: #e63946;
     font-size: 1.1rem;
     z-index: 2;
 }
 
 .form-input {
-    width: 100%; /* Ahora sí respetará el ancho interno */
+    width: 100%;
     padding: 14px 15px 14px 45px;
     border: 1px solid #ddd;
     border-radius: 10px;
     font-size: 1rem;
     transition: all 0.3s ease;
     background-color: #fff;
-    display: block; /* Elimina espacios residuales */
+    display: block;
 }
 
 .form-input:focus {
@@ -137,7 +162,6 @@
     outline: none;
 }
 
-/* --- Botón Enviar --- */
 .submit-btn {
     width: 100%;
     background: #e63946;
@@ -155,6 +179,11 @@
     transition: transform 0.2s, background 0.3s;
 }
 
+.submit-btn:hover {
+    background: #1e293b;
+    transform: scale(1.02);
+}
+
 /* --- AJUSTES MÓVILES (S22 Ultra) --- */
 @media (max-width: 992px) {
     .cotizacion-grid {
@@ -169,7 +198,7 @@
     
     .contact-card {
         order: 2;
-        padding: 25px; /* Menos padding en móvil para ganar espacio */
+        padding: 25px;
     }
 }
 
@@ -179,6 +208,11 @@
     }
     
     .form-input {
-        font-size: 16px; /* Evita zoom automático en navegadores móviles */
+        font-size: 16px;
+    }
+
+    .btn-volver-productos {
+        padding: 16px;
+        font-size: 1rem;
     }
 }
