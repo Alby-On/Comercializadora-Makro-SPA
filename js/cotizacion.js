@@ -144,7 +144,7 @@ async function renderizarCotizacionDesdeShopify() {
 
 // --- FUNCIONES DE ENVÍO ---
 function enviarWhatsApp(datos, listaTexto) {
-    const telefonoVentas = "569XXXXXXXX"; // REEMPLAZA CON TU TELÉFONO REAL
+    const telefonoVentas = "56936246559"; // REEMPLAZA CON TU TELÉFONO REAL
     const mensajeHeader = `*SOLICITUD DE COTIZACIÓN - MAKRO SPA*%0A%0A`;
     const infoCliente = `*Cliente:* ${datos.nombre}%0A*RUT:* ${datos.rut}%0A*Email:* ${datos.email}%0A%0A`;
     const productos = `*PRODUCTOS:*%0A${encodeURIComponent(listaTexto)}%0A`;
