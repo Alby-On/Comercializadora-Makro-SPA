@@ -1,5 +1,14 @@
-/* --- RESET GLOBAL PARA EL FORMULARIO --- */
-.contact-card *, .contact-card *::before, .contact-card *::after {
+/* --- RESET GLOBAL Y PREVENCIÓN DE DESBORDE --- */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.contact-card *, 
+.contact-card *::before, 
+.contact-card *::after {
     box-sizing: border-box;
 }
 
@@ -8,12 +17,14 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 40px 20px;
+    width: 100%;
 }
 
 /* --- Encabezado Centrado --- */
 .page-title {
     text-align: center;
     margin-bottom: 50px;
+    padding: 0 10px;
 }
 
 .page-title h1 {
@@ -45,6 +56,7 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.03);
     position: sticky;
     top: 20px;
+    width: 100%;
 }
 
 .resumen-cotizacion h3 {
@@ -58,7 +70,6 @@
     font-weight: 800;
 }
 
-/* Botón Volver a Productos (Estilo Industrial Makro) */
 .btn-volver-productos {
     display: inline-flex;
     align-items: center;
@@ -75,7 +86,6 @@
     margin-top: 20px;
     border: none;
     width: 100%;
-    text-align: center;
     cursor: pointer;
 }
 
@@ -118,7 +128,7 @@
     border-radius: 15px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.06);
     width: 100%;
-    overflow: hidden;
+    overflow: hidden; /* Evita que elementos internos se asomen */
 }
 
 .contact-card h2 {
@@ -168,7 +178,7 @@
     outline: none;
 }
 
-/* --- SELECTOR DE MÉTODO (NUEVO) --- */
+/* --- SELECTOR DE MÉTODO --- */
 .metodo-envio-selector {
     margin-bottom: 30px;
     padding: 20px;
@@ -177,21 +187,13 @@
     border: 1px solid #e2e8f0;
 }
 
-.metodo-envio-selector label {
-    display: block;
-    margin-bottom: 12px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    color: #1e293b;
-}
-
 .opciones-metodo {
     display: flex;
     gap: 12px;
 }
 
 .opciones-metodo input[type="radio"] {
-    display: none; /* Ocultamos el radio original */
+    display: none;
 }
 
 .label-radio {
@@ -212,16 +214,10 @@
     color: #64748b;
 }
 
-/* Efecto cuando se selecciona el método */
 .opciones-metodo input[type="radio"]:checked + .label-radio {
     border-color: #e63946;
     color: #e63946;
     background: #fff5f5;
-    box-shadow: 0 4px 12px rgba(230, 57, 70, 0.1);
-}
-
-.opciones-metodo input[type="radio"]:checked + .label-radio i {
-    color: #e63946;
 }
 
 /* --- BOTÓN ENVIAR --- */
@@ -239,47 +235,59 @@
     justify-content: center;
     align-items: center;
     gap: 12px;
-    transition: all 0.3s ease;
 }
 
-.submit-btn:hover {
-    background: #1e293b;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(30, 41, 59, 0.2);
-}
-
-/* --- AJUSTES MÓVILES (S22 Ultra) --- */
+/* --- MEDIA QUERIES PARA MÓVIL (S22 Ultra y similares) --- */
 @media (max-width: 992px) {
     .cotizacion-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .content-wrapper {
+        padding: 20px 15px;
     }
 
     .resumen-cotizacion {
         position: static;
         order: 1;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
     }
     
     .contact-card {
         order: 2;
-        padding: 25px;
+        padding: 30px 20px; /* Padding reducido para evitar desborde */
     }
 }
 
 @media (max-width: 480px) {
-    .opciones-metodo {
-        flex-direction: column; /* Botones uno sobre otro en móviles pequeños */
-    }
-
     .page-title h1 {
-        font-size: 1.8rem;
-    }
-    
-    .form-input {
-        font-size: 16px;
+        font-size: 1.6rem;
     }
 
-    .btn-volver-productos {
+    .contact-card {
+        padding: 20px 15px; /* Padding mínimo de seguridad */
+    }
+
+    .opciones-metodo {
+        flex-direction: column; /* Apilado vertical para que no se salga */
+    }
+
+    .label-radio {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .form-input {
+        font-size: 16px; /* Evita zoom automático en móviles */
+        padding-left: 40px;
+    }
+
+    .form-group i {
+        left: 12px;
+    }
+
+    .submit-btn {
         padding: 16px;
         font-size: 1rem;
     }
