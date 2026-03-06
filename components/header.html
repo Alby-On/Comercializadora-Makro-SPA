@@ -33,77 +33,66 @@
    <nav class="navbar">
     <div class="nav-container">
         <div class="nav-left"> 
-            
             <div class="dropdown">
                 <button class="dropbtn-cat">
                     <span class="icon">☰</span> CATEGORÍAS
                 </button>
                 <div class="dropdown-content mega-menu-vertical">
                     <ul class="filtro-lista-nav" id="menu-categorias-nav">
-                        
                         <li class="item-categoria-padre-nav">
                             <a href="javascript:void(0)" class="btn-categoria-nav" data-categoria="elec_domiciliaria">
                                 Electricidad Domiciliaria <i class="fas fa-chevron-right"></i>
                             </a>
                             <ul class="sub-lista-anidada-nav" id="sub-nav-elec_domiciliaria"></ul>
                         </li>
-
                         <li class="item-categoria-padre-nav">
                             <a href="javascript:void(0)" class="btn-categoria-nav" data-categoria="elec_industrial">
                                 Electricidad Industrial <i class="fas fa-chevron-right"></i>
                             </a>
                             <ul class="sub-lista-anidada-nav" id="sub-nav-elec_industrial"></ul>
                         </li>
-
                         <li class="item-categoria-padre-nav">
                             <a href="javascript:void(0)" class="btn-categoria-nav" data-categoria="herramientas">
                                 Herramientas <i class="fas fa-chevron-right"></i>
                             </a>
                             <ul class="sub-lista-anidada-nav" id="sub-nav-herramientas"></ul>
                         </li>
-
                         <li class="item-categoria-padre-nav">
                             <a href="javascript:void(0)" class="btn-categoria-nav" data-categoria="ferreteria_industrial">
                                 Ferretería Industrial <i class="fas fa-chevron-right"></i>
                             </a>
                             <ul class="sub-lista-anidada-nav" id="sub-nav-ferreteria_industrial"></ul>
                         </li>
-
                         <li class="item-categoria-padre-nav">
                             <a href="javascript:void(0)" class="btn-categoria-nav" data-categoria="gasfiteria_general">
                                 Gasfitería <i class="fas fa-chevron-right"></i>
                             </a>
                             <ul class="sub-lista-anidada-nav" id="sub-nav-gasfiteria_general"></ul>
                         </li>
-
                         <li class="item-categoria-padre-nav">
                             <a href="javascript:void(0)" class="btn-categoria-nav" data-categoria="epp">
                                 EPP (Protección Personal) <i class="fas fa-chevron-right"></i>
                             </a>
                             <ul class="sub-lista-anidada-nav" id="sub-nav-epp"></ul>
                         </li>
-
                         <li class="item-categoria-padre-nav">
                             <a href="javascript:void(0)" class="btn-categoria-nav" data-categoria="seguridad_vigilancia">
                                 Seguridad y Vigilancia <i class="fas fa-chevron-right"></i>
                             </a>
                             <ul class="sub-lista-anidada-nav" id="sub-nav-seguridad_vigilancia"></ul>
                         </li>
-
                         <li class="item-categoria-padre-nav">
                             <a href="javascript:void(0)" class="btn-categoria-nav" data-categoria="automatizacion_control">
                                 Automatización y Control <i class="fas fa-chevron-right"></i>
                             </a>
                             <ul class="sub-lista-anidada-nav" id="sub-nav-automatizacion_control"></ul>
                         </li>
-
                         <li class="item-categoria-padre-nav">
                             <a href="javascript:void(0)" class="btn-categoria-nav" data-categoria="iluminacion">
                                 Iluminación LED <i class="fas fa-chevron-right"></i>
                             </a>
                             <ul class="sub-lista-anidada-nav" id="sub-nav-iluminacion"></ul>
                         </li>
-
                         <li class="item-categoria-padre-nav">
                             <a href="javascript:void(0)" class="btn-categoria-nav" data-categoria="ernc_riego">
                                 ERNC y Riego <i class="fas fa-chevron-right"></i>
@@ -112,7 +101,15 @@
                         </li>
                     </ul>
                 </div>
-            </div> <ul class="nav-links">
+            </div>
+
+            <button class="menu-toggle" id="mobile-menu-btn" aria-label="Abrir menú">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
+            <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="productos.html?cat=all" class="btn-shopify">Productos</a></li>
                 <li><a href="nosotros.html">Nosotros</a></li>
@@ -120,7 +117,9 @@
                 <li><a href="contactanos.html">Contáctanos</a></li>
                 <li><a href="cotizacion.html">Cotización</a></li>
             </ul>
-        </div> <div class="nav-right">
+        </div> 
+
+        <div class="nav-right">
             <button id="cart-button" class="btn-carrito">
                 <span class="cart-icon">🛒</span>
                 <span id="cart-count">0</span>
@@ -128,7 +127,7 @@
         </div>
     </div>
 </nav>
-
+    
    <section class="galeria-infinita">
     <div class="slider-track">
         <div class="slide"><img src="images/productos/FNX.png" alt="FNX"></div>
