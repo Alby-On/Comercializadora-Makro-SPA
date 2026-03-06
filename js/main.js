@@ -102,6 +102,25 @@ document.addEventListener("DOMContentLoaded", () => {
     ]).then(() => {
 
         // ================================
+        // LÓGICA DEL MENÚ SANDWICH (NUEVO)
+        // ================================
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        if (menuBtn && navLinks) {
+            menuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            // Cerrar menú al hacer clic en un enlace
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        // ================================
         // INICIALIZACIONES GENERALES
         // ================================
 
@@ -147,11 +166,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     const nombreCategoria = enlace.textContent;
 
                     // 1. NUEVO: Carga GLOBAL de todos los productos del padre
-                    // Usamos la búsqueda por prefijo (tag:categoria*)
                     if (typeof ejecutarBusquedaGlobalPadre === 'function') {
                         ejecutarBusquedaGlobalPadre(categoria, nombreCategoria);
                     } else {
-                        // Fallback por si la función no está definida aún
                         ejecutarCargaPorCategoria(categoria, nombreCategoria);
                     }
 
@@ -195,7 +212,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             });
                         }, 500);
                     } else {
-                        // Al venir por URL solo con categoría, disparamos el click que ahora busca global
                         botonFiltrar.click();
                     }
                     botonFiltrar.scrollIntoView({ behavior: 'smooth', block: 'center' });
