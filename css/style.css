@@ -512,29 +512,28 @@ html, body {
     }
 }
 /* ==========================================================================
-    8. FOOTER PRINCIPAL (Minimalista con Iconos de Pago)
+    8. FOOTER PRINCIPAL (Minimalista con Datos de Contacto)
    ========================================================================== */
 .main-footer {
     background: #111; /* Un tono casi negro para elegancia */
     color: #999;
     padding: 60px 10% 30px;
     margin-top: 50px;
-    border-top: 1px solid #333; /* Línea sutil, no roja */
+    border-top: 1px solid #333; /* Línea sutil */
 }
 
-/* Busca .footer-content y reemplázalo por este */
 .footer-content {
     display: grid;
-    /* En escritorio 4 columnas, en móvil se ajusta solo */
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    /* En escritorio se ajusta a 4 columnas por el nuevo contenido */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 40px;
     align-items: start;
 }
 
 @media (max-width: 768px) {
     .main-footer { padding: 40px 5% 20px; }
-    .footer-section { text-align: center; } /* Centrado para mejor lectura en móvil */
-    .icon-group { justify-content: center; }
+    .footer-section { text-align: center; } 
+    .icon-group, .social-links { justify-content: center; display: flex; gap: 15px; }
 }
 
 .footer-section h3 {
@@ -546,60 +545,64 @@ html, body {
     font-weight: 600;
 }
 
-/* Enlaces Minimalistas */
+/* Enlaces y Listas del Footer */
 .footer-links {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .footer-links li {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
 }
 
-.footer-links a {
+/* Ajuste específico para la alineación en móvil */
+@media (max-width: 768px) {
+    .footer-links li {
+        justify-content: center;
+    }
+}
+
+.footer-links a, .footer-links span {
     color: #888;
     text-decoration: none;
     font-size: 14px;
     transition: color 0.3s ease;
+    line-height: 1.4;
 }
 
 .footer-links a:hover {
     color: #fff; /* Cambio a blanco puro en hover */
 }
 
-/* Contenedor de Iconos (Pagos y Redes) */
-.icon-group {
+/* --- ESTILOS DE CONTACTO (Iconos Rojos) --- */
+.footer-links i {
+    color: #e63946; /* Rojo de tu marca */
+    font-size: 14px;
+    width: 20px; /* Ancho fijo para alinear el texto */
+    margin-top: 3px;
+    text-align: center;
+}
+
+/* Redes Sociales */
+.social-links {
     display: flex;
-    flex-wrap: wrap;
     gap: 15px;
-    align-items: center;
 }
 
-/* Estilo para los logos de pago (Webpay, Redcompra, etc.) */
-.payment-icon {
-    height: 30px; /* Tamaño controlado */
-    filter: grayscale(100%); /* Efecto minimalista */
-    opacity: 0.6;
-    transition: all 0.3s ease;
-}
-
-.payment-icon:hover {
-    filter: grayscale(0%); /* Recupera color original */
-    opacity: 1;
-    transform: scale(1.05);
-}
-
-/* Iconos de Redes Sociales */
-.social-icon-min {
+.social-icon {
     color: #888;
-    font-size: 20px;
-    transition: 0.3s;
+    font-size: 18px;
+    transition: all 0.3s ease;
     text-decoration: none;
 }
 
-.social-icon-min:hover {
+.social-icon:hover {
     color: #fff;
-    transform: translateY(-2px);
+    transform: translateY(-3px);
 }
 
 /* Copyright y Pie Final */
@@ -612,25 +615,22 @@ html, body {
     color: #555;
     letter-spacing: 0.5px;
 }
+
 .footer-logo {
     margin-bottom: 20px;
     display: block;
 }
 
 .footer-logo img {
-    height: 50px; /* Un tamaño ligeramente menor al header para balancear */
+    height: 50px;
     width: auto;
     object-fit: contain;
-    /* Si el fondo del footer es oscuro y tu logo es oscuro, 
-       podrías aplicar un filtro para que se vea blanco:
-       filter: brightness(0) invert(1); */
 }
 
-/* Ajuste para el texto que sigue al logo */
 .footer-section p {
     line-height: 1.6;
     font-size: 0.95rem;
-    color: #ccc; /* O el color de texto de tu footer */
+    color: #ccc;
 }
 
 @media (max-width: 480px) {
