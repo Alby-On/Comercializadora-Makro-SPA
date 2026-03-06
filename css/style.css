@@ -1574,3 +1574,60 @@ html, body {
         font-size: 1.2rem;
     }
 }
+/* ==========================================================================
+   BOTÓN DE SANDWICH
+   ========================================================================== */
+.menu-toggle {
+    display: none; /* Oculto en PC */
+    flex-direction: column;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 5px;
+    margin-left: 15px;
+}
+
+.menu-toggle .bar {
+    width: 25px;
+    height: 3px;
+    background-color: white; /* Color acorde a tu marca */
+    margin: 3px 0;
+    transition: 0.4s;
+}
+
+/* --- Media Query para Móviles --- */
+@media screen and (max-width: 768px) {
+    .menu-toggle {
+        display: flex; /* Aparece en móvil */
+    }
+
+    .nav-links {
+        display: none; /* Se oculta la lista horizontal */
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 70px; /* Ajustar según alto de tu nav */
+        left: 0;
+        background-color: #1e293b; /* Tu azul industrial */
+        text-align: center;
+        z-index: 999;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+    }
+
+    .nav-links.active {
+        display: flex; /* Se muestra al hacer click */
+    }
+
+    .nav-links li {
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* Ajuste nav-left para que Categorías y Sandwich queden alineados */
+    .nav-left {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
