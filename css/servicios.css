@@ -1,7 +1,7 @@
 /* --- CONFIGURACIÓN DE PÁGINA --- */
 .servicios-page {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f6;
+    background-color: #f8fafc;
     color: #333;
 }
 
@@ -11,194 +11,222 @@
     padding: 0 20px;
 }
 
-/* --- HERO SECTION (Imagen removida para evitar Error 404) --- */
+/* --- HERO SECTION --- */
 .servicios-hero {
     position: relative;
-    height: 40vh; /* Reducimos un poco la altura al no haber imagen */
-    background-color: #1e293b; /* Azul industrial sólido de respaldo */
+    height: 45vh;
+    background-color: #1e293b;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: white;
+    overflow: hidden;
 }
 
 .hero-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(rgba(30, 41, 59, 0.9), rgba(30, 41, 59, 0.7));
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(30, 41, 59, 0.7) 100%);
 }
 
 .hero-content {
     position: relative;
     z-index: 2;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .badge-alianza {
     background: #e63946;
-    padding: 5px 15px;
+    padding: 6px 18px;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: bold;
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .hero-content h1 {
-    font-size: 3rem;
+    font-size: clamp(2rem, 5vw, 3.5rem);
     margin: 20px 0;
+    line-height: 1.1;
 }
 
 .hero-content h1 span { color: #e63946; }
 
-/* AJUSTE DE LOGOS (Logo Makro +20% y alineación) */
+/* AJUSTE DE LOGOS */
 .hero-logos {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 30px;
-    margin-top: 30px;
+    gap: clamp(15px, 4vw, 30px);
+    margin-top: 35px;
 }
 
-/* Selector ajustado al nombre de clase de tu HTML */
 .logo-hero-grande { 
-    height: 60px !important; /* Aumentado un 20% sobre la base de 50px */
+    height: 65px !important;
     width: auto !important;
-    filter: drop-shadow(0 0 10px rgba(0,0,0,0.3));
+    filter: drop-shadow(0 0 12px rgba(0,0,0,0.4));
+    transition: transform 0.3s ease;
 }
 
-.plus { font-size: 2rem; font-weight: bold; color: #e63946; }
+.logo-hero-grande:hover { transform: scale(1.05); }
+
+.plus { font-size: 2.2rem; font-weight: bold; color: #e63946; }
 
 .inglobal-header {
     text-align: left;
-    border-left: 3px solid #e63946;
-    padding-left: 15px;
+    border-left: 4px solid #e63946;
+    padding-left: 18px;
 }
 
 .inglobal-name {
     display: block;
-    font-size: 1.6rem;
-    font-weight: 800;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 900;
     color: white;
     line-height: 1;
 }
 
 .inglobal-sub {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: #e63946;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    font-weight: 600;
 }
 
-/* --- INTRO --- */
-.intro-alianza {
-    padding: 60px 0;
-    text-align: center;
-    background: white;
-}
+/* --- GRID SERVICIOS (Actualizado a Multi-columna) --- */
+.servicios-grid-section { padding: 80px 0; }
 
-.intro-alianza h2 {
-    color: #1e293b;
-    margin-bottom: 20px;
-}
-
-.intro-alianza p {
-    max-width: 800px;
-    margin: 0 auto;
-    line-height: 1.8;
-    color: #64748b;
-}
-
-/* --- GRID SERVICIOS (Configuración 2x2 Centrada) --- */
-.servicios-grid-section { padding: 60px 0; }
-
-.grid-servicios-2x2 {
+/* El nombre de la clase debe coincidir con tu HTML (usa .grid-servicios-industrial) */
+.grid-servicios-industrial, .grid-servicios-2x2 {
     display: grid;
-    /* Forzamos 2 columnas exactas para ver las 4 tarjetas agrupadas */
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 30px;
-    max-width: 1100px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+    gap: 35px;
     margin: 0 auto;
 }
 
 .servicio-card {
     background: white;
-    padding: 45px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    transition: all 0.3s ease;
-    border-top: 5px solid #e63946; /* Borde industrial superior */
-    text-align: center; /* Contenido centrado */
+    padding: 45px 35px;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid #f1f5f9;
+    position: relative;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
+}
+
+/* Línea decorativa que crece al hacer hover */
+.servicio-card::after {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 50%;
+    width: 0; height: 5px;
+    background: #e63946;
+    transition: all 0.4s ease;
+    transform: translateX(-50%);
 }
 
 .servicio-card:hover { 
-    transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(230, 57, 70, 0.1);
+    transform: translateY(-12px);
+    box-shadow: 0 20px 40px rgba(30, 41, 59, 0.12);
+    border-color: #e63946;
 }
 
+.servicio-card:hover::after { width: 100%; }
+
 .icon-box {
-    width: 70px; height: 70px;
-    background: #f1f5f9;
-    border-radius: 50%;
+    width: 85px; height: 85px;
+    background: #f8fafc;
+    border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
+    transition: all 0.4s ease;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
 }
 
-.icon-box i { font-size: 2rem; color: #e63946; }
+.icon-box i { font-size: 2.5rem; color: #1e293b; transition: 0.3s; }
+
+.servicio-card:hover .icon-box {
+    background: #e63946;
+    transform: rotate(10deg) scale(1.1);
+}
+
+.servicio-card:hover .icon-box i { color: white; }
 
 .servicio-card h3 { 
-    margin-bottom: 15px; 
+    margin-bottom: 20px; 
     color: #1e293b;
     font-weight: 800;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
 }
 
 .servicio-card p {
-    font-size: 1rem;
-    line-height: 1.7;
-    color: #475569;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #64748b;
+    margin: 0;
 }
 
-/* --- CTA --- */
-.cta-servicios { padding-bottom: 80px; }
+/* --- CTA SECTION --- */
+.cta-servicios { padding-bottom: 100px; }
 
 .cta-box {
-    background: #1e293b;
-    padding: 60px;
-    border-radius: 20px;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    padding: 70px 40px;
+    border-radius: 24px;
     text-align: center;
     color: white;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
 }
+
+.cta-box h2 { font-size: 2.2rem; margin-bottom: 15px; }
 
 .btn-industrial {
     display: inline-block;
     background: #e63946;
     color: white;
-    padding: 15px 35px;
-    border-radius: 8px;
+    padding: 18px 45px;
+    border-radius: 12px;
     text-decoration: none;
-    font-weight: bold;
-    margin-top: 30px;
-    transition: 0.3s;
+    font-weight: 800;
+    font-size: 1.1rem;
+    margin-top: 35px;
+    transition: all 0.3s;
+    box-shadow: 0 8px 20px rgba(230, 57, 70, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .btn-industrial:hover { 
-    background: #c52e39; 
-    transform: scale(1.05);
+    background: #f94144; 
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(230, 57, 70, 0.4);
 }
 
-/* --- MOBILE S22 Ultra --- */
-@media (max-width: 850px) {
-    .grid-servicios-2x2 {
-        grid-template-columns: 1fr; /* Una columna para que sea legible en móvil */
-        padding: 0 10px;
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .servicios-hero { height: auto; padding: 100px 0; }
+    .grid-servicios-industrial, .grid-servicios-2x2 {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
-    
+    .servicio-card { padding: 35px 25px; }
     .hero-content h1 { font-size: 2.2rem; }
-    .logo-hero-grande { height: 45px !important; } /* Un poco más pequeño en móvil */
-    .cta-box { padding: 40px 20px; }
+    .logo-hero-grande { height: 50px !important; }
 }
