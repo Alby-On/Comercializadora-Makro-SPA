@@ -17,7 +17,7 @@ html, body {
 .header-top {
     display: flex;
     align-items: center;
-    padding: 15px 5%; /* Un poco más compacto verticalmente */
+    padding: 15px 5%;
     background: white;
     border-bottom: 1px solid #eee;
 }
@@ -110,31 +110,21 @@ html, body {
 /* ==========================================================================
     RESPONSIVO (S22 Ultra y Móviles)
    ========================================================================== */
-@media (max-width: 900px) {
+@media (max-width: 991px) {
     .header-top {
-        flex-direction: column;
-        gap: 15px;
-        padding: 15px;
-    }
-    
-    .logo, .header-top::after {
-        flex: none;
-        width: 100%;
-        justify-content: center;
-    }
-
-    .search-container {
-        width: 100%;
-        flex: none;
-    }
-
-    .search-container input {
+        flex-wrap: wrap; /* Solo rompe filas en móvil */
         padding: 10px 15px;
-        font-size: 14px;
+        gap: 10px;
+    }
+    .logo { flex: 0 1 auto; }
+    .logo img { height: 55px !important; }
+    .search-container button {
+        padding: 8px 15px !important; /* Más compacto para que el input respire */
+        font-size: 12px;
     }
 }
 /* ==========================================================================
-   3. NAVBAR PRINCIPAL (Centrado Total con Separación Interna)
+    3. NAVBAR PRINCIPAL (Adaptada para S22 Ultra y Escritorio)
    ========================================================================== */
 .navbar {
     background: #333;
@@ -147,7 +137,7 @@ html, body {
 
 .nav-container {
     display: flex;
-    justify-content: center; /* Centra todo el contenido del bloque */
+    justify-content: center; /* Centrado para Escritorio */
     align-items: center;
     max-width: 1400px;
     margin: 0 auto;
@@ -158,7 +148,6 @@ html, body {
 .nav-left {
     display: flex;
     align-items: center;
-    /* No usamos flex-grow para que no empuje hacia los lados */
 }
 
 .nav-links {
@@ -168,12 +157,12 @@ html, body {
     gap: 30px; 
     margin: 0;
     padding: 0;
-    margin-left: 80px; /* Mantiene la distancia exacta con el botón Categorías */
+    margin-left: 80px; /* Distancia en Escritorio */
 }
 
 .dropbtn-cat {
     background-color: #f9f9f9; 
-    color: #333;               
+    color: #333;                
     padding: 0 25px;
     font-size: 14px;
     font-weight: bold;
@@ -200,10 +189,10 @@ html, body {
     transition: 0.3s;
     padding: 10px 5px;
     position: relative;
-    white-space: nowrap; /* Evita que los links se rompan en dos líneas */
+    white-space: nowrap;
 }
 
-/* Efecto hover */
+/* Efecto hover links escritorio */
 .nav-links a::after {
     content: '';
     position: absolute;
@@ -215,56 +204,52 @@ html, body {
     transition: width 0.3s;
 }
 
-.nav-links a:hover::after {
-    width: 100%;
-}
-
-.nav-links a:hover {
-    color: white;
-}
+.nav-links a:hover::after { width: 100%; }
+.nav-links a:hover { color: white; }
 
 .nav-right {
-    margin-left: 80px; /* Separación simétrica para el carrito a la derecha */
+    margin-left: 80px; /* Separación en Escritorio */
     display: flex;
     align-items: center;
 }
 
-/* --- AJUSTES MÓVILES (S22 Ultra) --- */
-@media (max-width: 992px) {
-    .nav-links {
-        margin-left: 30px; /* Reducimos espacio en tablets */
-    }
-    .nav-right {
-        margin-left: 30px;
-    }
+/* ==========================================================================
+    AJUSTES UNIFICADOS (Tablet y S22 Ultra)
+   ========================================================================== */
+
+/* Bloque para Tablets (achicamos espacios) */
+@media (max-width: 1200px) and (min-width: 992px) {
+    .nav-links, .nav-right { margin-left: 30px; }
+    .nav-links { gap: 15px; }
 }
 
-@media (max-width: 768px) {
-    .navbar {
-        height: auto;
-        padding: 10px 0;
+/* Bloque para Móviles (S22 Ultra y menores) */
+@media (max-width: 991px) {
+    .navbar { 
+        height: auto; 
+        padding: 8px 0; 
     }
+    
     .nav-container {
-        flex-direction: column;
-        gap: 12px;
+        justify-content: space-between !important; /* Sandwich a la izq, Carro a la der */
+        flex-direction: row !important;
+        padding: 0 15px;
     }
-    .nav-left {
-        flex-direction: column;
-        width: 100%;
-        gap: 10px;
+
+    /* Quitamos los márgenes de escritorio que desbordan la pantalla */
+    .nav-links, .nav-right, .dropbtn-cat {
+        margin-left: 0 !important;
     }
-    .nav-links {
-        margin-left: 0;
-        gap: 15px;
-        justify-content: center;
-        width: 100%;
+
+    /* Ocultamos navegación de escritorio */
+    .nav-links, .dropbtn-cat { 
+        display: none !important; 
     }
-    .nav-right {
-        margin-left: 0;
-    }
-    .dropbtn-cat {
-        width: 90%;
-        justify-content: center;
+    
+    /* Mostramos botón Sandwich pegado a la izquierda */
+    .menu-toggle {
+        display: flex !important;
+        order: -1; 
     }
 }
 /* ==========================================================================
@@ -1480,25 +1465,53 @@ html, body {
    Ajustes para Dispositivos Móviles (S22 Ultra / iPhone)
    ========================================================================== */
 
-@media (max-width: 768px) {
-    .sidebar-filtros {
-        margin-bottom: 20px;
-    }
-
-    .btn-categoria {
-        padding: 16px 15px; /* Área de toque más grande para pulgares */
-        font-size: 1rem;
-    }
-
-    .enlace-sub-anidado {
-        padding: 14px 15px 14px 40px; /* Mayor facilidad de clic en móvil */
-    }
-
-    /* Opcional: Hacer que el sidebar sea un poco más angosto si el catálogo necesita espacio */
-    .tienda-layout {
+/* --- NUEVA NAVEGACIÓN MÓVIL (Solo se activa en pantallas pequeñas) --- */
+@media (max-width: 991px) {
+    .mobile-drawer {
+        position: fixed;
+        top: 0;
+        left: -100%; /* Oculto a la izquierda */
+        width: 80%;
+        max-width: 300px;
+        height: 100vh;
+        background: white;
+        z-index: 9999;
+        transition: 0.4s ease;
         display: flex;
         flex-direction: column;
+        box-shadow: 5px 0 15px rgba(0,0,0,0.3);
     }
+    .mobile-drawer.active { left: 0; }
+
+    .drawer-header {
+        padding: 20px;
+        background: #1e293b;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+    }
+
+    .drawer-body { padding: 15px; overflow-y: auto; }
+    .drawer-nav h4 { color: #d9534f; margin: 15px 0 5px; text-transform: uppercase; font-size: 0.8rem; }
+    .drawer-nav ul { list-style: none; padding: 0; margin-bottom: 20px; }
+    .drawer-nav ul li a {
+        display: block;
+        padding: 12px 0;
+        color: #333;
+        text-decoration: none;
+        font-weight: 600;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .mobile-drawer-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.5);
+        display: none;
+        z-index: 9998;
+    }
+    .mobile-drawer-overlay.active { display: block; }
 }
 /* ==========================================================================
    BOTÓN DEL CARRITO MODERNO
@@ -1573,6 +1586,11 @@ html, body {
     .cart-icon {
         font-size: 1.2rem;
     }
+}
+/* Esto asegura que el carrito del header-top se alinee bien en móvil */
+.mobile-only-header .btn-carrito {
+    margin-left: 0;
+    padding: 8px 12px;
 }
 /* ==========================================================================
    BOTÓN DE SANDWICH
