@@ -249,34 +249,42 @@ window.verDetalle = (id) => {
 
 document.addEventListener('DOMContentLoaded', inicializarCatalogo);
 
-window.addEventListener('DOMContentLoaded', () => {
-    // 1. Obtener el término de búsqueda de la URL
+// 1. Función que realiza el filtrado
+function filtrarProductosPorURL() {
     const urlParams = new URLSearchParams(window.location.search);
     const query = urlParams.get('buscar')?.toLowerCase();
 
     if (query) {
-        // 2. Seleccionar todas tus cards de productos
         const productos = document.querySelectorAll('.product-card-simple');
         let encontrados = 0;
 
         productos.forEach(card => {
-            // Buscamos el nombre dentro de la card
             const nombre = card.querySelector('.product-name-simple').innerText.toLowerCase();
             
+            // Filtramos por nombre o podrías agregar marca aquí también
             if (nombre.includes(query)) {
-                card.style.display = 'flex'; // Mostrar si coincide
+                card.style.display = 'flex';
                 encontrados++;
             } else {
-                card.style.display = 'none'; // Ocultar si no coincide
+                card.style.display = 'none';
             }
         });
 
-        // 3. Feedback visual (Opcional)
+        // Feedback en el título de la página
         const header = document.querySelector('.header-destacados h2');
         if (header) {
             header.innerText = encontrados > 0 
-                ? `Resultados para: "${query}" (${encontrados})` 
-                : `No encontramos resultados para: "${query}"`;
+                ? `Resultados para: "${query}"` 
+                : `No hay resultados para: "${query}"`;
         }
     }
+}
+
+// 2. Ejecución
+window.addEventListener('DOMContentLoaded', () => {
+    // Si tus productos son estáticos (ya están en el HTML), esto basta:
+    filtrarProductosPorURL();
+    
+    // PERO: Si tus productos se cargan desde un JSON/Array, 
+    // debes llamar a filtrarProductosPorURL() al final de esa función de carga.
 });
