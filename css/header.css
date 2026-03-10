@@ -1,31 +1,44 @@
-/* --- Estructura Global --- */
+/* ================================================================
+   HEADER PRINCIPAL - COMERCIALIZADORA MAKRO SPA
+   ================================================================ */
+
+:root {
+    --azul-makro: #1e293b;
+    --rojo-makro: #e63946;
+    --blanco: #ffffff;
+    --gris-texto: #334155;
+    --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    background-color: #ffffff;
+    background-color: var(--blanco);
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    border-top: 3px solid #1e293b; /* Azul Industrial */
+    border-top: 3px solid var(--azul-makro);
 }
 
-/* --- Top Bar Principal --- */
+/* --- TOP BAR (Información y Redes) --- */
 .top-bar {
-    background-color: #1e293b; /* Azul Industrial */
-    color: white;
-    padding: 10px 5%;
+    background-color: var(--azul-makro);
+    color: var(--blanco);
+    padding: 8px 5%;
     font-size: 0.8rem;
-    width: 100%;
     min-height: 40px;
+    display: flex;
+    align-items: center;
 }
 
 .top-bar-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
     max-width: 1400px;
     margin: 0 auto;
 }
@@ -33,19 +46,16 @@ header {
 .top-left {
     display: flex;
     gap: 20px;
-    flex-wrap: wrap;
 }
 
 .top-item {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
 }
 
-/* Reparación de Iconos Top Bar */
 .top-item i {
-    color: #e63946 !important; /* Rojo Makro */
-    display: inline-block;
+    color: var(--rojo-makro) !important; /* Iconos colorizados */
 }
 
 .top-socials {
@@ -56,175 +66,219 @@ header {
 }
 
 .top-socials a {
-    color: white;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+    color: var(--blanco);
+    transition: var(--transition);
 }
 
 .top-socials a:hover {
-    color: #e63946;
+    color: var(--rojo-makro);
     transform: translateY(-2px);
 }
 
-/* --- Navbar (Ordenado) --- */
+/* --- NAVBAR (Distribución Triple) --- */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 5%;
-    background-color: #ffffff;
-    height: 80px; 
+    background-color: var(--blanco);
+    height: 85px;
 }
 
 .logo {
-    flex: 0 0 auto;
+    flex: 1; /* Empuja al centro */
     display: flex;
     align-items: center;
 }
 
 .logo img {
-    height: 55px;
+    height: 60px; /* Ajustado para que no se vea gigante */
     width: auto;
-    display: block;
 }
 
+/* Navegación Centrada */
 .nav-links {
+    flex: 2; /* Mayor peso para el centro */
     display: flex;
+    justify-content: center;
+    align-items: center;
     list-style: none;
+    gap: 30px;
     margin: 0;
     padding: 0;
-    gap: 25px;
 }
 
 .nav-links a {
     text-decoration: none;
-    color: #334155;
+    color: var(--gris-texto);
     font-weight: 600;
-    transition: color 0.3s;
+    font-size: 0.95rem;
+    transition: var(--transition);
 }
 
-.nav-links a:hover {
-    color: #e63946;
+.nav-links a:hover, .dropbtn:hover {
+    color: var(--rojo-makro);
 }
 
-/* --- Dropdown --- */
-.dropdown { position: relative; }
+/* --- DROPDOWN (Centrado y Funcional) --- */
+.dropdown {
+    position: relative;
+}
+
+.dropbtn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
 
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #ffffff;
-    min-width: 220px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
-    z-index: 2000;
     top: 100%;
-    left: 0;
-    border-radius: 4px;
-    border-top: 3px solid #e63946;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--blanco) !important;
+    min-width: 240px;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.15);
+    z-index: 5000;
+    border-radius: 8px;
+    border-top: 4px solid var(--rojo-makro);
     padding: 10px 0;
+    margin-top: 15px;
 }
 
-.dropdown:hover .dropdown-content { display: block; }
+/* Flecha decorativa */
+.dropdown-content::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid var(--rojo-makro);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    animation: slideDown 0.3s ease-out;
+}
+
+.dropdown-content li a {
+    padding: 12px 20px !important;
+    display: block !important;
+    font-weight: 500;
+    color: var(--azul-makro) !important;
+}
 
 .dropdown-content li a:hover {
-    background-color: #f8f9fa;
-    color: #e63946;
-    padding-left: 25px;
+    background-color: #f8fafc;
+    color: var(--rojo-makro) !important;
+    padding-left: 25px !important;
 }
 
-/* --- Acciones --- */
+/* --- ACCIONES (Derecha) --- */
 .nav-actions {
+    flex: 1; /* Empuja al centro */
     display: flex;
+    justify-content: flex-end;
     align-items: center;
     gap: 15px;
 }
 
 .btn-contacto {
-    background-color: #e63946;
-    color: white !important;
-    padding: 10px 22px;
-    border-radius: 5px;
+    background-color: var(--rojo-makro);
+    color: var(--blanco) !important;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 700;
     text-decoration: none;
-    font-weight: 600;
-    transition: 0.3s;
+    transition: var(--transition);
 }
 
 .btn-contacto:hover {
-    background-color: #1e293b;
+    background-color: var(--azul-makro);
 }
 
-/* --- Carrusel de Marcas (REPARADO) --- */
+/* BURGER (Invisible en PC) */
+.burger {
+    display: none;
+    cursor: pointer;
+}
+
+.burger div {
+    width: 25px;
+    height: 3px;
+    background-color: var(--azul-makro);
+    margin: 5px;
+    transition: var(--transition);
+}
+
+/* --- CARRUSEL DE MARCAS (En Color) --- */
 .galeria-infinita {
-    background: #ffffff;
-    border-top: 1px solid #eee; 
-    border-bottom: 3px solid #e63946;
+    background: var(--blanco);
+    border-top: 1px solid #eee;
+    border-bottom: 3px solid var(--rojo-makro);
     height: 85px;
-    width: 100%;
     overflow: hidden;
-    position: relative;
     display: flex;
     align-items: center;
 }
 
 .slider-track {
     display: flex;
-    width: calc(200px * 18); /* Ajustado según cantidad de marcas */
-    animation: scroll-marcas 30s linear infinite;
+    width: calc(200px * 18);
+    animation: scroll-marcas 40s linear infinite;
 }
 
 .slide {
     width: 200px;
-    padding: 0 20px;
     flex-shrink: 0;
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 
 .slide img {
     max-width: 140px;
-    max-height: 50px;
+    max-height: 55px;
     object-fit: contain;
-    filter: grayscale(100%);
-    opacity: 0.6;
-    transition: 0.3s;
+    filter: none !important; /* Colores originales */
 }
 
-.slide img:hover {
-    filter: grayscale(0%);
-    opacity: 1;
-    transform: scale(1.1);
-}
-
+/* --- ANIMACIONES --- */
 @keyframes scroll-marcas {
     0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-200px * 9)); } /* Mitad del track para bucle */
+    100% { transform: translateX(calc(-200px * 9)); }
 }
 
-/* --- Mobile --- */
-.burger div {
-    width: 25px;
-    height: 3px;
-    background-color: #1e293b;
-    margin: 5px;
+@keyframes slideDown {
+    from { opacity: 0; transform: translate(-50%, 15px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
 }
 
+/* --- RESPONSIVE (S22 Ultra & Mobile) --- */
 @media (max-width: 992px) {
+    .hide-mobile { display: none; }
     .burger { display: block; }
+
     .nav-links {
         position: fixed;
         right: 0;
-        top: 120px;
-        height: calc(100vh - 120px);
-        background: white;
-        width: 70%;
+        top: 125px; /* Altura TopBar + Navbar */
+        height: calc(100vh - 125px);
+        background: var(--blanco);
+        width: 75%;
         flex-direction: column;
-        align-items: center;
-        padding-top: 50px;
+        justify-content: flex-start;
+        padding-top: 40px;
         transform: translateX(100%);
-        transition: 0.5s;
-        box-shadow: -4px 0 10px rgba(0,0,0,0.1);
+        transition: 0.5s ease-in-out;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        z-index: 999;
     }
+
     .nav-active { transform: translateX(0); }
+    .nav-links li { width: 100%; text-align: center; }
+    .btn-contacto { display: none; } /* Se oculta en móvil para limpiar el nav */
 }
