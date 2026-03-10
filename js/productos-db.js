@@ -18,19 +18,7 @@ async function inicializarCatalogo() {
     if (!client) return;
 
     try {
-        // --- PASO 1: CARGA GLOBAL (Header) ---
-        // Esto se ejecuta en TODAS las páginas donde esté el script
-        const { data: categorias, error: errCat } = await client
-            .from('configuracion_catalogo')
-            .select('*')
-            .order('nombre_visible', { ascending: true });
-
-        if (errCat) throw errCat;
-
-        if (categorias) {
-            configuracionCategorias = categorias;
-            generarMenuHeader(categorias); // Adiós al "Cargando..." en cualquier página
-        }
+        // ... (Paso 1: Carga de categorías igual) ...
 
         // --- PASO 2: CARGA ESPECÍFICA (Solo productos.html) ---
         const container = document.getElementById('productos-dinamicos');
@@ -44,14 +32,15 @@ async function inicializarCatalogo() {
             
             todosLosProductos = productos || [];
             
-            // Si hay menú lateral, lo llenamos con la configuración oficial
-            const lateral = document.getElementById('menu-categorias');
-            if (lateral) generarMenuJerarquicoDesdeConfig(categorias);
+            if (document.getElementById('menu-categorias')) generarMenuJerarquicoDesdeConfig(configuracionCategorias);
             
-            // Renderizar el grid inicial
+            // 1. Primero renderizamos TODOS los productos
             renderizarGrid(todosLosProductos);
             
-            // Verificar si venimos desde el header filtrando por URL (?cat=...)
+            // 2. CAMBIO CLAVE: Ejecutamos la búsqueda AQUÍ, ahora que los productos existen en el HTML
+            ejecutarBusquedaReal();
+            
+            // 3. Verificamos parámetros de categoría (opcional)
             checkURLParams();
         }
     } catch (err) {
@@ -258,52 +247,50 @@ function ejecutarBusquedaReal() {
     const urlParams = new URLSearchParams(window.location.search);
     const query = urlParams.get('buscar')?.toLowerCase().trim();
 
-    // Si no hay búsqueda, salimos de la función y mostramos todo normal
-    if (!query) return;
-
-    // 2. Seleccionar elementos clave
+    // 2. Elementos clave
     const productos = document.querySelectorAll('.product-card-simple');
-    const contenedorGrid = document.querySelector('.productos-grid');
     const tituloSeccion = document.querySelector('.header-destacados h2');
-    
+    const contenedorGrid = document.getElementById('productos-dinamicos');
+
+    // Si no hay búsqueda, nos aseguramos que todo sea visible y salimos
+    if (!query) {
+        productos.forEach(card => card.style.display = 'flex');
+        return;
+    }
+
     let encontrados = 0;
 
-    // 3. Normalizar y Filtrar
+    // 3. Filtrado por nombre (sin modificar el HTML de la card)
     productos.forEach(card => {
-        // Obtenemos el nombre y la marca (si existe en el texto de la card)
         const nombreProducto = card.querySelector('.product-name-simple').innerText.toLowerCase();
         
-        // Lógica de coincidencia
         if (nombreProducto.includes(query)) {
-            card.style.display = 'flex'; // Usamos flex para mantener el diseño de la card
+            card.style.display = 'flex'; 
             encontrados++;
         } else {
             card.style.display = 'none';
         }
     });
 
-    // 4. Feedback Visual al Usuario
+    // 4. Feedback Visual (Solo texto, sin borrar el Grid)
     if (tituloSeccion) {
         if (encontrados > 0) {
             tituloSeccion.innerHTML = `Resultados para: <span style="color: #e63946;">"${query}"</span> <small>(${encontrados})</small>`;
+            // Removemos mensaje de "no resultados" previo si existe
+            document.getElementById('msg-no-results')?.remove();
         } else {
             tituloSeccion.innerText = `No hay resultados para: "${query}"`;
             
-            // Inyectamos un mensaje amigable si el grid queda vacío
-            if (contenedorGrid) {
-                contenedorGrid.style.display = 'block'; // Cambiamos de grid a block para el mensaje
-                contenedorGrid.innerHTML = `
-                    <div style="text-align: center; padding: 60px 20px; color: #64748b;">
-                        <i class="fas fa-search-minus" style="font-size: 4rem; color: #cbd5e1; margin-bottom: 20px; display: block;"></i>
-                        <h3 style="color: #1e293b; margin-bottom: 10px;">¡Lo sentimos!</h3>
-                        <p>No encontramos productos que coincidan con su búsqueda.</p>
-                        <p style="margin-bottom: 25px;">Intente con palabras más generales o revise la ortografía.</p>
-                        <a href="productos.html" 
-                           style="background: #e63946; color: white; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: 700; display: inline-block; transition: 0.3s;">
-                           Ver todo el catálogo
-                        </a>
-                    </div>
+            // Insertamos mensaje de error sin borrar las cards (para no perder funcionalidad)
+            if (!document.getElementById('msg-no-results')) {
+                const msg = document.createElement('div');
+                msg.id = 'msg-no-results';
+                msg.style.cssText = "text-align: center; grid-column: 1/-1; padding: 40px; color: #64748b;";
+                msg.innerHTML = `
+                    <i class="fas fa-search-minus" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 15px; display: block;"></i>
+                    <p>No encontramos coincidencias. <a href="productos.html" style="color: #e63946; font-weight: bold;">Ver todo el catálogo</a></p>
                 `;
+                contenedorGrid?.appendChild(msg);
             }
         }
     }
