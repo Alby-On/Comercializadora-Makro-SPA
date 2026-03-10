@@ -18,9 +18,25 @@ async function inicializarCatalogo() {
     if (!client) return;
 
     try {
-        // ... (Paso 1: Carga de categorías igual) ...
+        // --- PASO 1: CATEGORÍAS (Para Header y Menú Lateral) ---
+        const { data: categorias, error: errCat } = await client
+            .from('configuracion_catalogo')
+            .select('*')
+            .order('nombre_visible', { ascending: true });
 
-        // --- PASO 2: CARGA ESPECÍFICA (Solo productos.html) ---
+        if (errCat) throw errCat;
+
+        if (categorias) {
+            configuracionCategorias = categorias;
+            generarMenuHeader(categorias); // Esto llena el Header
+            
+            const lateral = document.getElementById('menu-categorias');
+            if (lateral) {
+                generarMenuJerarquicoDesdeConfig(categorias); // Esto llena el Lateral
+            }
+        }
+
+        // --- PASO 2: PRODUCTOS ---
         const container = document.getElementById('productos-dinamicos');
         if (container) {
             const { data: productos, error: errProd } = await client
@@ -32,19 +48,19 @@ async function inicializarCatalogo() {
             
             todosLosProductos = productos || [];
             
-            if (document.getElementById('menu-categorias')) generarMenuJerarquicoDesdeConfig(configuracionCategorias);
-            
-            // 1. Primero renderizamos TODOS los productos
+            // 1. Dibujamos TODOS los productos primero
             renderizarGrid(todosLosProductos);
             
-            // 2. CAMBIO CLAVE: Ejecutamos la búsqueda AQUÍ, ahora que los productos existen en el HTML
-            ejecutarBusquedaReal();
-            
-            // 3. Verificamos parámetros de categoría (opcional)
-            checkURLParams();
+            // 2. REVISAMOS SI HAY BÚSQUEDA (Solo después de renderizar)
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('buscar')) {
+                ejecutarBusquedaReal(); 
+            } else {
+                checkURLParams(); // Si no hay búsqueda, revisamos si hay categoría (?cat=)
+            }
         }
     } catch (err) {
-        console.error("Error en inicialización global:", err);
+        console.error("Error crítico en Makro SPA:", err);
     }
 }
 
@@ -246,53 +262,29 @@ function ejecutarBusquedaReal() {
     const urlParams = new URLSearchParams(window.location.search);
     const query = urlParams.get('buscar')?.toLowerCase().trim();
 
-    // 1. Selectores específicos para no tocar el menú de categorías
+    if (!query) return;
+
+    // Solo buscamos dentro del contenedor de productos
     const contenedorGrid = document.getElementById('productos-dinamicos');
-    if (!contenedorGrid) return; // Si no estamos en productos.html, no hacemos nada
-
-    const productos = contenedorGrid.querySelectorAll('.product-card-simple');
-    const tituloSeccion = document.querySelector('.header-destacados h2');
-
-    // Limpiar mensaje de "no resultados" anterior si existiera
-    document.getElementById('msg-no-results-makro')?.remove();
-
-    // 2. Si NO hay búsqueda en la URL, nos aseguramos que todo sea visible
-    if (!query) {
-        productos.forEach(card => card.style.display = 'flex');
-        return;
-    }
+    const cards = contenedorGrid.querySelectorAll('.product-card-simple');
+    const tituloH2 = document.querySelector('.header-destacados h2');
 
     let encontrados = 0;
 
-    // 3. Filtrado quirúrgico: Solo afecta a las cards de productos
-    productos.forEach(card => {
-        const nombreProducto = card.querySelector('.product-name-simple')?.innerText.toLowerCase() || "";
-        
-        if (nombreProducto.includes(query)) {
-            card.style.display = 'flex'; 
+    cards.forEach(card => {
+        const nombre = card.querySelector('.product-name-simple').innerText.toLowerCase();
+        if (nombre.includes(query)) {
+            card.style.display = 'flex';
             encontrados++;
         } else {
             card.style.display = 'none';
         }
     });
 
-    // 4. Feedback Visual (Sin romper el layout del grid)
-    if (tituloSeccion) {
-        if (encontrados > 0) {
-            tituloSeccion.innerHTML = `Resultados para: <span style="color: #e63946;">"${query}"</span> <small>(${encontrados})</small>`;
-        } else {
-            tituloSeccion.innerText = `No hay resultados para: "${query}"`;
-            
-            // Insertar mensaje de aviso sin borrar nada del DOM
-            const msg = document.createElement('div');
-            msg.id = 'msg-no-results-makro';
-            msg.style.cssText = "text-align: center; grid-column: 1/-1; padding: 40px; color: #64748b; width: 100%;";
-            msg.innerHTML = `
-                <i class="fas fa-search-minus" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 15px; display: block;"></i>
-                <p>No encontramos productos para su búsqueda. <a href="productos.html" style="color: #e63946; font-weight: bold; text-decoration: underline;">Ver todo el catálogo</a></p>
-            `;
-            contenedorGrid.appendChild(msg);
-        }
+    if (tituloH2) {
+        tituloH2.innerHTML = encontrados > 0 
+            ? `Resultados para: <span style="color: #e63946;">"${query}"</span>` 
+            : `No hay resultados para: "${query}"`;
     }
 }
 
