@@ -91,25 +91,24 @@
     align-items: center;
 }
 
-/* Ajuste de alineación para la columna de texto de actividad */
 .text-content {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra el bloque de contenido */
-    text-align: center;   /* Centra los textos */
+    align-items: center; 
+    text-align: center;  
 }
 
 .feature-item {
     display: flex;
-    flex-direction: column; /* Icono sobre el texto */
-    align-items: center;    /* Centrado horizontal */
+    flex-direction: column;
+    align-items: center;   
     gap: 15px;
     margin-bottom: 30px;
     max-width: 500px;
 }
 
 .feature-item i {
-    font-size: 2.2rem; /* Icono más protagonista */
+    font-size: 2.2rem;
     color: #1e293b;
     margin: 0;
 }
@@ -120,7 +119,6 @@
     margin: 0;
 }
 
-/* Caja de destaque industrial centrada */
 .destaque-naranja-simple {
     margin-top: 40px;
     padding: 25px 35px;
@@ -128,12 +126,12 @@
     color: #ffffff;
     border-radius: 15px;
     display: flex;
-    flex-direction: column; /* Apilado vertical para centrar */
+    flex-direction: column;
     align-items: center;
     gap: 15px;
     box-shadow: 0 15px 35px rgba(30, 41, 59, 0.15);
     border-left: none; 
-    border-bottom: 6px solid #e63946; /* Acento inferior para simetría */
+    border-bottom: 6px solid #e63946;
     max-width: 550px;
 }
 
@@ -166,12 +164,13 @@
     color: #e63946;
 }
 
-/* --- MISIÓN Y VISIÓN (CARDS 100% CENTRADAS) --- */
+/* --- MISIÓN Y VISIÓN (CARDS SIMÉTRICAS Y CENTRADAS) --- */
 .mision-vision {
     padding: 100px 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex; /* Cambiado a Flex para igualar alturas */
+    flex-wrap: wrap;
     gap: 40px;
+    justify-content: center;
 }
 
 .card-nosotros-clean {
@@ -180,10 +179,15 @@
     border: 1px solid #f1f5f9;
     border-radius: 20px;
     transition: all 0.4s ease;
+    
+    /* Configuración de Simetría */
+    flex: 1;
+    min-width: 300px;
+    max-width: 540px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Eje central */
-    text-align: center;   /* Texto centrado */
+    align-items: center;
+    text-align: center;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
@@ -195,7 +199,7 @@
 
 .icon-header {
     display: flex;
-    flex-direction: column; /* Icono arriba del título */
+    flex-direction: column;
     align-items: center;
     gap: 15px;
     margin-bottom: 25px;
@@ -203,7 +207,7 @@
 }
 
 .icon-header i {
-    font-size: 3rem; /* Tamaño aumentado para impacto visual */
+    font-size: 3.5rem;
     color: #e63946;
 }
 
@@ -219,6 +223,7 @@
     color: #64748b;
     font-size: 1.1rem;
     margin: 0;
+    flex-grow: 1; /* Esto empuja el contenido para que ambas midan lo mismo */
 }
 
 /* Frase final centrada */
@@ -243,9 +248,18 @@
 @media (max-width: 992px) {
     .nosotros-main { padding-top: 190px; }
     
-    .grid-dos, .mision-vision {
+    .grid-dos {
         grid-template-columns: 1fr;
-        justify-items: center; /* Asegura centrado de las cards en grid móvil */
+    }
+    
+    .mision-vision {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card-nosotros-clean {
+        width: 100%;
+        max-width: 100%;
     }
 
     .nosotros-hero-clean h1 { font-size: 2.8rem; }
