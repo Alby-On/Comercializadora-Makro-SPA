@@ -249,42 +249,69 @@ window.verDetalle = (id) => {
 
 document.addEventListener('DOMContentLoaded', inicializarCatalogo);
 
-// 1. Función que realiza el filtrado
-function filtrarProductosPorURL() {
+/* ================================================================
+   MOTOR DE BÚSQUEDA DINÁMICO - MAKRO SPA
+   ================================================================ */
+
+function ejecutarBusquedaReal() {
+    // 1. Obtener el término de la URL (?buscar=...)
     const urlParams = new URLSearchParams(window.location.search);
-    const query = urlParams.get('buscar')?.toLowerCase();
+    const query = urlParams.get('buscar')?.toLowerCase().trim();
 
-    if (query) {
-        const productos = document.querySelectorAll('.product-card-simple');
-        let encontrados = 0;
+    // Si no hay búsqueda, salimos de la función y mostramos todo normal
+    if (!query) return;
 
-        productos.forEach(card => {
-            const nombre = card.querySelector('.product-name-simple').innerText.toLowerCase();
+    // 2. Seleccionar elementos clave
+    const productos = document.querySelectorAll('.product-card-simple');
+    const contenedorGrid = document.querySelector('.productos-grid');
+    const tituloSeccion = document.querySelector('.header-destacados h2');
+    
+    let encontrados = 0;
+
+    // 3. Normalizar y Filtrar
+    productos.forEach(card => {
+        // Obtenemos el nombre y la marca (si existe en el texto de la card)
+        const nombreProducto = card.querySelector('.product-name-simple').innerText.toLowerCase();
+        
+        // Lógica de coincidencia
+        if (nombreProducto.includes(query)) {
+            card.style.display = 'flex'; // Usamos flex para mantener el diseño de la card
+            encontrados++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    // 4. Feedback Visual al Usuario
+    if (tituloSeccion) {
+        if (encontrados > 0) {
+            tituloSeccion.innerHTML = `Resultados para: <span style="color: #e63946;">"${query}"</span> <small>(${encontrados})</small>`;
+        } else {
+            tituloSeccion.innerText = `No hay resultados para: "${query}"`;
             
-            // Filtramos por nombre o podrías agregar marca aquí también
-            if (nombre.includes(query)) {
-                card.style.display = 'flex';
-                encontrados++;
-            } else {
-                card.style.display = 'none';
+            // Inyectamos un mensaje amigable si el grid queda vacío
+            if (contenedorGrid) {
+                contenedorGrid.style.display = 'block'; // Cambiamos de grid a block para el mensaje
+                contenedorGrid.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: #64748b;">
+                        <i class="fas fa-search-minus" style="font-size: 4rem; color: #cbd5e1; margin-bottom: 20px; display: block;"></i>
+                        <h3 style="color: #1e293b; margin-bottom: 10px;">¡Lo sentimos!</h3>
+                        <p>No encontramos productos que coincidan con su búsqueda.</p>
+                        <p style="margin-bottom: 25px;">Intente con palabras más generales o revise la ortografía.</p>
+                        <a href="productos.html" 
+                           style="background: #e63946; color: white; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: 700; display: inline-block; transition: 0.3s;">
+                           Ver todo el catálogo
+                        </a>
+                    </div>
+                `;
             }
-        });
-
-        // Feedback en el título de la página
-        const header = document.querySelector('.header-destacados h2');
-        if (header) {
-            header.innerText = encontrados > 0 
-                ? `Resultados para: "${query}"` 
-                : `No hay resultados para: "${query}"`;
         }
     }
 }
 
-// 2. Ejecución
+// EJECUCIÓN: Asegúrate de llamarla después de que tus productos se carguen
 window.addEventListener('DOMContentLoaded', () => {
-    // Si tus productos son estáticos (ya están en el HTML), esto basta:
-    filtrarProductosPorURL();
-    
-    // PERO: Si tus productos se cargan desde un JSON/Array, 
-    // debes llamar a filtrarProductosPorURL() al final de esa función de carga.
+    // Si tus productos se cargan por JS, llama esta función AL FINAL de ese proceso de carga.
+    // Si son estáticos, esto funcionará de inmediato:
+    ejecutarBusquedaReal();
 });
