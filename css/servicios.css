@@ -1,193 +1,256 @@
 /* ================================================================
-   SECCIÓN SERVICIOS - ENERGY SPA
+   SECCIÓN SERVICIOS - MAKRO SPA + INGLOBAL LTDA
    ================================================================ */
 
-/* --- CONTENEDOR PRINCIPAL (Ancho controlado) --- */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-left: 20px;
-    padding-right: 20px;
-    width: 100%;
-    box-sizing: border-box;
-    /* Ajuste de espaciado para el header con Top Bar y Marcas */
-    padding-top: 220px; 
+:root {
+    --rojo-makro: #e63946;
+    --azul-industrial: #1e293b;
+    --gris-texto: #64748b;
+    --blanco-puro: #ffffff;
 }
 
-/* --- ENCABEZADO DE SECCIÓN --- */
-.servicios-header {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto 80px;
-}
-
-.servicios-header h1 {
-    font-size: 2.8rem;
-    color: var(--azul-main); /* Cambio a Azul Corporativo */
-    font-weight: 800;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-}
-
-.servicios-header p {
-    font-size: 1.2rem;
-    color: #718096;
-    line-height: 1.6;
-}
-
-.linea-decorativa {
-    width: 70px;
-    height: 5px;
-    background: var(--naranja-accent); /* Color Energy */
-    margin: 25px auto 0;
-    border-radius: 10px;
-}
-
-/* --- GRID DE SERVICIOS (ZIG-ZAG) --- */
-.servicios-grid-main {
-    display: flex;
-    flex-direction: column;
-    gap: 100px; 
-}
-
-.servicio-item {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
-}
-
-/* Clase para invertir el orden */
-.servicio-item.reverse {
-    direction: rtl; 
-}
-
-.servicio-item.reverse .servicio-text {
-    direction: ltr; 
-}
-
-/* --- CAJAS DE ICONO/IMAGEN --- */
-.servicio-img-box {
-    background: #f7fafc;
-    height: 400px;
-    border-radius: 20px;
+/* --- HERO SECTION (Cabecera Profesional) --- */
+.servicios-hero {
+    position: relative;
+    min-height: 500px;
+    background: var(--azul-industrial); /* Puedes añadir una imagen de fondo industrial aquí */
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    border: 1px solid #edf2f7;
-    transition: all 0.4s ease;
-    overflow: hidden;
-    /* Detalle de borde inferior como en Nosotros */
-    border-bottom: 5px solid var(--azul-main); 
+    text-align: center;
+    color: var(--blanco-puro);
+    padding: 180px 20px 80px; /* Ajuste para el header dinámico */
 }
 
-.servicio-img-box i {
-    font-size: 7rem;
-    color: #cbd5e0;
-    transition: all 0.4s ease;
-    z-index: 2;
-}
-
-/* Efecto decorativo de fondo */
-.servicio-img-box::before {
-    content: '';
+.hero-overlay {
     position: absolute;
-    width: 250px;
-    height: 250px;
-    background: var(--naranja-accent);
-    opacity: 0.05;
-    border-radius: 50%;
-    z-index: 1;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(230, 57, 70, 0.1) 100%);
 }
 
-.servicio-item:hover .servicio-img-box {
-    border-color: var(--naranja-accent);
-    background: #ffffff;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
 }
 
-.servicio-item:hover .servicio-img-box i {
-    color: var(--azul-main); 
-    transform: scale(1.1);
-}
-
-/* --- CONTENIDO DE TEXTO --- */
-.servicio-text h2 {
-    font-size: 2.2rem;
-    color: var(--azul-main); /* Cambio a Azul Corporativo */
-    margin-bottom: 20px;
-    font-weight: 700;
-}
-
-.servicio-text p {
-    font-size: 1.1rem;
-    color: #4a5568;
-    line-height: 1.7;
+.badge-alianza {
+    background: var(--rojo-makro);
+    color: var(--blanco-puro);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    display: inline-block;
     margin-bottom: 25px;
 }
 
-/* --- LISTA DE CHECKS --- */
-.check-list {
-    list-style: none;
-    padding: 0;
+.servicios-hero h1 {
+    font-size: 3.2rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
 }
 
-.check-list li {
+.servicios-hero h1 span {
+    color: var(--rojo-makro);
+}
+
+/* --- CONTENEDOR DE LOGOS ALIANZA --- */
+.hero-logos {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 1rem;
-    color: #2d3748;
-    margin-bottom: 12px;
-    font-weight: 500;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+    background: rgba(255,255,255,0.05);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
-.check-list li i {
-    color: var(--naranja-accent); 
-    font-size: 1.2rem;
+.logo-hero-grande {
+    height: 65px;
+    width: auto;
+    filter: brightness(0) invert(1);
+}
+
+.hero-logos .plus {
+    font-size: 2rem;
+    color: var(--rojo-makro);
+    font-weight: 300;
+}
+
+.inglobal-header {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    border-left: 2px solid var(--rojo-makro);
+    padding-left: 20px;
+}
+
+.inglobal-name {
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.inglobal-sub {
+    font-size: 0.8rem;
+    color: #cbd5e1;
+    text-transform: uppercase;
+}
+
+/* --- GRID DE ESPECIALIDADES --- */
+.servicios-grid-section {
+    padding: 100px 20px;
+    background: #f8fafc;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 70px;
+}
+
+.section-title h2 {
+    font-size: 2.5rem;
+    color: var(--azul-industrial);
+    font-weight: 800;
+}
+
+.divider {
+    width: 70px;
+    height: 5px;
+    background: var(--rojo-makro);
+    margin: 20px auto;
+    border-radius: 10px;
+}
+
+.grid-servicios-industrial {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* --- TARJETA DE SERVICIO (Nueva Estructura) --- */
+.servicio-card {
+    background: var(--blanco-puro);
+    padding: 45px 35px;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: left;
+}
+
+.servicio-card:hover {
+    transform: translateY(-12px);
+    border-color: var(--rojo-makro);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+}
+
+.icon-box {
+    width: 65px;
+    height: 65px;
+    background: #f1f5f9;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    transition: 0.3s;
+}
+
+.icon-box i {
+    font-size: 2rem;
+    color: var(--azul-industrial);
+}
+
+.servicio-card:hover .icon-box {
+    background: var(--rojo-makro);
+    transform: rotate(-10deg);
+}
+
+.servicio-card:hover .icon-box i {
+    color: var(--blanco-puro);
+}
+
+.servicio-card h3 {
+    font-size: 1.4rem;
+    color: var(--azul-industrial);
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.servicio-card p {
+    color: var(--gris-texto);
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+/* --- SECCIÓN CTA --- */
+.cta-servicios {
+    padding: 0 20px 100px;
+    background: #f8fafc;
+}
+
+.cta-box {
+    background: var(--azul-industrial);
+    padding: 60px 40px;
+    border-radius: 25px;
+    text-align: center;
+    color: var(--blanco-puro);
+    max-width: 1000px;
+    margin: 0 auto;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.btn-industrial {
+    display: inline-block;
+    margin-top: 30px;
+    background: var(--rojo-makro);
+    color: var(--blanco-puro);
+    padding: 20px 45px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 800;
+    transition: 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-industrial:hover {
+    background: var(--blanco-puro);
+    color: var(--azul-industrial);
+    transform: scale(1.05);
 }
 
 /* ================================================================
-   RESPONSIVE
+   RESPONSIVE (Optimizado para S22 Ultra)
    ================================================================ */
-@media (max-width: 992px) {
-    .container {
-        padding-top: 200px; 
-    }
-
-    .servicio-item, .servicio-item.reverse {
-        grid-template-columns: 1fr;
-        gap: 30px;
-        direction: ltr; 
-    }
-
-    .servicio-img-box {
-        height: 280px;
-    }
-
-    .servicio-text h2 {
-        font-size: 1.8rem;
-        text-align: center;
-    }
-
-    .servicio-text p {
-        text-align: center;
-    }
-
-    .check-list {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding-top: 180px;
-    }
+@media (max-width: 768px) {
+    .servicios-hero h1 { font-size: 2.2rem; }
     
-    .servicios-header h1 {
-        font-size: 1.8rem;
+    .hero-logos {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .inglobal-header {
+        border-left: none;
+        border-top: 2px solid var(--rojo-makro);
+        padding: 15px 0 0 0;
+        text-align: center;
+    }
+
+    .grid-servicios-industrial {
+        grid-template-columns: 1fr;
+    }
+
+    .servicio-card {
+        padding: 35px 25px;
     }
 }
