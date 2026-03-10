@@ -103,19 +103,23 @@
     transition: 0.3s;
 }
 
-/* --- COMPONENTE CARRITO (DISEÑO MAKRO) --- */
+/* ================================================================
+   COMPONENTE CARRITO - MAKRO SPA (REINTEGRADO)
+   ================================================================ */
+
 :root {
     --cart-width: 380px;
     --azul-makro: #1e293b;
     --rojo-makro: #e63946;
 }
 
+/* 1. Botón Flotante del Carrito (Trigger) */
 .cart-trigger {
     position: fixed;
     width: 60px;
     height: 60px;
     right: 40px;
-    bottom: 120px;
+    bottom: 120px; /* Ubicado arriba del botón de WhatsApp */
     background: var(--rojo-makro);
     color: white;
     border-radius: 50%;
@@ -125,30 +129,104 @@
     font-size: 24px;
     cursor: pointer;
     z-index: 2500;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
 }
 
+.cart-trigger:hover {
+    transform: scale(1.1);
+    background: var(--azul-makro);
+}
+
+/* Badge de cantidad sobre el carrito */
 .badge-naranja {
     position: absolute;
-    top: -5px; right: -5px;
+    top: -5px; 
+    right: -5px;
     background: var(--azul-makro);
     color: white;
     font-size: 11px;
-    width: 22px; height: 22px;
+    width: 24px; 
+    height: 24px;
     border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
     border: 2px solid white;
+    font-weight: bold;
 }
 
+/* 2. Overlay y Sidebar del Carrito */
+.cart-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    z-index: 2900;
+    backdrop-filter: blur(4px);
+}
+.cart-overlay.active { display: block; }
+
+.cart-main {
+    position: fixed;
+    top: 0;
+    right: calc(var(--cart-width) * -1); /* Escondido a la derecha */
+    width: var(--cart-width);
+    height: 100vh;
+    background: white;
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+}
+.cart-main.active { right: 0; }
+
+/* Cabecera del Carrito */
 .cart-header-energy {
     background: var(--azul-makro);
     color: white;
-    padding: 20px;
+    padding: 25px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+.header-title { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.close-btn { 
+    background: none; 
+    border: none; 
+    color: white; 
+    font-size: 28px; 
+    cursor: pointer; 
+    transition: 0.3s;
+}
+
+.close-btn:hover { transform: rotate(90deg); color: var(--rojo-makro); }
+
+/* Cuerpo y Productos */
+.cart-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.cart-empty { 
+    text-align: center; 
+    margin-top: 60px; 
+    color: #94a3b8; 
+}
+.cart-empty i { font-size: 3.5rem; margin-bottom: 15px; display: block; }
+
+/* Footer y Botón de WhatsApp */
 .cart-footer-energy {
     padding: 25px;
     background: #f8fafc;
@@ -158,26 +236,47 @@
 .total-row {
     display: flex;
     justify-content: space-between;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: 800;
     color: var(--azul-makro);
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
-.footer-bottom {
-    background: #0f172a; /* Un tono más oscuro para el cierre */
-    text-align: center;
-    padding: 20px;
-    font-size: 0.9rem;
-    color: #94a3b8;
+.btn-whatsapp-confirm {
+    width: 100%;
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
 }
 
-/* --- AJUSTES RESPONSIVOS (S22 ULTRA) --- */
+.btn-whatsapp-confirm:hover {
+    background: #128c7e;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+}
+
+/* --- Ajustes Móviles (S22 Ultra) --- */
 @media (max-width: 768px) {
-    .footer-container { text-align: center; }
-    .footer-section ul li { justify-content: center; }
-    .footer-logo { margin: 0 auto 20px auto; max-width: 150px; }
-    .wsp-float, .cart-trigger { width: 55px; height: 55px; right: 20px; }
-    .cart-trigger { bottom: 90px; }
-    .wsp-float { bottom: 20px; }
+    .cart-main { 
+        width: 100%; /* Ocupa toda la pantalla en móvil */
+        right: -100%; 
+    }
+    .cart-trigger { 
+        width: 55px; 
+        height: 55px; 
+        right: 20px; 
+        bottom: 95px; /* Ajustado para no chocar con WA */
+    }
+    .total-row { font-size: 1.2rem; }
 }
