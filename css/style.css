@@ -1,8 +1,8 @@
-/* Paleta de colores basada en el logo */
+/* Paleta de colores basada en el logo de Makro SPA */
 :root {
-    --azul-main: #4a7ab5;     /* Azul del logo */
-    --naranja-accent: #e67e22; /* Naranja del logo */
-    --gris-oscuro: #58595b;    /* Gris del texto inferior */
+    --azul-main: #1e293b;      /* Azul Industrial Makro */
+    --naranja-accent: #e63946;  /* Rojo Makro (Sustituye al naranja) */
+    --gris-oscuro: #334155;    /* Gris Slate para texto */
     --blanco: #ffffff;
 }
 
@@ -44,7 +44,7 @@
 .swiper-button-next,
 .swiper-button-prev {
     color: #ffffff !important;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(30, 41, 59, 0.4); /* Fondo azul industrial con transparencia */
     width: 50px !important;
     height: 50px !important;
     border-radius: 50%;
@@ -60,7 +60,8 @@
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--rojo-makro); /* Cambio a rojo en hover */
+    background-color: #e63946;
     transform: scale(1.1);
 }
 
@@ -91,12 +92,12 @@
     left: 25%;
     width: 50%;
     height: 4px;
-    background-color: var(--naranja-accent);
+    background-color: var(--naranja-accent); /* Ahora Rojo Makro */
     border-radius: 2px;
 }
 
 /* ================================================================
-   CONFIGURACIÓN DE GRIDS (CATÁLOGO VS INDEX)
+    CONFIGURACIÓN DE GRIDS (CATÁLOGO VS INDEX)
    ================================================================ */
 
 /* 1. GRID ESTÁNDAR (Para productos.html - 4 columnas) */
@@ -109,8 +110,7 @@
     margin: 0 auto;
 }
 
-/* 2. GRID EXCLUSIVO DEL INDEX (6 columnas) 
-   Solo se aplica si el grid está dentro de .destacados-categoria */
+/* 2. GRID EXCLUSIVO DEL INDEX (6 columnas) */
 .destacados-categoria .productos-grid {
     grid-template-columns: repeat(6, 1fr);
     max-width: 1300px; 
@@ -127,14 +127,16 @@
     transition: transform 0.3s ease;
     display: flex;
     flex-direction: column;
+    border: 1px solid #f1f5f9; /* Sutil borde para definir la card */
 }
 
 .product-card-simple:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    border-color: var(--naranja-accent); /* Borde rojo al pasar el mouse */
 }
 
-/* Ajuste de imagen - En el index es un poco más pequeña por las 6 columnas */
+/* Ajuste de imagen */
 .product-img-frame {
     width: 100%;
     height: 200px; 
@@ -143,7 +145,7 @@
 }
 
 .destacados-categoria .product-img-frame {
-    height: 160px; /* Más compacto para el index */
+    height: 160px;
 }
 
 .product-img-frame img {
@@ -198,7 +200,6 @@
 
 /* --- Responsividad --- */
 @media (max-width: 1200px) {
-    /* Ambos grids bajan a 3 columnas en tablets */
     .productos-grid,
     .destacados-categoria .productos-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -209,7 +210,6 @@
     .hero-slider { height: 300px; }
     .hero-container { padding-top: 100px; }
     
-    /* Ambos grids bajan a 2 columnas en celulares */
     .productos-grid,
     .destacados-categoria .productos-grid {
         grid-template-columns: repeat(2, 1fr);
