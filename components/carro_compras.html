@@ -1,0 +1,39 @@
+<div id="cart-container">
+    <div id="cart-icon" class="cart-trigger" onclick="toggleCart()">
+        <i class="fas fa-shopping-basket"></i>
+        <span id="cart-badge" class="badge-naranja">0</span>
+    </div>
+
+    <div id="cart-overlay" class="cart-overlay" onclick="toggleCart()"></div>
+
+    <aside id="cart-sidebar" class="cart-main">
+        <div class="cart-header-energy">
+            <div class="header-title">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Mi Solicitud</span>
+            </div>
+            <button class="close-btn" onclick="toggleCart()">&times;</button>
+        </div>
+
+        <div id="cart-items-list" class="cart-content">
+            <div class="cart-empty">
+                <i class="fas fa-box-open"></i>
+                <p>Tu carrito está vacío</p>
+                <a href="#productos" class="btn-continuar" onclick="toggleCart()">Ver Productos</a>
+            </div>
+        </div>
+
+        <div class="cart-footer-energy">
+    <div class="total-row">
+        <span>Total Estimado</span>
+        <span id="cart-total-val">$0</span>
+    </div>
+    
+    <p class="iva-notice">* Precios sujetos a confirmación de stock</p>
+    
+    <button class="btn-whatsapp-confirm" onclick="enviarPedidoWhatsApp()">
+        <i class="fab fa-whatsapp"></i> Confirmar por WhatsApp
+    </button>
+</div>
+    </aside>
+</div>
