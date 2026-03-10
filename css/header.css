@@ -1,4 +1,4 @@
-/* --- Estructura Global del Encabezado (Actualizado Makro SPA) --- */
+/* --- Estructura Global --- */
 header {
     position: fixed;
     top: 0;
@@ -19,7 +19,7 @@ header {
     padding: 10px 5%;
     font-size: 0.8rem;
     width: 100%;
-    height: 40px; 
+    min-height: 40px;
 }
 
 .top-bar-content {
@@ -42,8 +42,10 @@ header {
     gap: 6px;
 }
 
+/* Reparación de Iconos Top Bar */
 .top-item i {
-    color: #e63946; /* Rojo Makro */
+    color: #e63946 !important; /* Rojo Makro */
+    display: inline-block;
 }
 
 .top-socials {
@@ -61,61 +63,53 @@ header {
 }
 
 .top-socials a:hover {
-    color: #e63946; /* Rojo Makro */
+    color: #e63946;
     transform: translateY(-2px);
 }
 
-/* --- Navbar --- */
+/* --- Navbar (Ordenado) --- */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.8rem 5%;
+    padding: 0 5%;
     background-color: #ffffff;
     height: 80px; 
 }
 
 .logo {
-    flex: 1; 
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
 }
 
 .logo img {
-    height: 50px;
+    height: 55px;
+    width: auto;
     display: block;
 }
 
-/* --- Navegación y Dropdown --- */
 .nav-links {
     display: flex;
     list-style: none;
-    flex: 2; 
-    justify-content: center; 
     margin: 0;
     padding: 0;
-}
-
-.nav-links li {
-    padding: 0 15px;
+    gap: 25px;
 }
 
 .nav-links a {
     text-decoration: none;
-    color: #334155; /* Gris Slate oscuro */
+    color: #334155;
     font-weight: 600;
     transition: color 0.3s;
-    white-space: nowrap;
 }
 
 .nav-links a:hover {
-    color: #e63946; /* Rojo Makro */
+    color: #e63946;
 }
 
-/* Estilos Específicos Dropdown */
-.dropdown { 
-    position: relative; 
-}
+/* --- Dropdown --- */
+.dropdown { position: relative; }
 
 .dropdown-content {
     display: none;
@@ -127,85 +121,110 @@ header {
     top: 100%;
     left: 0;
     border-radius: 4px;
-    border-top: 3px solid #e63946; /* Rojo Makro */
-    list-style: none;
+    border-top: 3px solid #e63946;
     padding: 10px 0;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.3s ease;
 }
 
-.dropdown:hover .dropdown-content { 
-    display: block; 
-    opacity: 1;
-    transform: translateY(0);
-}
+.dropdown:hover .dropdown-content { display: block; }
 
-.dropdown-content li a:hover { 
-    background-color: #f8f9fa; 
-    color: #1e293b; /* Azul Industrial */
+.dropdown-content li a:hover {
+    background-color: #f8f9fa;
+    color: #e63946;
     padding-left: 25px;
 }
 
-.dropbtn i {
-    font-size: 0.7rem;
-    margin-left: 5px;
-    transition: transform 0.3s;
-}
-
-.dropdown:hover .dropbtn i {
-    transform: rotate(180deg);
-}
-
 /* --- Acciones --- */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .btn-contacto {
-    background-color: #e63946; /* Rojo Makro */
+    background-color: #e63946;
     color: white !important;
     padding: 10px 22px;
     border-radius: 5px;
     text-decoration: none;
     font-weight: 600;
-    transition: background 0.3s;
+    transition: 0.3s;
 }
 
 .btn-contacto:hover {
-    background-color: #1e293b; /* Azul Industrial */
+    background-color: #1e293b;
 }
 
-/* --- Carrusel de Marcas --- */
+/* --- Carrusel de Marcas (REPARADO) --- */
 .galeria-infinita {
     background: #ffffff;
     border-top: 1px solid #eee; 
-    border-bottom: 3px solid #e63946; /* Rojo Makro */
+    border-bottom: 3px solid #e63946;
     height: 85px;
     width: 100%;
     overflow: hidden;
     position: relative;
     display: flex;
     align-items: center;
-    flex-shrink: 0;
 }
 
 .slider-track {
     display: flex;
-    width: 4400px; 
-    animation: scroll-marcas 35s linear infinite;
+    width: calc(200px * 18); /* Ajustado según cantidad de marcas */
+    animation: scroll-marcas 30s linear infinite;
 }
 
-/* --- Menú Mobile (Burger) --- */
+.slide {
+    width: 200px;
+    padding: 0 20px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slide img {
+    max-width: 140px;
+    max-height: 50px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: 0.3s;
+}
+
+.slide img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+@keyframes scroll-marcas {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-200px * 9)); } /* Mitad del track para bucle */
+}
+
+/* --- Mobile --- */
 .burger div {
     width: 25px;
     height: 3px;
-    background-color: #1e293b; /* Azul Industrial */
+    background-color: #1e293b;
     margin: 5px;
-    transition: all 0.3s ease;
 }
 
-/* --- Ajustes Responsive --- */
 @media (max-width: 992px) {
+    .burger { display: block; }
     .nav-links {
+        position: fixed;
+        right: 0;
+        top: 120px;
         height: calc(100vh - 120px);
-        top: 120px; 
-        background-color: #ffffff;
+        background: white;
+        width: 70%;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 50px;
+        transform: translateX(100%);
+        transition: 0.5s;
+        box-shadow: -4px 0 10px rgba(0,0,0,0.1);
     }
+    .nav-active { transform: translateX(0); }
 }
