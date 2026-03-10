@@ -243,16 +243,20 @@ document.addEventListener('DOMContentLoaded', inicializarCatalogo);
    ================================================================ */
 
 function ejecutarBusquedaReal() {
-    // 1. Obtener el término de la URL (?buscar=...)
     const urlParams = new URLSearchParams(window.location.search);
     const query = urlParams.get('buscar')?.toLowerCase().trim();
 
-    // 2. Elementos clave
-    const productos = document.querySelectorAll('.product-card-simple');
-    const tituloSeccion = document.querySelector('.header-destacados h2');
+    // 1. Selectores específicos para no tocar el menú de categorías
     const contenedorGrid = document.getElementById('productos-dinamicos');
+    if (!contenedorGrid) return; // Si no estamos en productos.html, no hacemos nada
 
-    // Si no hay búsqueda, nos aseguramos que todo sea visible y salimos
+    const productos = contenedorGrid.querySelectorAll('.product-card-simple');
+    const tituloSeccion = document.querySelector('.header-destacados h2');
+
+    // Limpiar mensaje de "no resultados" anterior si existiera
+    document.getElementById('msg-no-results-makro')?.remove();
+
+    // 2. Si NO hay búsqueda en la URL, nos aseguramos que todo sea visible
     if (!query) {
         productos.forEach(card => card.style.display = 'flex');
         return;
@@ -260,9 +264,9 @@ function ejecutarBusquedaReal() {
 
     let encontrados = 0;
 
-    // 3. Filtrado por nombre (sin modificar el HTML de la card)
+    // 3. Filtrado quirúrgico: Solo afecta a las cards de productos
     productos.forEach(card => {
-        const nombreProducto = card.querySelector('.product-name-simple').innerText.toLowerCase();
+        const nombreProducto = card.querySelector('.product-name-simple')?.innerText.toLowerCase() || "";
         
         if (nombreProducto.includes(query)) {
             card.style.display = 'flex'; 
@@ -272,26 +276,22 @@ function ejecutarBusquedaReal() {
         }
     });
 
-    // 4. Feedback Visual (Solo texto, sin borrar el Grid)
+    // 4. Feedback Visual (Sin romper el layout del grid)
     if (tituloSeccion) {
         if (encontrados > 0) {
             tituloSeccion.innerHTML = `Resultados para: <span style="color: #e63946;">"${query}"</span> <small>(${encontrados})</small>`;
-            // Removemos mensaje de "no resultados" previo si existe
-            document.getElementById('msg-no-results')?.remove();
         } else {
             tituloSeccion.innerText = `No hay resultados para: "${query}"`;
             
-            // Insertamos mensaje de error sin borrar las cards (para no perder funcionalidad)
-            if (!document.getElementById('msg-no-results')) {
-                const msg = document.createElement('div');
-                msg.id = 'msg-no-results';
-                msg.style.cssText = "text-align: center; grid-column: 1/-1; padding: 40px; color: #64748b;";
-                msg.innerHTML = `
-                    <i class="fas fa-search-minus" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 15px; display: block;"></i>
-                    <p>No encontramos coincidencias. <a href="productos.html" style="color: #e63946; font-weight: bold;">Ver todo el catálogo</a></p>
-                `;
-                contenedorGrid?.appendChild(msg);
-            }
+            // Insertar mensaje de aviso sin borrar nada del DOM
+            const msg = document.createElement('div');
+            msg.id = 'msg-no-results-makro';
+            msg.style.cssText = "text-align: center; grid-column: 1/-1; padding: 40px; color: #64748b; width: 100%;";
+            msg.innerHTML = `
+                <i class="fas fa-search-minus" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 15px; display: block;"></i>
+                <p>No encontramos productos para su búsqueda. <a href="productos.html" style="color: #e63946; font-weight: bold; text-decoration: underline;">Ver todo el catálogo</a></p>
+            `;
+            contenedorGrid.appendChild(msg);
         }
     }
 }
