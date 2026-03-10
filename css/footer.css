@@ -1,10 +1,18 @@
-/* --- Estructura Base del Footer --- */
+/* --- Estructura Base del Footer (MAKRO SPA) --- */
 .main-footer {
-    background-color: #333333;
+    background-color: #1e293b; /* Azul Industrial Makro */
     color: #ffffff;
     padding: 60px 0 0 0;
     font-family: 'Segoe UI', sans-serif;
-    border-top: 4px solid #e67e22;
+    border-top: 4px solid #e63946; /* Rojo Makro */
+}
+
+/* AJUSTE DEL LOGO: Para que no se vea gigante */
+.footer-logo {
+    max-width: 180px; 
+    height: auto;
+    margin-bottom: 20px;
+    display: block;
 }
 
 .footer-container {
@@ -17,10 +25,11 @@
 }
 
 .footer-section h3 {
-    color: #e67e22;
+    color: #e63946; /* Rojo Makro */
     margin-bottom: 20px;
     font-size: 1.2rem;
     font-weight: 700;
+    text-transform: uppercase;
 }
 
 .footer-section ul {
@@ -33,20 +42,19 @@
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    color: #ccc;
+    color: #cbd5e1; /* Gris suave para mejor lectura */
     line-height: 1.5;
 }
 
 .footer-section ul li i {
-    color: #e67e22;
+    color: #e63946; /* Iconos en Rojo Makro */
     margin-top: 5px;
     width: 18px;
     text-align: center;
 }
 
-/* --- Ajustes para enlaces de contacto (Tel/Email) --- */
 .footer-section ul li a {
-    color: #ccc;
+    color: #cbd5e1;
     text-decoration: none;
     transition: 0.3s ease;
 }
@@ -56,34 +64,20 @@
     padding-left: 5px;
 }
 
-/* Margen para separar horarios si están en la misma columna */
-.mt-4 {
-    margin-top: 25px;
-}
-
-/* Responsivo para centrar en móviles */
-@media (max-width: 768px) {
-    .footer-container {
-        text-align: center;
-    }
-    .footer-section ul li {
-        justify-content: center;
-    }
-}
-/* --- BOTÓN WHATSAPP FLOTANTE (RECUPERADO) --- */
+/* --- BOTÓN WHATSAPP FLOTANTE --- */
 .wsp-float {
     position: fixed;
     width: 60px;
     height: 60px;
-    right: 40px;  /* Eje compartido */
-    bottom: 40px; /* Posición base */
+    right: 40px;
+    bottom: 40px;
     background-color: #25d366;
     color: #FFF;
     border-radius: 50px;
     text-align: center;
     font-size: 35px;
-    box-shadow: 2px 2px 3px #999;
-    z-index: 2000; /* Por encima de todo */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 2000;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -91,29 +85,14 @@
     transition: transform 0.3s;
 }
 
-/* Efecto de Pulsación (Ondas) */
-.wsp-float::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-color: #25d366;
-    opacity: 0.7;
-    animation: pulse-wsp 2s infinite;
-    z-index: -1;
-}
-
 .wsp-float:hover {
     transform: scale(1.1);
-    color: #FFF;
 }
 
-/* Tooltip (Texto que aparece al lado) - RECUPERADO */
 .wsp-tooltip {
     position: absolute;
     right: 75px;
-    background-color: #333;
+    background-color: #1e293b;
     color: #fff;
     padding: 8px 15px;
     border-radius: 5px;
@@ -124,41 +103,11 @@
     transition: 0.3s;
 }
 
-.wsp-float:hover .wsp-tooltip {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* Animación de la Pulsación */
-@keyframes pulse-wsp {
-    0% {
-        transform: scale(1);
-        opacity: 0.7;
-    }
-    100% {
-        transform: scale(1.6);
-        opacity: 0;
-    }
-}
-
-/* Ajuste para móviles */
-@media (max-width: 768px) {
-    .wsp-float {
-        width: 50px;
-        height: 50px;
-        bottom: 20px;
-        right: 20px;
-        font-size: 30px;
-    }
-    .wsp-tooltip {
-        display: none; /* Ocultar texto en móviles para no tapar pantalla */
-    }
-}
-/* --- COMPONENTE CARRITO (DISEÑO RECUPERADO) --- */
+/* --- COMPONENTE CARRITO (DISEÑO MAKRO) --- */
 :root {
     --cart-width: 380px;
-    --azul-main: #2c3e50;
-    --naranja-accent: #e67e22;
+    --azul-makro: #1e293b;
+    --rojo-makro: #e63946;
 }
 
 .cart-trigger {
@@ -167,7 +116,7 @@
     height: 60px;
     right: 40px;
     bottom: 120px;
-    background: var(--naranja-accent);
+    background: var(--rojo-makro);
     color: white;
     border-radius: 50%;
     display: flex;
@@ -176,13 +125,13 @@
     font-size: 24px;
     cursor: pointer;
     z-index: 2500;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 .badge-naranja {
     position: absolute;
     top: -5px; right: -5px;
-    background: var(--azul-main);
+    background: var(--azul-makro);
     color: white;
     font-size: 11px;
     width: 22px; height: 22px;
@@ -191,34 +140,8 @@
     border: 2px solid white;
 }
 
-/* Sidebar y Estructura Interna */
-.cart-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6);
-    display: none;
-    z-index: 2900;
-    backdrop-filter: blur(3px);
-}
-.cart-overlay.active { display: block; }
-
-.cart-main {
-    position: fixed;
-    top: 0;
-    right: calc(var(--cart-width) * -1);
-    width: var(--cart-width);
-    height: 100vh;
-    background: white;
-    z-index: 3000;
-    display: flex;
-    flex-direction: column;
-    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.cart-main.active { right: 0; }
-
 .cart-header-energy {
-    background: var(--azul-main);
+    background: var(--azul-makro);
     color: white;
     padding: 20px;
     display: flex;
@@ -226,24 +149,10 @@
     align-items: center;
 }
 
-.header-title { display: flex; align-items: center; gap: 12px; font-weight: 700; }
-.close-btn { background: none; border: none; color: white; font-size: 32px; cursor: pointer; }
-
-/* Cuerpo del carrito y scroll */
-.cart-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-}
-
-.cart-empty { text-align: center; margin-top: 50px; color: #cbd5e0; }
-.cart-empty i { font-size: 4rem; display: block; }
-
-/* Footer del carrito */
 .cart-footer-energy {
     padding: 25px;
-    background: #f8f9fa;
-    border-top: 1px solid #eee;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
 }
 
 .total-row {
@@ -251,31 +160,24 @@
     justify-content: space-between;
     font-size: 1.3rem;
     font-weight: 800;
-    color: var(--azul-main);
+    color: var(--azul-makro);
     margin-bottom: 10px;
 }
 
-.btn-whatsapp-confirm {
-    width: 100%;
-    background: #25D366;
-    color: white;
-    border: none;
-    padding: 16px;
-    border-radius: 8px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    cursor: pointer;
+.footer-bottom {
+    background: #0f172a; /* Un tono más oscuro para el cierre */
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+    color: #94a3b8;
 }
 
-/* --- Ajustes Responsivos --- */
+/* --- AJUSTES RESPONSIVOS (S22 ULTRA) --- */
 @media (max-width: 768px) {
-    .cart-main { width: 100%; right: -100%; }
-    .wsp-float, .cart-trigger { width: 55px; height: 55px; right: 20px; }
-    .wsp-float { bottom: 20px; }
-    .cart-trigger { bottom: 90px; }
     .footer-container { text-align: center; }
     .footer-section ul li { justify-content: center; }
+    .footer-logo { margin: 0 auto 20px auto; max-width: 150px; }
+    .wsp-float, .cart-trigger { width: 55px; height: 55px; right: 20px; }
+    .cart-trigger { bottom: 90px; }
+    .wsp-float { bottom: 20px; }
 }
