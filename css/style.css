@@ -14,32 +14,33 @@
 }
 
 /* --- Hero Section - Makro SPA (Optimizado) --- */
+/* --- Hero Section - Makro SPA (Ajuste Panorámico) --- */
 .hero-container {
-    max-width: 1400px; /* Un poco más amplio para impacto visual */
+    max-width: 1300px; /* Reducido un poco para que no sea tan invasivo */
     margin: 0 auto;
-    /* Ajuste de padding-top según la altura real de tu header (Top Bar + Nav + Marcas) */
-    padding-top: 235px; 
+    padding-top: 235px; /* Mantenemos espacio para el header actual */
     padding-left: 15px;
     padding-right: 15px;
 }
 
 .hero-slider {
     width: 100%;
-    /* Reemplazamos height fijo por aspect-ratio para que sea dinámico */
-    aspect-ratio: 16 / 7; 
-    min-height: 350px; /* Altura mínima para que no se vea muy delgado en móviles */
-    max-height: 650px; /* Altura máxima para no ocupar toda la pantalla en monitores 4K */
+    /* 21/9 es la clave para que sea "chato" y horizontal */
+    aspect-ratio: 21 / 9; 
+    
+    /* Evitamos que crezca demasiado hacia arriba en pantallas grandes */
+    max-height: 420px; 
+    min-height: 280px; /* Altura mínima de seguridad */
+    
     border-radius: 12px;
     overflow: hidden;
     position: relative; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
 }
 
 .swiper-slide {
-    /* Mantenemos estas propiedades pero aseguramos el ajuste */
-    background-size: 100% 100%; /* Si tus diseños son banners exactos */
-    /* O puedes usar 'contain' si no quieres que se pierda nada de los bordes: */
-    /* background-size: contain; */ 
+    /* 'cover' es mejor aquí para que la imagen siempre llene el recuadro horizontal */
+    background-size: cover; 
     background-position: center center;
     background-repeat: no-repeat;
     display: flex;
@@ -47,22 +48,16 @@
     justify-content: center;
 }
 
-/* --- Flechas del Hero (Reparadas y Estilizadas) --- */
+/* --- Flechas del Hero (Ajustadas al nuevo alto) --- */
 .swiper-button-next,
 .swiper-button-prev {
     color: #ffffff !important;
-    background: rgba(30, 41, 59, 0.6) !important; /* Azul Makro más sólido para visibilidad */
-    width: 45px !important;
-    height: 45px !important;
+    background: rgba(30, 41, 59, 0.5) !important;
+    width: 40px !important; /* Un poco más discretas */
+    height: 40px !important;
     border-radius: 50%;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.3s ease;
     z-index: 10;
-}
-
-.swiper-button-next:after,
-.swiper-button-prev:after {
-    font-size: 18px !important;
-    font-weight: 900;
 }
 
 .swiper-button-next:hover,
@@ -71,22 +66,22 @@
     transform: scale(1.1);
 }
 
-/* --- Ajuste Especial para S22 Ultra y Móviles --- */
+/* --- Ajuste para S22 Ultra (Móvil) --- */
 @media (max-width: 768px) {
     .hero-container {
-        padding-top: 185px; /* Menos espacio en móvil */
+        padding-top: 195px; /* Ajuste para que no quede tanto aire arriba en móvil */
     }
     
     .hero-slider {
-        /* Proporción más "cuadrada" para móviles para que el texto sea legible */
-        aspect-ratio: 4 / 3; 
-        min-height: 300px;
+        /* En móvil no puede ser tan delgado, volvemos a una forma más visible */
+        aspect-ratio: 16 / 10; 
+        max-height: 280px;
     }
 
     .swiper-button-next,
     .swiper-button-prev {
-        width: 35px !important;
-        height: 35px !important;
+        width: 32px !important;
+        height: 32px !important;
     }
 }
 /* --- Centrado Header Destacados --- */
