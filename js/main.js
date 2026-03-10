@@ -55,3 +55,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. Carga de productos de Materiales Eléctricos
     cargarProductosDestacados('materiales_electricos', 'productos-materiales_electricos-grid'); 
 });
+
+document.getElementById('search-form-header').addEventListener('submit', function(e) {
+    e.preventDefault(); // Evita que la página se recargue
+    
+    const searchTerm = document.getElementById('search-input').value.trim();
+    
+    if (searchTerm.length > 2) {
+        // Redirige a productos.html pasando el término en la URL (Query String)
+        window.location.href = `productos.html?buscar=${encodeURIComponent(searchTerm)}`;
+    }
+});
