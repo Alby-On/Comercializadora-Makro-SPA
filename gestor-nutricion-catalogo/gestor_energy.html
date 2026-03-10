@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <script>
+        (function verificarAcceso() {
+            // Si no existe la marca de auth, redirigir de inmediato
+            if (localStorage.getItem("gestor_auth") !== "true") {
+                window.location.replace("login.html"); 
+                // Usamos .replace para que el usuario no pueda volver atrás con el botón del navegador
+            }
+        })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor Energy SPA</title>
+    <link rel="stylesheet" href="gestor_energy.css">
+</head>
+    
+<body>
+
+<nav class="navbar">
+    <div class="nav-header">
+        <h1>Gestor de Productos Energy Comercial</h1>
+    </div>
+    <div class="nav-actions">
+        <button class="nav-btn active" onclick="showView('add-view', this)">✚ Agregar producto</button>
+        <button class="nav-btn" onclick="showView('list-view', this)">📋 Listar e Inventario</button>
+        <button class="nav-btn" onclick="showView('settings-view', this)">⚙ Categorías</button>
+    </div>
+</nav>
+
+<div class="content">
+    <div id="add-view" class="view active">
+        <div class="card">
+            <h2>Detalles del Nuevo Equipo</h2>
+            <form id="add-form">
+                <div class="form-group">
+                    <label>Título del Producto</label>
+                    <input type="text" id="nombre" placeholder="Nombre completo del equipo" required>
+                </div>
+
+                <div class="grid">
+                    <div class="form-group">
+                        <label>Código SKU / Referencia</label>
+                            <input type="text" id="sku" placeholder="Ej: PANEL-450W-001">
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select id="cat" required onchange="cargarSubcategorias()">
+                            <option value="">Seleccione Categoría</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sub-Categoría</label>
+                        <select id="subcat" required disabled>
+                            <option value="">Primero elija categoría</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Stock</label>
+                        <input type="number" id="stock" value="0">
+                    </div>
+                    <div class="form-group">
+                    <label>Precio (CLP)</label>
+                    <input type="number" id="precio" placeholder="Ej: 15990" min="0">
+                    </div>
+                    <div class="form-group full">
+    <label>Fotografías del Equipo (WebP optimizado)</label>
+    <div class="grid-photos">
+        <div class="photo-upload">
+            <input type="file" id="foto1" accept="image/jpeg, image/png" onchange="previewAndProcess(this, 'p1')">
+            <div class="preview-container">
+                <img id="p1" class="thumb-preview" src="" style="display:none">
+            </div>
+            <small>Foto 1 (Principal)</small>
+        </div>
+        <div class="photo-upload">
+            <input type="file" id="foto2" accept="image/jpeg, image/png" onchange="previewAndProcess(this, 'p2')">
+            <div class="preview-container">
+                <img id="p2" class="thumb-preview" src="" style="display:none">
+            </div>
+            <small>Foto 2</small>
+        </div>
+        <div class="photo-upload">
+            <input type="file" id="foto3" accept="image/jpeg, image/png" onchange="previewAndProcess(this, 'p3')">
+            <div class="preview-container">
+                <img id="p3" class="thumb-preview" src="" style="display:none">
+            </div>
+            <small>Foto 3</small>
+        </div>
+    </div>
+</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Descripción Técnica</label>
+                    <textarea id="desc" placeholder="Especificaciones, dimensiones, etc."></textarea>
+                </div>
+
+                <button type="submit" class="btn-main">Inyectar Producto</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="list-view" class="view">
+        <div class="card">
+            <div class="list-header">
+                <h2>Inventario en Tiempo Real</h2>
+                <div class="search-box">
+                    <input type="text" id="search" placeholder="🔍 Buscar por nombre o categoría..." onkeyup="filterTable()">
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Foto</th>
+                            <th>SKU</th>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Stock</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventory-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="edit-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Editar Producto</h3>
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+        </div>
+        
+        <form id="edit-form">
+            <div class="form-group">
+                <label for="edit-sku">Código SKU</label>
+                <input type="text" id="edit-sku" placeholder="Código único">
+            </div>
+            <div class="form-group">
+                <label for="edit-nombre">Título del Equipo</label>
+                <input type="text" id="edit-nombre">
+            </div>
+
+            <div class="grid">
+                <div class="form-group">
+                    <label for="edit-cat">Categoría</label>
+                    <select id="edit-cat" onchange="cargarSubcategoriasEdicion()">
+                        <option value="">Seleccione Categoría</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-subcat">Sub-Categoría</label>
+                    <select id="edit-subcat">
+                        <option value="">Seleccione Sub-Categoría</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-stock">Stock Actual</label>
+                    <input type="number" id="edit-stock" min="0">
+                </div>
+            </div>
+            <div class="form-group">
+    <label for="edit-precio">Precio (CLP)</label>
+    <input type="number" id="edit-precio" min="0">
+</div>
+            <div class="form-group" style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
+    <input type="checkbox" id="edit-destacado" style="width: 18px; height: 18px; cursor: pointer;">
+    <label for="edit-destacado" style="font-weight: 700; color: #4a7ab5; cursor: pointer; margin: 0; font-size: 0.9rem;">
+        ⭐ Mostrar en la página de inicio (Destacado)
+    </label>
+</div>
+            <div class="form-group full">
+                <label>Fotografías (Vista Previa)</label>
+                <div class="grid-photos">
+                    <div class="photo-upload">
+                        <input type="file" id="edit-foto1" accept="image/*" onchange="previewEdit(this, 'pre-edit-1')">
+                        <div class="preview-container">
+                            <img id="pre-edit-1" src="" class="edit-thumb" style="display:none">
+                        </div>
+                    </div>
+                    <div class="photo-upload">
+                        <input type="file" id="edit-foto2" accept="image/*" onchange="previewEdit(this, 'pre-edit-2')">
+                        <div class="preview-container">
+                            <img id="pre-edit-2" src="" class="edit-thumb" style="display:none">
+                        </div>
+                    </div>
+                    <div class="photo-upload">
+                        <input type="file" id="edit-foto3" accept="image/*" onchange="previewEdit(this, 'pre-edit-3')">
+                        <div class="preview-container">
+                            <img id="pre-edit-3" src="" class="edit-thumb" style="display:none">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="edit-desc">Descripción Técnica</label>
+                <textarea id="edit-desc" rows="4"></textarea>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn-main" onclick="saveEdit()">Actualizar Datos</button>
+                <button type="button" class="btn-secondary" onclick="closeModal()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="settings-view" class="view">
+    <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+            <h2>⚙ Gestión de Catálogo y Categorías</h2>
+            <button class="btn-main" style="width:auto; padding:10px 25px;" onclick="openCreateCategoryModal()">
+                ✚ Nueva Categoría
+            </button>
+        </div>
+        <p><small>Haz clic en <b>Editar</b> para gestionar el catálogo en <b>Supabase</b>.</small></p>
+        
+        <div id="categories-list-container" style="margin-top: 20px;">
+            <p style="text-align:center; padding:40px; color:#64748b;">Cargando catálogo dinámico...</p>
+        </div>
+    </div>
+</div>
+<div id="category-modal" class="modal">
+    <div class="modal-content" style="max-width: 650px; border-radius: 15px;">
+        <div class="modal-header">
+            <h3 id="modal-category-title">🛠️ Editor de Catálogo</h3>
+            <span class="close-modal" onclick="closeCategoryModal()">&times;</span>
+        </div>
+        
+        <form id="category-form" style="margin-top: 15px;" onsubmit="event.preventDefault();">
+            <input type="hidden" id="modal-editing-key">
+
+            <div class="form-group">
+                <label style="font-weight: 700; color: var(--dark);">Nombre de la Categoría Principal</label>
+                <input type="text" id="modal-input-cat-name" placeholder="Ej: Energía Solar" required 
+                       style="border: 2px solid var(--border); border-radius: 8px; width: 100%; padding: 12px; font-size: 1rem;">
+            </div>
+
+            <div class="form-group" style="margin-top: 25px;">
+                <label style="font-weight: 700; color: var(--dark);">Gestión de Subcategorías</label>
+                <div style="display:flex; gap:10px; margin-bottom:15px;">
+                    <input type="text" id="modal-input-sub-name" 
+                           placeholder="Escriba subcategoría..." 
+                           style="flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 10px;"
+                           onkeypress="if(event.key === 'Enter') { addSubToModalList(); event.preventDefault(); }">
+                    <button type="button" class="btn-main" style="width:auto; padding:0 20px; height: 46px;" 
+                            onclick="addSubToModalList()">✚ Añadir</button>
+                </div>
+                
+                <div id="modal-sub-list" 
+                     style="background: #f8fafc; padding: 18px; border-radius: 12px; min-height: 110px; 
+                            display: flex; flex-wrap: wrap; gap: 10px; border: 2px dashed #cbd5e1;">
+                    </div>
+                
+                <small id="sub-min-warning" style="color: #e11d48; display: none; font-weight: 700; margin-top: 10px;">
+                    ⚠️ Atención: Debes incluir al menos una subcategoría para guardar.
+                </small>
+            </div>
+
+            <div class="modal-footer" style="margin-top: 35px; padding-top: 20px; border-top: 1px solid #eef2f6; display: flex; justify-content: flex-end; gap: 12px;">
+                <button type="button" class="btn-secondary" style="padding: 10px 20px;" onclick="closeCategoryModal()">Cancelar</button>
+                <button type="button" class="btn-main" id="btn-process-cat" onclick="processCategorySave()" 
+                        style="background: #059669; border: none; width: auto; padding: 10px 30px; font-weight: 600;">
+                    ✅ Guardar en Base de Datos
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+<script src="supabase-client.js"></script> 
+<script src="inyeccion-supabase.js"></script>
+<script src="lista-inventario.js"></script>
+<script src="gestor-categorias.js"></script>  
+
+</body>
+</html>

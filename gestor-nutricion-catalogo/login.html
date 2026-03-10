@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Gestor | Energy Comercial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg-body: #f3f4f6;
+            --text-dark: #1f2937;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #login-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        #login-container h2 {
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+            font-size: 1.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+            text-align: left;
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 12px;
+            top: 38px;
+            color: #9ca3af;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #4b5563;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 12px 12px 35px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        #error-msg {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            background: #fee2e2;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #fecaca;
+        }
+
+        .footer-brand {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-container">
+        <h2>🔐 Acceso Gestor</h2>
+        
+        <div class="input-group">
+            <label for="user">Usuario</label>
+            <i class="fas fa-user"></i>
+            <input type="text" id="user" placeholder="Tu usuario">
+        </div>
+
+        <div class="input-group">
+            <label for="pass">Contraseña</label>
+            <i class="fas fa-lock"></i>
+            <input type="password" id="pass" placeholder="••••••••">
+        </div>
+
+        <button onclick="intentarLogin()" id="btn-login">Ingresar al Gestor</button>
+        
+        <p id="error-msg" style="color:#b91c1c; display:none;">
+            <i class="fas fa-exclamation-circle"></i> Datos incorrectos, intenta de nuevo.
+        </p>
+
+        <div class="footer-brand">
+            &copy; 2026 Energy Comercial
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    
+    <script>
+        async function intentarLogin() {
+            const u = document.getElementById("user").value;
+            const p = document.getElementById("pass").value;
+            const btn = document.getElementById("btn-login");
+            const errorMsg = document.getElementById("error-msg");
+
+            if(!u || !p) {
+                alert("Por favor, completa todos los campos.");
+                return;
+            }
+
+            // Estado de carga
+            btn.innerText = "Verificando...";
+            btn.disabled = true;
+            errorMsg.style.display = "none";
+
+            try {
+                const client = window._supabase || _supabase;
+
+                // Consulta a la tabla usuarios_gestion
+                const { data, error } = await client
+                    .from('usuarios_gestion')
+                    .select('*')
+                    .eq('usuario', u)
+                    .eq('password', p)
+                    .single();
+
+                if (error || !data) {
+                    throw new Error("Credenciales inválidas");
+                }
+
+                // Si llegamos aquí, los datos son correctos
+                console.log("✅ Acceso concedido");
+                
+                // Guardar sesión (puedes usar un token o simplemente el ID)
+                localStorage.setItem("gestor_auth", "true");
+                localStorage.setItem("gestor_user", data.nombre);
+                
+                // Redirigir al gestor principal
+                window.location.href = "gestor_energy.html";
+
+            } catch (err) {
+                console.error("Error de login:", err.message);
+                errorMsg.style.display = "block";
+                btn.innerText = "Ingresar al Gestor";
+                btn.disabled = false;
+            }
+        }
+
+        // Permitir ingresar presionando Enter
+        document.addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') intentarLogin();
+        });
+    </script>
+</body>
+</html>
