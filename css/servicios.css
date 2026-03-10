@@ -7,25 +7,28 @@
     --azul-industrial: #1e293b;
     --gris-texto: #64748b;
     --blanco-puro: #ffffff;
+    --fondo-light: #f8fafc;
 }
 
-/* --- HERO SECTION (Cabecera Profesional) --- */
+/* --- HERO SECTION (Cabecera de Alianza) --- */
 .servicios-hero {
     position: relative;
     min-height: 500px;
-    background: var(--azul-industrial); /* Puedes añadir una imagen de fondo industrial aquí */
+    background: var(--azul-industrial);
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: var(--blanco-puro);
-    padding: 180px 20px 80px; /* Ajuste para el header dinámico */
+    padding: 220px 20px 80px; /* Padding-top ajustado para tu header */
+    overflow: hidden;
 }
 
 .hero-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
     background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(230, 57, 70, 0.1) 100%);
+    z-index: 1;
 }
 
 .hero-content {
@@ -58,7 +61,7 @@
     color: var(--rojo-makro);
 }
 
-/* --- CONTENEDOR DE LOGOS ALIANZA --- */
+/* --- LOGOS DE LA ALIANZA --- */
 .hero-logos {
     display: flex;
     align-items: center;
@@ -106,7 +109,7 @@
 /* --- GRID DE ESPECIALIDADES --- */
 .servicios-grid-section {
     padding: 100px 20px;
-    background: #f8fafc;
+    background: var(--fondo-light);
 }
 
 .section-title {
@@ -118,13 +121,14 @@
     font-size: 2.5rem;
     color: var(--azul-industrial);
     font-weight: 800;
+    margin-bottom: 15px;
 }
 
 .divider {
     width: 70px;
     height: 5px;
     background: var(--rojo-makro);
-    margin: 20px auto;
+    margin: 0 auto;
     border-radius: 10px;
 }
 
@@ -136,14 +140,19 @@
     margin: 0 auto;
 }
 
-/* --- TARJETA DE SERVICIO (Nueva Estructura) --- */
+/* --- TARJETA DE SERVICIO (CENTRADA) --- */
 .servicio-card {
     background: var(--blanco-puro);
     padding: 45px 35px;
     border-radius: 20px;
     border: 1px solid #e2e8f0;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    text-align: left;
+    
+    /* CENTRADO TOTAL */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .servicio-card:hover {
@@ -171,7 +180,7 @@
 
 .servicio-card:hover .icon-box {
     background: var(--rojo-makro);
-    transform: rotate(-10deg);
+    transform: rotate(-10deg) scale(1.1);
 }
 
 .servicio-card:hover .icon-box i {
@@ -189,12 +198,13 @@
     color: var(--gris-texto);
     line-height: 1.7;
     font-size: 0.95rem;
+    max-width: 90%;
 }
 
 /* --- SECCIÓN CTA --- */
 .cta-servicios {
-    padding: 0 20px 100px;
-    background: #f8fafc;
+    padding-bottom: 100px;
+    background: var(--fondo-light);
 }
 
 .cta-box {
@@ -229,14 +239,20 @@
 }
 
 /* ================================================================
-   RESPONSIVE (Optimizado para S22 Ultra)
+   RESPONSIVE (Optimizado S22 Ultra)
    ================================================================ */
 @media (max-width: 768px) {
-    .servicios-hero h1 { font-size: 2.2rem; }
+    .servicios-hero {
+        padding-top: 180px;
+    }
+
+    .servicios-hero h1 { 
+        font-size: 2.2rem; 
+    }
     
     .hero-logos {
         flex-direction: column;
-        padding: 20px;
+        gap: 20px;
     }
 
     .inglobal-header {
