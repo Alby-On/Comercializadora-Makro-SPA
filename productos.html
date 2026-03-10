@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos | Energy Comercializadora</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/productos.css">
+
+    <link rel="icon" type="image/png" href="images/favicons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="images/favicons/favicon.svg" />
+    <link rel="shortcut icon" href="images/favicons/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Energy Comercializadora" />
+    <link rel="manifest" href="images/favicons/site.webmanifest" />
+    
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <main class="container-full" style="padding-top: 235px; padding-bottom: 80px;">
+    
+    <section class="productos-header">
+        <h1>Nuestro Catálogo</h1>
+        <p>Suministros eléctricos cargados en tiempo real.</p>
+        <div class="linea-decorativa"></div>
+    </section>
+
+    <div class="productos-layout">
+        
+        <aside class="productos-sidebar">
+        <div class="filter-group">
+        <h3>Categorías</h3>
+        <ul id="menu-categorias" class="filter-list">
+            </ul>
+        </div>
+        </aside>
+
+        <div class="productos-content">
+            <div id="productos-dinamicos" class="productos-grid">
+                <div class="loading-state">
+                    <p>Cargando productos de Energy SPA...</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+    <div id="footer-placeholder"></div>
+
+    <div id="cart-placeholder"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="js/supabase.js"></script> 
+
+    <script src="js/productos-db.js"></script>
+
+    <script src="js/components.js"></script>
+    
+    <script src="js/carro_compras.js"></script>
+</body>
+</html>

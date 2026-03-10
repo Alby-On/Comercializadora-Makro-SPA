@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Comercializadora</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/productos.css">
+
+    <link rel="icon" type="image/png" href="images/favicons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="images/favicons/favicon.svg" />
+    <link rel="shortcut icon" href="images/favicons/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Energy Comercializadora" />
+    <link rel="manifest" href="images/favicons/site.webmanifest" />
+    
+</head>
+<body>
+
+    <div id="header-placeholder"></div>
+    <section id="inicio" class="hero-container" style="padding-top: 235px;">
+    <div class="swiper hero-slider">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" style="background-image: url('images/banners/banner1.webp');"></div>
+            <div class="swiper-slide" style="background-image: url('images/banners/banner2.webp');"></div>
+            <div class="swiper-slide" style="background-image: url('images/banners/banner3.webp');"></div>
+            <div class="swiper-slide" style="background-image: url('images/banners/banner5.webp');"></div>
+        </div>
+
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+    </section>
+
+    <section class="destacados-categoria py-5">
+    <div class="container-energy">
+        <div class="header-destacados">
+            <h2>Iluminación</h2>
+            <p>Las mejores soluciones para tus proyectos en Chillán</p>
+        </div>
+        
+        <div id="productos-iluminacion-grid" class="productos-grid">
+            <div class="loading-spinner">Cargando productos de iluminación...</div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="productos.html?cat=iluminacion" class="btn-ver-mas">Ver todo iluminación</a>
+        </div>
+    </div>
+</section>
+
+<section class="destacados-categoria py-5" style="background-color: #f8f9fa"> 
+    <div class="container-energy">
+        <div class="header-destacados">
+            <h2>Herramientas</h2>
+            <p>Calidad garantizada en todas nuestras herramientas</p>
+        </div>
+        
+        <div id="productos-herramientas-grid" class="productos-grid">
+            <div class="loading-spinner">Cargando herramientas...</div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="productos.html?cat=herramientas" class="btn-ver-mas">Ver todas las herramientas</a>
+        </div>
+    </div>
+</section>
+
+<section class="destacados-categoria py-5"> 
+    <div class="container-energy">
+        <div class="header-destacados">
+            <h2>Materiales Eléctricos</h2>
+            <p>Calidad garantizada para instalaciones seguras</p>
+        </div>
+        
+        <div id="productos-materiales_electricos-grid" class="productos-grid">
+            <div class="loading-spinner">Cargando materiales...</div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="productos.html?cat=materiales_electricos" class="btn-ver-mas">Ver todos los materiales</a>
+        </div>
+    </div>
+</section>
+    
+    <div id="footer-placeholder"></div>
+    <div id="cart-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script src="js/supabase.js"></script> 
+    <script src="js/productos-db.js"></script>
+    
+    <script src="js/components.js"></script>
+    <script src="js/carro_compras.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+    // Se ejecuta solo cuando todo lo anterior (librería + html) está listo
+    window.onload = function() {
+        const swiper = new Swiper('.hero-slider', {
+            loop: true,
+            effect: 'fade',
+            speed: 1000,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+        console.log("Swiper inicializado correctamente");
+    };
+    </script>
+    </body>
+</html>
