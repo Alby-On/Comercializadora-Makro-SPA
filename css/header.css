@@ -1,5 +1,5 @@
 /* ================================================================
-   HEADER PRINCIPAL - COMERCIALIZADORA MAKRO SPA
+    HEADER PRINCIPAL - COMERCIALIZADORA MAKRO SPA
    ================================================================ */
 
 :root {
@@ -55,7 +55,7 @@ header {
 }
 
 .top-item i {
-    color: var(--rojo-makro) !important; /* Iconos colorizados */
+    color: var(--rojo-makro) !important;
 }
 
 .top-socials {
@@ -86,19 +86,18 @@ header {
 }
 
 .logo {
-    flex: 1; /* Empuja al centro */
+    flex: 1;
     display: flex;
     align-items: center;
 }
 
 .logo img {
-    height: 60px; /* Ajustado para que no se vea gigante */
+    height: 60px;
     width: auto;
 }
 
-/* Navegación Centrada */
 .nav-links {
-    flex: 2; /* Mayor peso para el centro */
+    flex: 2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -120,9 +119,20 @@ header {
     color: var(--rojo-makro);
 }
 
-/* --- DROPDOWN (Centrado y Funcional) --- */
+/* --- DROPDOWN (Corregido: Sin puntos y con puente de hover) --- */
 .dropdown {
     position: relative;
+}
+
+/* Puente invisible para evitar que el menú se cierre al bajar el mouse */
+.dropdown::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    display: block;
 }
 
 .dropbtn {
@@ -144,11 +154,20 @@ header {
     z-index: 5000;
     border-radius: 8px;
     border-top: 4px solid var(--rojo-makro);
-    padding: 10px 0;
-    margin-top: 15px;
+    
+    /* Limpieza de puntos y márgenes */
+    list-style: none !important;
+    padding: 10px 0 !important;
+    margin: 15px 0 0 0 !important; /* Mantenemos el margen visual */
 }
 
-/* Flecha decorativa */
+/* Asegurar que los LI no tengan decoración */
+.dropdown-content li {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 .dropdown-content::before {
     content: '';
     position: absolute;
@@ -170,6 +189,7 @@ header {
     display: block !important;
     font-weight: 500;
     color: var(--azul-makro) !important;
+    text-decoration: none !important;
 }
 
 .dropdown-content li a:hover {
@@ -178,9 +198,9 @@ header {
     padding-left: 25px !important;
 }
 
-/* --- ACCIONES (Derecha) --- */
+/* --- ACCIONES --- */
 .nav-actions {
-    flex: 1; /* Empuja al centro */
+    flex: 1;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -201,7 +221,7 @@ header {
     background-color: var(--azul-makro);
 }
 
-/* BURGER (Invisible en PC) */
+/* BURGER */
 .burger {
     display: none;
     cursor: pointer;
@@ -215,7 +235,7 @@ header {
     transition: var(--transition);
 }
 
-/* --- CARRUSEL DE MARCAS (En Color) --- */
+/* --- CARRUSEL DE MARCAS --- */
 .galeria-infinita {
     background: var(--blanco);
     border-top: 1px solid #eee;
@@ -243,7 +263,7 @@ header {
     max-width: 140px;
     max-height: 55px;
     object-fit: contain;
-    filter: none !important; /* Colores originales */
+    filter: none !important;
 }
 
 /* --- ANIMACIONES --- */
@@ -257,7 +277,7 @@ header {
     to { opacity: 1; transform: translate(-50%, 0); }
 }
 
-/* --- RESPONSIVE (S22 Ultra & Mobile) --- */
+/* --- RESPONSIVE --- */
 @media (max-width: 992px) {
     .hide-mobile { display: none; }
     .burger { display: block; }
@@ -265,7 +285,7 @@ header {
     .nav-links {
         position: fixed;
         right: 0;
-        top: 125px; /* Altura TopBar + Navbar */
+        top: 125px;
         height: calc(100vh - 125px);
         background: var(--blanco);
         width: 75%;
@@ -280,5 +300,5 @@ header {
 
     .nav-active { transform: translateX(0); }
     .nav-links li { width: 100%; text-align: center; }
-    .btn-contacto { display: none; } /* Se oculta en móvil para limpiar el nav */
+    .btn-contacto { display: none; }
 }
