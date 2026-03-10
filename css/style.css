@@ -1,0 +1,229 @@
+/* Paleta de colores basada en el logo */
+:root {
+    --azul-main: #4a7ab5;     /* Azul del logo */
+    --naranja-accent: #e67e22; /* Naranja del logo */
+    --gris-oscuro: #58595b;    /* Gris del texto inferior */
+    --blanco: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- Hero Section --- */
+.hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 180px; 
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.hero-slider {
+    width: 100%;
+    height: 650px; 
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.swiper-slide {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Flechas Generales del Hero --- */
+.swiper-button-next,
+.swiper-button-prev {
+    color: #ffffff !important;
+    background: rgba(0, 0, 0, 0.2);
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+    font-size: 20px !important;
+    font-weight: bold;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background: rgba(0, 0, 0, 0.5);
+    transform: scale(1.1);
+}
+
+/* --- Centrado Header Destacados --- */
+.header-destacados {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 50px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header-destacados h2 {
+    color: var(--azul-main);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 15px;
+}
+
+.header-destacados h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    width: 50%;
+    height: 4px;
+    background-color: var(--naranja-accent);
+    border-radius: 2px;
+}
+
+/* ================================================================
+   CONFIGURACIÓN DE GRIDS (CATÁLOGO VS INDEX)
+   ================================================================ */
+
+/* 1. GRID ESTÁNDAR (Para productos.html - 4 columnas) */
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 2. GRID EXCLUSIVO DEL INDEX (6 columnas) 
+   Solo se aplica si el grid está dentro de .destacados-categoria */
+.destacados-categoria .productos-grid {
+    grid-template-columns: repeat(6, 1fr);
+    max-width: 1300px; 
+    gap: 15px;
+}
+
+/* --- Estilo de la Card --- */
+.product-card-simple {
+    width: 100%;
+    background: var(--blanco);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card-simple:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+/* Ajuste de imagen - En el index es un poco más pequeña por las 6 columnas */
+.product-img-frame {
+    width: 100%;
+    height: 200px; 
+    overflow: hidden;
+    background: #f8f9fa;
+}
+
+.destacados-categoria .product-img-frame {
+    height: 160px; /* Más compacto para el index */
+}
+
+.product-img-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 8px;
+}
+
+.product-info-simple {
+    padding: 10px;
+    text-align: left;
+}
+
+.product-name-simple {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--gris-oscuro);
+    margin: 5px 0;
+    height: 2.4em;
+    overflow: hidden;
+    line-height: 1.2;
+}
+
+/* --- Botón Ver Más --- */
+.btn-ver-mas {
+    display: inline-block;
+    padding: 12px 40px;
+    background-color: transparent;
+    color: var(--azul-main) !important;
+    border: 2px solid var(--azul-main);
+    border-radius: 5px;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.btn-ver-mas:hover {
+    background-color: var(--azul-main);
+    color: #ffffff !important;
+    transform: translateY(-3px);
+}
+
+/* --- Utilidades --- */
+.text-center { text-align: center; display: flex; justify-content: center; width: 100%; }
+.mt-4 { margin-top: 2rem; }
+.py-5 { padding: 3rem 0; }
+.container-energy { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
+
+/* --- Responsividad --- */
+@media (max-width: 1200px) {
+    /* Ambos grids bajan a 3 columnas en tablets */
+    .productos-grid,
+    .destacados-categoria .productos-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-slider { height: 300px; }
+    .hero-container { padding-top: 100px; }
+    
+    /* Ambos grids bajan a 2 columnas en celulares */
+    .productos-grid,
+    .destacados-categoria .productos-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .swiper-button-next, .swiper-button-prev {
+        display: none !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .productos-grid,
+    .destacados-categoria .productos-grid {
+        grid-template-columns: 1fr; 
+    }
+}

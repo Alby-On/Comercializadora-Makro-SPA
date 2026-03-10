@@ -1,0 +1,361 @@
+/* ================================================================
+   DISEÑO DE LAS PRODUCT CARDS (Optimizado para Grid 70%)
+   ================================================================ */
+
+.product-card-simple {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #edf2f7;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Altura uniforme en la fila */
+    width: 100%;  /* Ocupa todo el ancho disponible del track del grid */
+    max-width: 320px; /* Evita que se estiren demasiado en pantallas muy grandes */
+    margin: 0 auto;   /* Centra la card en su celda del grid */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto Hover: Sombra y elevación */
+.product-card-simple:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    border-color: #f6ad55; /* Color energía Energy SPA */
+}
+
+/* --- Contenedor de Imagen --- */
+.product-img-frame {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* Ratio 1:1 cuadrado */
+    background-color: #fcfcfc;
+    border-bottom: 1px solid #f7fafc;
+}
+
+.product-img-frame img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 20px;
+}
+
+/* --- Información del Producto (Centrada) --- */
+.product-info-simple {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* CENTRA TODO HORIZONTALMENTE */
+    text-align: center;  /* CENTRA EL TEXTO */
+    flex-grow: 1;
+}
+
+.cat-tag-simple {
+    font-size: 0.7rem;
+    color: #a0aec0;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.product-name-simple {
+    font-size: 1.1rem;
+    color: #2d3748;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 8px; /* Reducido para que el SKU esté cerca */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.6em; 
+}
+
+/* --- Estilo para el SKU (Igual fuente que el nombre) --- */
+.sku-public-container {
+    font-family: inherit; /* Hereda la fuente del body/nombre */
+    font-size: 0.8rem;
+    color: #4a5568; /* Un gris un poco más oscuro para legibilidad */
+    background: #f1f5f9; /* Fondo suave para dar contraste */
+    padding: 3px 14px;
+    border-radius: 6px; /* Bordes menos redondeados para un look más moderno */
+    margin-bottom: 15px; 
+    display: inline-block;
+    font-weight: 500; /* Peso medio, similar al nombre pero no tan negrita */
+    letter-spacing: 0.3px;
+}
+
+/* --- Pie de la Card --- */
+.footer-card {
+    margin-top: auto;
+    width: 100%; /* Asegura que ocupe todo el ancho para el flex */
+    padding-top: 10px;
+}
+
+.price-simple {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #1a202c;
+    margin-bottom: 15px;
+}
+
+.btn-cotizar-simple {
+    width: 100%;
+    background: #2d3748;
+    color: #ffffff;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.btn-cotizar-simple:hover {
+    background: #f6ad55;
+    color: #2d3748;
+}
+/* ================================================================
+   ESTILOS DEL ENCABEZADO (Centrado)
+   ================================================================ */
+.productos-header {
+    text-align: center;      /* Centra el texto */
+    max-width: 800px;        /* Evita que los párrafos se estiren demasiado */
+    margin: 0 auto 50px auto; /* Centra el bloque y da espacio hacia abajo */
+    padding: 0 20px;
+}
+
+.productos-header h1 {
+    font-size: 2.5rem;
+    color: #1a202c;          /* Un tono casi negro muy elegante */
+    margin-bottom: 12px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+}
+
+.productos-header p {
+    font-size: 1.1rem;
+    color: #718096;          /* Gris suavizado para el subtítulo */
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* Línea Decorativa con estilo "Eléctrico" */
+.linea-decorativa {
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #f6ad55 0%, #ed8936 100%); /* Naranja energía */
+    margin: 0 auto;          /* Centra el div de la línea */
+    border-radius: 10px;
+    position: relative;
+}
+
+/* Opcional: Un pequeño destello al final de la línea */
+.linea-decorativa::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: #f6ad55;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #f6ad55;
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 768px) {
+    .productos-header h1 {
+        font-size: 2rem;
+    }
+    .productos-header p {
+        font-size: 1rem;
+    }
+}
+
+/* ================================================================
+   ESTRUCTURA PRINCIPAL DEL LAYOUT (30% Izq / 70% Der)
+   ================================================================ */
+.productos-layout {
+    display: grid;
+    /* 30% para categorías, 70% para productos */
+    grid-template-columns: 30% 70%; 
+    gap: 40px; /* Un poco más de aire entre columnas */
+    align-items: flex-start;
+    max-width: 1400px; /* Ampliamos el máximo para lucir el 70% */
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- COLUMNA IZQUIERDA: Sidebar (30%) --- */
+.productos-sidebar {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    position: sticky;
+    top: 180px; 
+    border: 1px solid #edf2f7;
+    /* Evita que el sidebar sea demasiado pequeño en pantallas medianas */
+    min-width: 250px; 
+}
+
+/* --- COLUMNA DERECHA: Grid de Productos (70%) --- */
+.productos-content {
+    width: 100%;
+}
+
+.productos-grid {
+    display: grid;
+    /* Al tener el 70%, las cards pueden ser un poco más grandes (240px) */
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 25px;
+}
+
+/* ================================================================
+   ESTILOS DE CATEGORÍAS (Sidebar 30%)
+   ================================================================ */
+.filter-group h3 {
+    font-size: 1.2rem;
+    color: #2d3748;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f6ad55;
+    display: inline-block;
+    font-weight: 700;
+}
+
+/* El contenedor que envuelve Padre + Hijos */
+.category-group {
+    margin-bottom: 10px;
+}
+
+/* Estilo del Padre */
+.category-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    border: 1px solid #f1f5f9;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.category-item i:first-child {
+    margin-right: 10px;
+    color: #f6ad55;
+    width: 20px;
+    text-align: center;
+}
+
+.category-item:hover {
+    background-color: #f8fafc;
+    border-color: #f6ad55;
+    transform: translateX(5px);
+}
+
+.category-item.active {
+    background-color: #2d3748;
+    color: #ffffff;
+    border-color: #2d3748;
+}
+
+.category-item.active i:first-child {
+    color: #f6ad55;
+}
+
+/* Flecha de rotación */
+.arrow-icon {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+    color: #a0aec0;
+}
+
+.category-item.active .arrow-icon,
+.arrow-icon.rotate {
+    transform: rotate(180deg);
+    color: #f6ad55;
+}
+
+/* --- SUBCATEGORÍAS (Anidadas) --- */
+.sub-list {
+    display: none; /* Controlado por JS .show */
+    list-style: none;
+    padding-left: 20px; /* Sangría para jerarquía */
+    margin: 5px 0 10px 15px;
+    border-left: 2px solid #edf2f7;
+}
+
+.sub-list.show {
+    display: block;
+}
+
+.sub-category-item {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    color: #718096;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 6px;
+    margin-bottom: 2px;
+}
+
+.sub-category-item i {
+    font-size: 0.7rem;
+    margin-right: 8px;
+    opacity: 0.5;
+}
+
+.sub-category-item:hover {
+    color: #f6ad55;
+    background-color: #fefaf6;
+    padding-left: 18px; /* Pequeño efecto de desplazamiento */
+}
+
+.sub-category-item.selected {
+    color: #2d3748;
+    font-weight: 700;
+    background-color: #f7fafc;
+}
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 1100px) {
+    .productos-layout {
+        grid-template-columns: 35% 65%;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 850px) {
+    .productos-layout {
+        grid-template-columns: 100%;
+    }
+    
+    .productos-sidebar {
+        position: relative;
+        top: 0;
+        margin-bottom: 40px;
+        min-width: auto;
+    }
+
+    .sub-list {
+        margin-left: 10px;
+    }
+}
+
