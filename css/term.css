@@ -1,18 +1,31 @@
 /* ================================================================
-   ESTILOS PÁGINA LEGAL - COMERCIALIZADORA MAKRO SPA
+   ESTILOS PÁGINA LEGAL - COMERCIALIZADORA MAKRO SPA (CENTREADO)
    ================================================================ */
 
-/* Contenedor Principal con el padding necesario para tu header triple */
 .main-content-area {
     background-color: #f8fafc;
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los hijos horizontalmente */
+    width: 100%;
+}
+
+.legal-container {
+    width: 100%;
+    max-width: 900px; /* Ancho óptimo de lectura */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 0 20px 100px 20px;
 }
 
 .legal-header {
     text-align: center;
-    margin-bottom: 40px;
-    padding: 0 20px;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
 .legal-header h1 {
@@ -24,78 +37,84 @@
     margin-bottom: 10px;
 }
 
-.legal-header p {
-    color: #64748b;
-    font-size: 1.1rem;
-}
-
-/* Caja de Identificación (Intro Box) */
+/* Centrado de la caja de identificación */
 .intro-box {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    border-top: 6px solid #e63946; /* Cambiado a top para balance simétrico */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    text-align: center; /* Centra el texto interno */
     transition: transform 0.3s ease;
 }
 
-.intro-box:hover {
-    transform: translateY(-5px);
-}
-
 .intro-box h4 {
+    justify-content: center; /* Centra el icono y el título */
     display: flex;
     align-items: center;
     gap: 10px;
     font-size: 1.2rem;
     font-weight: 700;
+    margin-bottom: 15px;
 }
 
-.intro-box i {
-    color: #e63946; /* Rojo Makro */
-}
-
-/* Cuerpo del Contenido Legal */
+/* Cuerpo del Contenido Legal centrado */
 .legal-content {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 15px;
     box-shadow: 0 15px 35px rgba(30, 41, 59, 0.05);
     border: 1px solid #e2e8f0;
+    text-align: center; /* Centra todos los párrafos y títulos */
 }
 
 .legal-item {
     border-bottom: 1px solid #f1f5f9;
-    padding-bottom: 25px;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
 }
 
 .legal-item:last-of-type {
     border-bottom: none;
+    margin-bottom: 0;
 }
 
 .legal-item h4 {
     font-size: 1.1rem;
     font-weight: 700;
+    color: #e63946;
     margin-bottom: 15px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
 .legal-item p {
     font-size: 1.05rem;
     color: #475569;
-    text-align: justify;
+    line-height: 1.8;
+    max-width: 750px;
+    margin: 0 auto; /* Centra el bloque de párrafo */
 }
 
-/* Caja de Cumplimiento (Compliance) */
+/* Footer de cumplimiento centrado */
 .compliance-footer {
     border-top: 2px solid #e2e8f0;
+    padding-top: 25px;
+    margin-top: 20px;
     color: #64748b;
     display: flex;
-    align-items: flex-start;
-    gap: 15px;
+    flex-direction: column;
+    align-items: center; /* Centra icono y texto */
+    text-align: center;
+    gap: 10px;
 }
 
-.compliance-footer i {
-    font-size: 1.3rem;
-    color: #1e293b;
-    margin-top: 3px;
+/* RESPONSIVE S22 Ultra */
+@media (max-width: 768px) {
+    .legal-header h1 {
+        font-size: 1.7rem;
+    }
+    
+    .legal-content {
+        padding: 25px;
+    }
 }
-
-/* ================================================================
-   RESPONSIVE - OPTIMIZACIÓN MÓVIL (S22 Ultra / iPhone)
-   ================================================================ */
-
-@media (max
