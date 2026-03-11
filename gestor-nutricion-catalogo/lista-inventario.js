@@ -274,82 +274,91 @@ function previewEdit(input, imgId) {
         reader.readAsDataURL(input.files[0]);
     }
 }
-
-// --- VARIABLES GLOBALES PARA LA PRUEBA ---
+/* --- VARIABLES DE CONTROL --- */
 let currentPage = 1;
-const recordsPerPage = 50; // Límite solicitado
-let allProducts = []; 
+const recordsPerPage = 50; 
+let allProducts = []; // Se llena con tus datos reales de la base de datos
 
-// --- FUNCIÓN QUE SIMULA LA CARGA DE DATOS ---
-function cargarPruebaInventario() {
-    allProducts = []; // 1. Limpiamos
-    
-    // 2. Llenamos el array (Este proceso es instantáneo)
-    for (let i = 1; i <= 125; i++) {
-        allProducts.push({
-            foto: 'https://via.placeholder.com/40',
-            sku: `SKU-MAK-${1000 + i}`,
-            nombre: `Producto Industrial ${i}`,
-            categoria: i % 2 === 0 ? 'Ferretería' : 'Construcción',
-            stock: Math.floor(Math.random() * 500)
-        });
-    }
-    
-    // 3. ¡IMPORTANTE! Forzamos que la página sea la 1 al inicio
-    currentPage = 1; 
-    
-    // 4. Ahora sí, mandamos a dibujar la tabla
-    displayInventory(); 
-}
-
-// Asegúrate de que esta línea esté al final de tus scripts
-window.onload = cargarPruebaInventario;
-
-// --- FUNCIÓN PARA MOSTRAR LA TABLA PAGINADA ---
+/* --- RENDERIZADO DE INVENTARIO --- */
 function displayInventory() {
     const tbody = document.getElementById('inventory-body');
+    if (!tbody) return;
     tbody.innerHTML = '';
 
-    // Lógica de "rebanado" (Slice)
+    // Si no hay productos, mostrar mensaje amigable
+    if (allProducts.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 30px; color: #94a3b8;">No se encontraron productos en el inventario.</td></tr>`;
+        actualizarControles();
+        return;
+    }
+
+    // Lógica de Paginación (Slice)
     const start = (currentPage - 1) * recordsPerPage;
     const end = start + recordsPerPage;
     const currentItems = allProducts.slice(start, end);
 
+    // Generar Filas con Datos Reales
     currentItems.forEach(prod => {
         tbody.innerHTML += `
             <tr>
-                <td><img src="${prod.foto}" width="40" style="border-radius:5px"></td>
-                <td>${prod.sku}</td>
-                <td>${prod.nombre}</td>
-                <td>${prod.categoria}</td>
-                <td><strong>${prod.stock}</strong></td>
-                <td><button style="cursor:pointer">⚙️</button></td>
+                <td>
+                    <img src="${prod.foto || 'img/placeholder-prod.jpg'}" 
+                         alt="${prod.nombre}" 
+                         style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 1px solid #eee;">
+                </td>
+                <td style="font-family: monospace; font-weight: 600;">${prod.sku}</td>
+                <td style="font-weight: 500;">${prod.nombre}</td>
+                <td><span class="badge-cat">${prod.categoria}</span></td>
+                <td>
+                    <strong style="color: ${prod.stock <= 5 ? '#e63946' : '#1e293b'}">
+                        ${prod.stock}
+                    </strong>
+                </td>
+                <td>
+                    <div style="display: flex; gap: 8px;">
+                        <button onclick="editProduct('${prod.id}')" title="Editar" style="cursor:pointer; background:none; border:none;">✏️</button>
+                        <button onclick="deleteProduct('${prod.id}')" title="Eliminar" style="cursor:pointer; background:none; border:none;">🗑️</button>
+                    </div>
+                </td>
             </tr>
-        `;
+        `; 
     });
 
     actualizarControles();
 }
 
-// --- ACTUALIZA LOS TEXTOS Y BOTONES ---
+/* --- INTERFAZ DE PAGINACIÓN --- */
 function actualizarControles() {
     const total = allProducts.length;
-    document.getElementById('total-products').innerText = total;
-    document.getElementById('start-index').innerText = (currentPage - 1) * recordsPerPage + 1;
-    document.getElementById('end-index').innerText = Math.min(currentPage * recordsPerPage, total);
+    const totalDocs = document.getElementById('total-products');
+    if(!totalDocs) return;
 
-    // Bloquear botones si no hay más páginas
+    totalDocs.innerText = total;
+    
+    // Cálculo de índices para el texto "Mostrando X - Y de Z"
+    const startIdx = total === 0 ? 0 : (currentPage - 1) * recordsPerPage + 1;
+    const endIdx = Math.min(currentPage * recordsPerPage, total);
+
+    document.getElementById('start-index').innerText = startIdx;
+    document.getElementById('end-index').innerText = endIdx;
+
+    // Estado de los botones (Deshabilitar si no hay más páginas)
     document.getElementById('prev-page').disabled = (currentPage === 1);
-    document.getElementById('next-page').disabled = (currentPage * recordsPerPage >= total);
+    document.getElementById('next-page').disabled = (currentPage * recordsPerPage >= total || total === 0);
+    
+    // Feedback visual para botones deshabilitados
+    document.getElementById('prev-page').style.opacity = (currentPage === 1) ? "0.5" : "1";
+    document.getElementById('next-page').style.opacity (document.getElementById('next-page').disabled) ? "0.5" : "1";
 }
 
-// --- FUNCIÓN PARA CAMBIAR DE PÁGINA ---
+/* --- CAMBIO DE PÁGINA --- */
 function changePage(direction) {
     currentPage += direction;
     displayInventory();
-    // Scroll hacia arriba de la tabla para comodidad
-    document.querySelector('.table-container').scrollTop = 0;
+    
+    // Scroll suave al inicio de la tabla para mejor experiencia en tu S22 Ultra
+    const tableContainer = document.querySelector('.table-container');
+    if (tableContainer) {
+        tableContainer.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 }
-
-// LANZAR LA PRUEBA AL CARGAR LA PÁGINA
-window.onload = cargarPruebaInventario;
