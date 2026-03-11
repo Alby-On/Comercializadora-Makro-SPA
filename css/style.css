@@ -63,11 +63,6 @@
     }
 }
 
-/* Se activa solo en el slide visible */
-.swiper-slide-active {
-    animation: moveLeftSlide 7s linear infinite alternate;
-}
-
 /* --- Flechas de Navegación --- */
 .swiper-button-next,
 .swiper-button-prev {
