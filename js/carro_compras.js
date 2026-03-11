@@ -126,7 +126,7 @@ function enviarPedidoWhatsApp() {
         return;
     }
 
-    let mensaje = "⚡ *SOLICITUD DE COTIZACIÓN - ENERGY*%0A%0A";
+    let mensaje = "⚡ *SOLICITUD DE COTIZACIÓN - COMERCIALIZADORA MAKRO SPA*%0A%0A";
     mensaje += "Hola, me gustaría consultar por los siguientes productos:%0A%0A";
 
     carrito.forEach(item => {
