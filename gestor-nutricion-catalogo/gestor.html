@@ -6,43 +6,50 @@
     <title>Gestor | Comercializadora Makro SPA</title>
     
     <style>
-        body { display: none; }
+        body { display: none; } /* Bloqueo visual */
+        .btn-logout { background: #e11d48 !important; padding: 5px 15px; border-radius: 5px; cursor: pointer; color: white; border: none; font-weight: bold; }
     </style>
 
     <link rel="stylesheet" href="gestor.css">
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <script src="supabase-client.js"></script>
 
     <script>
-        (async function validarSeguridadInmediata() {
-            try {
-                // Le preguntamos al cliente 'supabase' (que vive en supabase-cliente.js) por la sesión
-                const { data: { session }, error } = await supabase.auth.getSession();
+        (function verificarAccesoSeguro() {
+            // Usamos la validación manual por localStorage que definimos en el login
+            const auth = localStorage.getItem("gestor_auth");
 
-                if (error || !session) {
-                    console.warn("Acceso denegado. Redirigiendo al login...");
-                    // Ajusta la ruta si login.html está en otra carpeta
-                    window.location.replace("login.html"); 
-                } else {
-                    // Si hay sesión, liberamos el bloqueo visual
-                    document.body.style.display = 'block';
-                    console.log("Acceso autorizado para:", session.user.email);
-                }
-            } catch (err) {
-                console.error("Fallo crítico de seguridad:", err);
+            if (auth !== "true") {
+                console.warn("No autorizado. Expulsando...");
+                // IMPORTANTE: Sin barras ni puntos si están en la misma carpeta
                 window.location.replace("login.html");
+            } else {
+                // Si es válido, mostramos la página cuando el DOM esté listo
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.style.display = 'block';
+                    // Mostrar quién está logueado en la consola
+                    console.log("Sesión activa: " + localStorage.getItem("gestor_user"));
+                });
             }
         })();
+
+        function cerrarSesion() {
+            localStorage.removeItem("gestor_auth");
+            localStorage.removeItem("gestor_user");
+            window.location.href = "login.html";
+        }
     </script>
 </head>
-    
+
 <body>
 
 <nav class="navbar">
     <div class="nav-header">
-        <h1>Gestor de Productos Comercializadora Makro</h1>
+        <h1>Gestor de Productos Makro SPA</h1>
+        <button onclick="cerrarSesion()" class="btn-logout">
+            <i class="fas fa-sign-out-alt"></i> Salir
+        </button>
     </div>
     <div class="nav-actions">
         <button class="nav-btn active" onclick="showView('add-view', this)">✚ Agregar producto</button>
