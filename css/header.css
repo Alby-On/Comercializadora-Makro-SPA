@@ -82,7 +82,7 @@ header {
     align-items: center;
     padding: 0 5%;
     background-color: var(--blanco);
-    height: 85px;
+    height: 95px; /* Aumentado de 85px a 95px para dar aire al logo más grande */
 }
 
 .logo {
@@ -92,8 +92,9 @@ header {
 }
 
 .logo img {
-    height: 60px;
+    height: 72px; /* Aumentado de 60px a 72px */
     width: auto;
+    transition: var(--transition); /* Para que el cambio sea suave si escalas */
 }
 
 .nav-links {
