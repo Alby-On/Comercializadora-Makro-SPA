@@ -71,7 +71,7 @@
 
             <div class="mapa-container">
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3211.532352125301!2d-71.8315187!3d-36.1536294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9668f9bc7145b367%3A0x866336e8b4e70878!2sVictoria%20376%2C%20Parral%2C%20Maule!5e0!3m2!1ses-419!2scl!4v1709214567890!5m2!1ses-419!2scl" 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3222.0736580362295!2d-71.83164572321918!3d-36.140419772442726!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x966f4f01187b9eff%3A0xf65e424b2824e04b!2sComercializadora%20MAKRO%20SpA%20(%20Ferreteria%20Electrica%20)!5e0!3m2!1ses!2scl!4v1773197930418!5m2!1ses!2scl" 
                     width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy">
                 </iframe>
             </div>
@@ -145,5 +145,53 @@
     <script src="js/components.js"></script>
 
     <script src="js/carro_compras.js"></script>
+    <script>
+document.getElementById('form-contacto').addEventListener('submit', function(e) {
+    e.preventDefault(); // Evita que la página se recargue
+
+    // 1. Capturar los valores de los campos
+    const nombre = document.getElementById('nombre').value;
+    const telefono = document.getElementById('telefono').value;
+    const email = document.getElementById('email').value;
+    const asunto = document.getElementById('asunto').value;
+    const mensaje = document.getElementById('mensaje').value;
+    
+    // 2. Obtener la preferencia de contacto (WhatsApp o Email)
+    const preferencia = document.querySelector('input[name="preferencia"]:checked').value;
+
+    if (preferencia === 'whatsapp') {
+        // --- CONFIGURACIÓN PARA WHATSAPP ---
+        const numeroEmpresa = "56936246559"; // Tu número de Makro SPA
+        
+        // Formateamos el texto (usamos %0A para saltos de línea y * para negritas en WSP)
+        const textoWsp = `*NUEVA CONSULTA WEB - MAKRO SPA*%0A%0A` +
+                         `*👤 Nombre:* ${nombre}%0A` +
+                         `*📞 Teléfono:* ${telefono}%0A` +
+                         `*📧 Email:* ${email}%0A` +
+                         `*📌 Asunto:* ${asunto}%0A%0A` +
+                         `*💬 Mensaje:*%0A${mensaje}`;
+
+        // Construimos la URL de la API de WhatsApp
+        const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroEmpresa}&text=${textoWsp}`;
+        
+        // Abrimos en una pestaña nueva
+        window.open(urlWhatsApp, '_blank');
+
+    } else {
+        // --- CONFIGURACIÓN PARA EMAIL (Mailto) ---
+        const emailDestino = "Ventamakro@gmail.com";
+        const subject = `Consulta Web Makro SPA: ${asunto}`;
+        const body = `Nombre: ${nombre}%0A` +
+                     `Teléfono: ${telefono}%0A` +
+                     `Email: ${email}%0A` +
+                     `Mensaje: ${mensaje}`;
+
+        const urlEmail = `mailto:${emailDestino}?subject=${encodeURIComponent(subject)}&body=${body}`;
+        
+        // Abrimos el gestor de correo del usuario
+        window.location.href = urlEmail;
+    }
+});
+</script>
 </body>
 </html>
