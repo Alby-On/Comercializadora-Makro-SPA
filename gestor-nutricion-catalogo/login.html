@@ -145,58 +145,60 @@
     
     <script>
         async function intentarLogin() {
-            const u = document.getElementById("user").value;
-            const p = document.getElementById("pass").value;
-            const btn = document.getElementById("btn-login");
-            const errorMsg = document.getElementById("error-msg");
+    const u = document.getElementById("user").value;
+    const p = document.getElementById("pass").value;
+    const btn = document.getElementById("btn-login");
+    const errorMsg = document.getElementById("error-msg");
 
-            if(!u || !p) {
-                alert("Por favor, completa todos los campos.");
-                return;
-            }
+    if(!u || !p) {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
 
-            // Estado de carga
-            btn.innerText = "Verificando...";
-            btn.disabled = true;
-            errorMsg.style.display = "none";
+    // Estado de carga
+    btn.innerText = "Verificando...";
+    btn.disabled = true;
+    errorMsg.style.display = "none";
 
-            try {
-                const client = window._supabase || _supabase;
+    try {
+        // Buscamos el cliente de Supabase en cualquier variable posible
+        const client = window.supabase || window._supabase || _supabase;
 
-                // Consulta a la tabla usuarios_gestion
-                const { data, error } = await client
-                    .from('usuarios_gestion')
-                    .select('*')
-                    .eq('usuario', u)
-                    .eq('password', p)
-                    .single();
-
-                if (error || !data) {
-                    throw new Error("Credenciales inválidas");
-                }
-
-                // Si llegamos aquí, los datos son correctos
-                console.log("✅ Acceso concedido");
-                
-                // Guardar sesión (puedes usar un token o simplemente el ID)
-                localStorage.setItem("gestor_auth", "true");
-                localStorage.setItem("gestor_user", data.nombre);
-                
-                // Redirigir al gestor principal
-                window.location.href = "gestor.html";
-
-            } catch (err) {
-                console.error("Error de login:", err.message);
-                errorMsg.style.display = "block";
-                btn.innerText = "Ingresar al Gestor";
-                btn.disabled = false;
-            }
+        if (!client) {
+            throw new Error("No se pudo conectar con la base de datos.");
         }
 
-        // Permitir ingresar presionando Enter
-        document.addEventListener('keypress', (e) => {
-            if(e.key === 'Enter') intentarLogin();
-        });
+        // Consulta a la tabla usuarios_gestion
+        const { data, error } = await client
+            .from('usuarios_gestion')
+            .select('*')
+            .eq('usuario', u)
+            .eq('password', p)
+            .single();
+
+        if (error || !data) {
+            throw new Error("Credenciales inválidas");
+        }
+
+        // ✅ Si llegamos aquí, los datos son correctos
+        console.log("✅ Acceso concedido");
+        
+        // Guardar "llave" para el Gestor
+        localStorage.setItem("gestor_auth", "true");
+        localStorage.setItem("gestor_user", data.nombre);
+        
+        // --- REDIRECCIÓN BLINDADA CONTRA ERROR 404 ---
+        // Usamos la ruta completa desde la raíz del repositorio de GitHub
+        const repoPath = "/Comercializadora-Makro-SPA-2/gestor-nutricion-catalogo/gestor.html";
+        window.location.href = repoPath;
+
+    } catch (err) {
+        console.error("Error de login:", err.message);
+        errorMsg.style.display = "block";
+        btn.innerText = "Ingresar al Gestor";
+        btn.disabled = false;
+    }
+}
     </script>
 </body>
 </html>
