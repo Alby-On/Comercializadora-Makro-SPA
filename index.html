@@ -102,38 +102,40 @@
     <script src="js/carro_compras.js"></script>
     <script src="js/main.js"></script>
 
-    <script>
+   <script>
     window.addEventListener('load', function() {
         const swiper = new Swiper('.hero-slider', {
-            loop: true,
-            
-            // ELIMINAMOS EL FADE Y USAMOS SLIDE (por defecto)
+            // EFECTO DE EMPUJE (Igual para auto y manual)
             effect: 'slide', 
             
-            // Velocidad del "latigazo" (500ms es rápido y dinámico)
-            speed: 500, 
+            // Velocidad del latigazo (400ms = rápido y dinámico)
+            speed: 400, 
+            
+            loop: true,
 
-            // Configuración del movimiento
+            // CONFIGURACIÓN AUTOMÁTICA
             autoplay: {
-                delay: 5000, // Cada 5 segundos cambia
-                disableOnInteraction: false,
+                delay: 5000, // 5 segundos de espera entre cambios
+                disableOnInteraction: false, // Sigue funcionando después de hacer clic
             },
 
-            // Transición de resistencia (hace que se vea más moderno)
-            grabCursor: true,
-            resistanceRatio: 0.5,
-
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
+            // INTERACCIÓN
+            grabCursor: true, // Cambia el cursor a una mano para indicar que se puede arrastrar
+            
             navigation: {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+
+            // Evita saltos bruscos en la animación
+            watchSlidesProgress: true,
         });
 
-        console.log("✅ Swiper con efecto de empuje lateral activado");
+        console.log("✅ Animación unificada (Auto/Manual) activada en Makro SPA");
     });
 </script>
     </body>
