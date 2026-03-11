@@ -22,47 +22,52 @@
 </head>
 <body>
     <div id="header-placeholder"></div>
-<main class="container-detalle" style="padding-top: 345px; padding-bottom: 80px;">
-    <div id="detalle-contenido" class="detalle-layout">
-        <section class="galeria-producto">
-            <div class="main-img-container">
-                <img id="img-principal" src="images/no-image.png" alt="Producto">
-            </div>
-            <div id="thumbnails" class="thumbnails-grid">
-                </div>
-        </section>
+<main class="main-content-area" style="padding-top: 345px; padding-bottom: 80px;">
+    <div class="legal-header">
+        <h1>Términos y Condiciones Comerciales</h1>
+        <div class="hero-line-center" style="width: 100px; height: 4px; background: #e63946; margin: 20px auto;"></div>
+        <p>Normativa para el uso de la plataforma de cotización y procesos de venta - Comercializadora Makro SpA</p>
+    </div>
 
-        <section class="info-producto">
-            <nav class="breadcrumb">
-                <a href="productos.html">Productos</a> / <span id="bread-categoria">Categoría</span>
-            </nav>
+    <div class="legal-container" style="max-width: 1000px; margin: 0 auto; padding: 0 20px;">
+        <div class="legal-section intro-box" style="background: #fff; padding: 30px; border-radius: 12px; border-left: 6px solid #1e293b; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 40px;">
+            <h4 style="color: #1e293b; margin-bottom: 15px;"><i class="fas fa-building"></i> DATOS DE LA EMPRESA</h4>
+            <p><strong>Comercializadora Makro SpA</strong><br>
+            Victoria 376, Parral, Región del Maule.<br>
+            Contacto: Ventamakro@gmail.com | +56 9 3624 6559</p>
+        </div>
+
+        <div class="legal-content" style="background: #fff; padding: 40px; border-radius: 15px; line-height: 1.8; color: #334155;">
             
-            <h1 id="det-nombre">Nombre del Producto</h1>
-            <p id="det-precio" class="precio-detalle">$0</p>
-            <div id="det-sku">SKU: Cargando...</div>
+            <section class="legal-item" style="margin-bottom: 30px;">
+                <h4 style="color: #e63946; border-bottom: 1px solid #eee; padding-bottom: 10px;">1. NATURALEZA DEL SITIO</h4>
+                <p>Este sitio web es una <strong>Plataforma de Solicitud de Cotización</strong>. La acción de "Agregar al Carrito" y enviar la solicitud no constituye una compra garantizada, sino el inicio de una gestión comercial. La venta se perfecciona únicamente tras la confirmación de stock y pago vía transferencia o canales habilitados.</p>
+            </section>
 
-            <div class="controles-compra">
-            <div class="selector-cantidad">
-                <button onclick="cambiarCantidad(-1)">-</button>
-                <input type="number" id="input-cantidad" value="1" min="1" readonly>
-                <button onclick="cambiarCantidad(1)">+</button>
-            </div>
-                <button class="btn-agregar-carrito" onclick="prepararAgregado()">
-            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
-                </button>
-            </div>
+            <section class="legal-item" style="margin-bottom: 30px;">
+                <h4 style="color: #e63946; border-bottom: 1px solid #eee; padding-bottom: 10px;">2. PRECIOS Y STOCK</h4>
+                <p>Los precios publicados son referenciales (incluyen IVA) y pueden variar según fluctuaciones del mercado industrial. El stock indicado en el sistema está sujeto a validación técnica por parte de nuestro equipo comercial al momento de procesar su carrito.</p>
+            </section>
 
-            <div class="descripcion-seccion">
-                <h3>Descripción</h3>
-                <p id="det-descripcion">Cargando descripción...</p>
-            </div>
+            <section class="legal-item" style="margin-bottom: 30px;">
+                <h4 style="color: #e63946; border-bottom: 1px solid #eee; padding-bottom: 10px;">3. DESPACHOS Y LOGÍSTICA</h4>
+                <p>Los costos de envío <strong>no están incluidos</strong> en el valor unitario de los productos. Debido a que manejamos carga pesada y materiales industriales, el valor del flete será calculado y notificado en el presupuesto formal enviado tras su solicitud.</p>
+            </section>
 
-            <div class="acciones-footer">
-                <a href="productos.html" class="btn-volver">
-                    <i class="fas fa-arrow-left"></i> Volver a Productos
-                </a>
+            <section class="legal-item" style="margin-bottom: 30px;">
+                <h4 style="color: #e63946; border-bottom: 1px solid #eee; padding-bottom: 10px;">4. GARANTÍA Y DEVOLUCIONES</h4>
+                <p>De acuerdo a la Ley 19.496, Comercializadora Makro SpA otorga una garantía legal de 6 meses por fallas de fabricación. Para cambios o devoluciones por satisfacción (Derecho de Retracto), el cliente cuenta con 10 días desde la recepción, siempre que el producto esté <strong>sin uso, con sellos intactos y en embalaje original</strong>.</p>
+            </section>
+
+            <section class="legal-item" style="margin-bottom: 30px;">
+                <h4 style="color: #e63946; border-bottom: 1px solid #eee; padding-bottom: 10px;">5. PRIVACIDAD DE DATOS</h4>
+                <p>Sus datos personales recolectados en el formulario de contacto o carrito son tratados bajo la Ley 19.628, con el único fin de gestionar sus pedidos y despachos. No compartimos bases de datos con terceros.</p>
+            </section>
+
+            <div class="compliance-footer" style="background: #f1f5f9; padding: 25px; border-radius: 8px; margin-top: 40px; font-size: 0.9rem;">
+                <p><i class="fas fa-balance-scale"></i> <strong>Cumplimiento Ético:</strong> Promovemos un comercio seguro basado en la transparencia. Cumplimos con la Ley Karin y normativas de buenas prácticas comerciales en Chile.</p>
             </div>
-        </section>
+        </div>
     </div>
 </main>
 <div id="footer-placeholder"></div>
