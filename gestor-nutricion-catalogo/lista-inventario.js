@@ -274,3 +274,46 @@ function previewEdit(input, imgId) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+let currentPage = 1;
+const recordsPerPage = 50;
+let allProducts = []; // Aquí debes cargar tus datos del inventario
+
+function displayInventory() {
+    const tableBody = document.getElementById('inventory-body');
+    tableBody.innerHTML = '';
+
+    // Calculamos los índices
+    const startIndex = (currentPage - 1) * recordsPerPage;
+    const endIndex = startIndex + recordsPerPage;
+    
+    // Filtramos solo los 50 que corresponden a esta página
+    const paginatedProducts = allProducts.slice(startIndex, endIndex);
+
+    paginatedProducts.forEach(prod => {
+        // Tu lógica actual para crear las filas (TR)
+        const row = `<tr>...</tr>`; 
+        tableBody.innerHTML += row;
+    });
+
+    updatePaginationUI();
+}
+
+function updatePaginationUI() {
+    const total = allProducts.length;
+    document.getElementById('total-products').innerText = total;
+    document.getElementById('start-index').innerText = total === 0 ? 0 : (currentPage - 1) * recordsPerPage + 1;
+    document.getElementById('end-index').innerText = Math.min(currentPage * recordsPerPage, total);
+
+    // Deshabilitar botones si no hay más páginas
+    document.getElementById('prev-page').disabled = (currentPage === 1);
+    document.getElementById('next-page').disabled = (currentPage * recordsPerPage >= total);
+    
+    // Generar números de página opcionalmente
+    renderPageNumbers();
+}
+
+function changePage(step) {
+    currentPage += step;
+    displayInventory();
+}
