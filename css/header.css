@@ -75,7 +75,7 @@ header {
     transform: translateY(-2px);
 }
 
-/* --- NAVBAR (Distribución Triple) --- */
+/* --- NAVBAR (Distribución Triple Balanceada) --- */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -86,7 +86,7 @@ header {
 }
 
 .logo {
-    flex: 1;
+    flex: 1; /* Reserva espacio a la izquierda */
     display: flex;
     align-items: center;
 }
@@ -97,12 +97,12 @@ header {
 }
 
 .nav-links {
-    flex: 2;
+    flex: 2; /* Espacio central para los 5 elementos */
     display: flex;
     justify-content: center;
     align-items: center;
     list-style: none;
-    gap: 30px;
+    gap: 30px; /* Mantenemos tu margen original */
     margin: 0;
     padding: 0;
 }
@@ -111,7 +111,7 @@ header {
     text-decoration: none;
     color: var(--gris-texto);
     font-weight: 600;
-    font-size: 1.24rem;  /* Aumentado un 30% desde 0.95rem */
+    font-size: 1.24rem;
     transition: var(--transition);
 }
 
@@ -119,12 +119,11 @@ header {
     color: var(--rojo-makro);
 }
 
-/* --- DROPDOWN (Corregido: Sin puntos y con puente de hover) --- */
+/* --- DROPDOWN (Sin cambios en tu lógica) --- */
 .dropdown {
     position: relative;
 }
 
-/* Puente invisible para evitar que el menú se cierre al bajar el mouse */
 .dropdown::after {
     content: '';
     position: absolute;
@@ -154,14 +153,11 @@ header {
     z-index: 5000;
     border-radius: 8px;
     border-top: 4px solid var(--rojo-makro);
-    
-    /* Limpieza de puntos y márgenes */
     list-style: none !important;
     padding: 10px 0 !important;
-    margin: 15px 0 0 0 !important; /* Mantenemos el margen visual */
+    margin: 15px 0 0 0 !important;
 }
 
-/* Asegurar que los LI no tengan decoración */
 .dropdown-content li {
     list-style: none !important;
     margin: 0 !important;
@@ -200,7 +196,7 @@ header {
 
 /* --- ACCIONES --- */
 .nav-actions {
-    flex: 1;
+    flex: 1; /* Espacio derecho igual al logo para centrado perfecto */
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -235,7 +231,7 @@ header {
     transition: var(--transition);
 }
 
-/* --- CARRUSEL DE MARCAS --- */
+/* --- CARRUSEL Y ANIMACIONES (Sin cambios) --- */
 .galeria-infinita {
     background: var(--blanco);
     border-top: 1px solid #eee;
@@ -266,7 +262,6 @@ header {
     filter: none !important;
 }
 
-/* --- ANIMACIONES --- */
 @keyframes scroll-marcas {
     0% { transform: translateX(0); }
     100% { transform: translateX(calc(-200px * 9)); }
@@ -299,8 +294,16 @@ header {
     }
 
     .nav-active { transform: translateX(0); }
-    .nav-links li { width: 100%; text-align: center; }
-    .btn-contacto { display: none; }
+    .nav-links li { 
+        width: 100%; 
+        text-align: center;
+        margin-bottom: 20px; /* Ajuste para que no choquen botones en móvil */
+    }
+    
+    /* Habilitamos el botón en móvil ya que ahora está dentro de la lista */
+    .nav-links .btn-contacto { 
+        display: inline-block; 
+    }
 }
 /* --- Nueva Fila de Buscador --- */
 .search-bar-row {
