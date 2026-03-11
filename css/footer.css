@@ -175,13 +175,14 @@
 }
 
 /* ================================================================
-   COMPONENTE CARRITO - MAKRO SPA (REINTEGRADO)
+    COMPONENTE CARRITO - MAKRO SPA (REINTEGRADO & REPARADO)
    ================================================================ */
 
 :root {
     --cart-width: 380px;
     --azul-makro: #1e293b;
     --rojo-makro: #e63946;
+    --verde-wsp: #25d366;
 }
 
 /* 1. Botón Flotante del Carrito (Trigger) */
@@ -310,7 +311,46 @@
     font-size: 1.4rem;
     font-weight: 800;
     color: var(--azul-makro);
+    margin-bottom: 10px;
+}
+
+.iva-notice {
+    font-size: 0.85rem;
+    color: #64748b;
+    text-align: center;
     margin-bottom: 15px;
+    font-style: italic;
+    display: block;
+}
+
+/* BOTÓN WHATSAPP DINÁMICO */
+.btn-whatsapp-confirm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    background-color: var(--verde-wsp);
+    color: #ffffff !important;
+    padding: 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-whatsapp-confirm:hover {
+    background-color: #128c7e;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(18, 140, 126, 0.4);
+}
+
+.btn-whatsapp-confirm i {
+    font-size: 1.4rem;
 }
 
 /* --- Ajustes Móviles (S22 Ultra) --- */
@@ -323,7 +363,11 @@
         width: 55px; 
         height: 55px; 
         right: 20px; 
-        bottom: 95px; /* Ajustado para no chocar con WA */
+        bottom: 95px; 
+    }
+    .btn-whatsapp-confirm {
+        padding: 15px;
+        font-size: 1rem;
     }
     .total-row { font-size: 1.2rem; }
 }
