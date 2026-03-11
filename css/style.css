@@ -13,68 +13,67 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* --- Hero Section - Makro SPA (Equilibrio Visual 70-80% Ancho) --- */
+/* --- Hero Section - Makro SPA (Ajuste Matemático 2550x800) --- */
 .hero-container {
-    /* Ajustamos el ancho al 85% para que se vea amplio pero centrado */
-    width: 85%; 
-    max-width: 1440px; 
+    /* Ocupará el 90% del ancho de la pantalla, dejando un margen elegante */
+    width: 90%; 
+    max-width: 1800px; /* Límite para que en pantallas gigantes no sea infinito */
     margin: 0 auto;
-    padding-top: 245px; /* Espacio para el header triple */
+    padding-top: 245px; /* Espacio para tu header triple */
     padding-left: 0;
     padding-right: 0;
 }
 
 .hero-slider {
     width: 100%;
-    /* 16/6 es menos "chato" que 21/8, permite ver más altura de la imagen original */
-    aspect-ratio: 16 / 6; 
+    /* 3.1875 es el resultado de 2550 / 800. 
+       Esto garantiza que el contenedor tenga la MISMA forma que tus fotos. */
+    aspect-ratio: 3.1875 / 1; 
     
-    /* Subimos el límite de altura para que la imagen respire y no se corte tanto */
-    max-height: 600px; 
-    min-height: 350px; 
+    /* Quitamos el max-height rígido para que la imagen mande */
+    max-height: 650px; 
+    min-height: 250px; 
     
     border-radius: 12px;
     overflow: hidden;
     position: relative; 
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    background-color: #f1f5f9; /* Color de fondo mientras carga */
 }
 
 .swiper-slide {
     width: 100%;
     height: 100%;
-    /* 'contain' mostraría la imagen completa con bordes, 
-       'cover' la expande. Usamos 'cover' pero con un ratio más alto para no perder detalles. */
+    /* 'contain' mostraría la imagen completa con posibles bordes negros si el ratio falla.
+       'cover' con el aspect-ratio exacto hará que se vea el 100% de la foto sin recortes. */
     background-size: cover; 
     background-position: center center;
     background-repeat: no-repeat;
 }
 
-/* --- Flechas (Estilo minimalista) --- */
+/* --- Flechas flotantes --- */
 .swiper-button-next,
 .swiper-button-prev {
     color: #ffffff !important;
     background: rgba(30, 41, 59, 0.4) !important;
-    width: 45px !important; 
-    height: 45px !important;
+    width: 50px !important; 
+    height: 50px !important;
     border-radius: 50%;
     transition: all 0.3s ease;
-}
-
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
-    background-color: #e63946 !important;
 }
 
 /* --- Ajuste para S22 Ultra (Móvil) --- */
 @media (max-width: 768px) {
     .hero-container {
-        width: 95%; /* En móvil aprovechamos más el ancho */
+        width: 95%;
         padding-top: 210px;
     }
     
     .hero-slider {
-        aspect-ratio: 16 / 10; /* Más alto en móvil para que se vea el producto */
-        max-height: 320px;
+        /* En móvil el ratio 3.18 se vería como una linea muy delgada. 
+           Aquí sí permitimos un poco de recorte (cover) para que sea legible. */
+        aspect-ratio: 16 / 9; 
+        max-height: 300px;
     }
 }
 /* --- Centrado Header Destacados --- */
