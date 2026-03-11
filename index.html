@@ -103,26 +103,26 @@
     <script src="js/main.js"></script>
 
     <script>
-    // Se ejecuta cuando el DOM y las librerías están cargadas
     window.addEventListener('load', function() {
         const swiper = new Swiper('.hero-slider', {
             loop: true,
             
-            // EFECTO DE TRANSICIÓN
-            effect: 'fade',
-            fadeEffect: {
-                crossFade: true // Evita que se vea el fondo blanco entre transiciones
-            },
-            speed: 1500, // Transición de desvanecimiento un poco más suave
+            // ELIMINAMOS EL FADE Y USAMOS SLIDE (por defecto)
+            effect: 'slide', 
+            
+            // Velocidad del "latigazo" (500ms es rápido y dinámico)
+            speed: 500, 
 
-            // AUTOPLAY SINCRONIZADO
+            // Configuración del movimiento
             autoplay: {
-                // Aumentamos a 6 segundos para que se aprecie la animación CSS
-                delay: 6000, 
+                delay: 5000, // Cada 5 segundos cambia
                 disableOnInteraction: false,
             },
 
-            // INTERFAZ
+            // Transición de resistencia (hace que se vea más moderno)
+            grabCursor: true,
+            resistanceRatio: 0.5,
+
             pagination: {
                 el: '.swiper-pagination',
                 clickable: true,
@@ -131,12 +131,9 @@
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
-
-            // Mejora de rendimiento
-            watchSlidesProgress: true,
         });
 
-        console.log("✅ Swiper Dinámico inicializado para Makro SPA");
+        console.log("✅ Swiper con efecto de empuje lateral activado");
     });
 </script>
     </body>
