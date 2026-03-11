@@ -81,18 +81,26 @@
     padding-left: 8px; /* Efecto de desplazamiento suave */
 }
 
-/* Ajuste para los iconos de redes sociales (Agrandados un 40%) */
+/* Ajuste para los iconos de redes sociales - Grandes y Rojos */
 .footer-socials a {
-    color: #1e293b;
-    font-size: 1.7rem;    /* Aumentado de 1.2rem a 1.7rem */
-    margin-right: 22px;   /* Aumentado el espacio entre ellos para equilibrio visual */
-    transition: all 0.3s ease;
-    display: inline-block; /* Asegura que la transformación funcione bien */
+    color: #e63946;       /* Color base: Rojo Makro */
+    font-size: 2.1rem;    /* Aumentado para mayor presencia (aprox. 34px) */
+    margin-right: 25px;   /* Más espacio para evitar toques accidentales en móvil */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: inline-block;
 }
 
 .footer-socials a:hover {
-    color: #e63946;
-    transform: translateY(-3px); /* Pequeño salto hacia arriba al pasar el mouse */
+    color: #1e293b;       /* Cambio a Azul Industrial en Hover */
+    transform: translateY(-5px) scale(1.1); /* Salto y aumento sutil */
+}
+
+/* Ajuste específico para S22 Ultra (Móvil) */
+@media (max-width: 768px) {
+    .footer-socials a {
+        font-size: 1.8rem; /* Un poco más discretos en pantallas pequeñas */
+        margin-right: 20px;
+    }
 }
 /* ================================================================
    BOTÓN FLOTANTE WHATSAPP - ANIMACIÓN Y ESTILO
