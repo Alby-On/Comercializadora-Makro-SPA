@@ -1,17 +1,18 @@
-/* --- Estructura Base del Footer (MAKRO SPA) --- */
+/* --- Estructura Base del Footer (MAKRO SPA - Versión White) --- */
 .main-footer {
-    background-color: #1e293b; /* Azul Industrial Makro */
-    color: #ffffff;
+    background-color: #ffffff; /* Cambio a Blanco Puro */
+    color: #475569;            /* Texto en Gris Slate oscuro para lectura clara */
     padding: 60px 0 0 0;
     font-family: 'Segoe UI', sans-serif;
-    border-top: 4px solid #e63946; /* Rojo Makro */
+    border-top: 4px solid #e63946; /* Se mantiene el Rojo Makro superior */
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.05); /* Sombra sutil para separar del cuerpo */
 }
 
-/* AJUSTE DEL LOGO: Para que no se vea gigante */
+/* AJUSTE DEL LOGO */
 .footer-logo {
     max-width: 180px; 
     height: auto;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     display: block;
 }
 
@@ -25,11 +26,25 @@
 }
 
 .footer-section h3 {
-    color: #e63946; /* Rojo Makro */
+    color: #1e293b; /* Títulos en Azul Industrial para mayor jerarquía */
     margin-bottom: 20px;
-    font-size: 1.2rem;
-    font-weight: 700;
+    font-size: 1.1rem;
+    font-weight: 800;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+/* Línea decorativa bajo el título para estilo moderno */
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 30px;
+    height: 3px;
+    background-color: #e63946; /* Acento Rojo Makro */
 }
 
 .footer-section ul {
@@ -42,28 +57,41 @@
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    color: #cbd5e1; /* Gris suave para mejor lectura */
-    line-height: 1.5;
+    color: #475569; /* Gris oscuro para los textos legales y direcciones */
+    line-height: 1.6;
 }
 
 .footer-section ul li i {
-    color: #e63946; /* Iconos en Rojo Makro */
+    color: #e63946; /* Iconos resaltan en Rojo Makro */
     margin-top: 5px;
     width: 18px;
     text-align: center;
+    font-size: 0.9rem;
 }
 
 .footer-section ul li a {
-    color: #cbd5e1;
+    color: #64748b; /* Color de link estándar */
     text-decoration: none;
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
+    font-weight: 500;
 }
 
 .footer-section ul li a:hover {
-    color: #ffffff;
-    padding-left: 5px;
+    color: #e63946; /* Rojo Makro en el hover */
+    padding-left: 8px; /* Efecto de desplazamiento suave */
 }
 
+/* Ajuste para los iconos de redes sociales si los tienes en el footer */
+.footer-socials a {
+    color: #1e293b;
+    font-size: 1.2rem;
+    margin-right: 15px;
+    transition: 0.3s;
+}
+
+.footer-socials a:hover {
+    color: #e63946;
+}
 /* ================================================================
    BOTÓN FLOTANTE WHATSAPP - ANIMACIÓN Y ESTILO
    ================================================================ */
