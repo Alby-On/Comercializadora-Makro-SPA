@@ -17,22 +17,21 @@
 
     <script>
         (function verificarAccesoSeguro() {
-            // Usamos la validación manual por localStorage que definimos en el login
-            const auth = localStorage.getItem("gestor_auth");
+    const auth = localStorage.getItem("gestor_auth");
 
-            if (auth !== "true") {
-                console.warn("No autorizado. Expulsando...");
-                // IMPORTANTE: Sin barras ni puntos si están en la misma carpeta
-                window.location.replace("login.html");
-            } else {
-                // Si es válido, mostramos la página cuando el DOM esté listo
-                document.addEventListener('DOMContentLoaded', () => {
-                    document.body.style.display = 'block';
-                    // Mostrar quién está logueado en la consola
-                    console.log("Sesión activa: " + localStorage.getItem("gestor_user"));
-                });
-            }
-        })();
+    if (auth !== "true") {
+        console.warn("No autorizado. Redirigiendo...");
+        
+        // RUTA BLINDADA: Nombre del repositorio + archivo
+        // Esto evita que GitHub busque en la raíz incorrecta
+        window.location.replace("/Comercializadora-Makro-SPA-2/gestor-nutricion-catalogo/login.html");
+        
+    } else {
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.style.display = 'block';
+        });
+    }
+    })();
 
         function cerrarSesion() {
             localStorage.removeItem("gestor_auth");
