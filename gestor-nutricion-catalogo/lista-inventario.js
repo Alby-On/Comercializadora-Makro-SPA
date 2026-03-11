@@ -282,8 +282,9 @@ let allProducts = [];
 
 // --- FUNCIÓN QUE SIMULA LA CARGA DE DATOS ---
 function cargarPruebaInventario() {
-    allProducts = []; 
-    // Creamos 125 productos ficticios
+    allProducts = []; // 1. Limpiamos
+    
+    // 2. Llenamos el array (Este proceso es instantáneo)
     for (let i = 1; i <= 125; i++) {
         allProducts.push({
             foto: 'https://via.placeholder.com/40',
@@ -293,8 +294,16 @@ function cargarPruebaInventario() {
             stock: Math.floor(Math.random() * 500)
         });
     }
-    displayInventory(); // Renderiza la primera página
+    
+    // 3. ¡IMPORTANTE! Forzamos que la página sea la 1 al inicio
+    currentPage = 1; 
+    
+    // 4. Ahora sí, mandamos a dibujar la tabla
+    displayInventory(); 
 }
+
+// Asegúrate de que esta línea esté al final de tus scripts
+window.onload = cargarPruebaInventario;
 
 // --- FUNCIÓN PARA MOSTRAR LA TABLA PAGINADA ---
 function displayInventory() {
