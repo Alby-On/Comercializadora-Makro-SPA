@@ -164,7 +164,7 @@ async function inyectarEquipo(e) {
 
         if (insertError) throw insertError;
 
-        alert("¡Producto inyectado con éxito en Energy Comercial SPA!");
+        alert("¡Producto inyectado con éxito en Comercializadora Makro SPA!");
         
         e.target.reset();
         document.querySelectorAll('.thumb-preview').forEach(img => {
