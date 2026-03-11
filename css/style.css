@@ -13,24 +13,24 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* --- Hero Section - Makro SPA (Ajuste Matemático + Animación Dinámica) --- */
+/* --- Hero Section - Makro SPA (2550x800 + Movimiento Dinámico) --- */
 .hero-container {
     width: 90%; 
     max-width: 1800px; 
     margin: 0 auto;
-    padding-top: 245px; 
+    padding-top: 245px; /* Espacio para el header triple */
     padding-left: 0;
     padding-right: 0;
 }
 
 .hero-slider {
     width: 100%;
-    /* Ratio exacto para fotos de 2550x800 */
+    /* Ratio matemático exacto para evitar recortes */
     aspect-ratio: 3.1875 / 1; 
     max-height: 650px; 
     min-height: 250px; 
     border-radius: 12px;
-    overflow: hidden; /* Vital para que la imagen no se salga al moverse */
+    overflow: hidden; 
     position: relative; 
     box-shadow: 0 15px 35px rgba(0,0,0,0.15);
     background-color: #f1f5f9;
@@ -42,27 +42,27 @@
     background-size: cover; 
     background-position: center center;
     background-repeat: no-repeat;
-    /* La imagen base tiene un ligero zoom para tener margen de movimiento */
+    /* Mantenemos un zoom base para el movimiento lateral */
     transform: scale(1.1); 
-    transition: transform 0.8s ease-out;
+    will-change: transform; /* Optimización para S22 Ultra */
 }
 
-/* --- ANIMACIÓN KEN BURNS (Movimiento Lateral) --- */
-@keyframes moveLeft {
+/* --- ANIMACIÓN DE DESPLAZAMIENTO INTERNO (Ken Burns Lateral) --- */
+@keyframes moveLeftSlide {
     0% {
-        transform: scale(1.1) translateX(0%);
+        transform: scale(1.1) translateX(2%); /* Inicia un poco a la derecha */
     }
     100% {
-        transform: scale(1.1) translateX(-3%); /* Mueve un 3% a la izquierda */
+        transform: scale(1.1) translateX(-2%); /* Termina un poco a la izquierda */
     }
 }
 
-/* Solo se anima el slide visible */
+/* Solo se activa en la imagen que el usuario está viendo */
 .swiper-slide-active {
-    animation: moveLeft 10s ease-out forwards;
+    animation: moveLeftSlide 7s linear infinite alternate;
 }
 
-/* --- Flechas flotantes --- */
+/* --- Flechas de Navegación --- */
 .swiper-button-next,
 .swiper-button-prev {
     color: #ffffff !important;
@@ -70,15 +70,16 @@
     width: 50px !important; 
     height: 50px !important;
     border-radius: 50%;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-    background-color: #e63946 !important;
+    background-color: #e63946 !important; /* Rojo Makro */
+    transform: scale(1.1);
 }
 
-/* --- Ajuste para S22 Ultra (Móvil) --- */
+/* --- OPTIMIZACIÓN MÓVIL (S22 Ultra) --- */
 @media (max-width: 768px) {
     .hero-container {
         width: 95%;
@@ -86,13 +87,15 @@
     }
     
     .hero-slider {
+        /* En móvil sacrificamos el ratio largo por uno más visible (16:9) */
         aspect-ratio: 16 / 9; 
         max-height: 300px;
     }
 
-    /* Desactivamos animación en móvil para ahorrar batería y fluidez */
+    /* En móvil desactivamos la animación interna para máxima fluidez */
     .swiper-slide-active {
         animation: none;
+        transform: scale(1);
     }
 }
 /* --- Centrado Header Destacados --- */
