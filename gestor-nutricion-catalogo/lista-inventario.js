@@ -261,3 +261,83 @@ function closeModal() {
     const modal = document.getElementById("edit-modal");
     if (modal) modal.style.display = "none";
 }
+/**
+ * 5. GUARDAR CAMBIOS (UPDATE)
+ */
+async function saveEdit() {
+    if (!idProductoEditando) return;
+    
+    const client = window._supabase || (typeof _supabase !== 'undefined' ? _supabase : null);
+    if (!client) return alert("Error: Cliente Supabase no encontrado");
+
+    // Bloqueamos el botón para evitar doble clic
+    const btn = document.querySelector('#edit-modal .btn-main') || document.querySelector('#edit-modal button[onclick="saveEdit()"]');
+    const originalText = btn ? btn.innerText : "Actualizar";
+    if (btn) {
+        btn.disabled = true;
+        btn.innerText = "Sincronizando...";
+    }
+
+    const productoActual = productosEnMemoria.find(p => p.id === idProductoEditando);
+
+    // Recolectamos los datos del formulario
+    const datos = {
+        sku: document.getElementById("edit-sku") ? document.getElementById("edit-sku").value : "S/N",
+        nombre: document.getElementById("edit-nombre").value,
+        categoria: document.getElementById("edit-cat").value,
+        subcategoria: document.getElementById("edit-subcat").value,
+        stock: parseInt(document.getElementById("edit-stock").value) || 0,
+        precio: parseInt(document.getElementById("edit-precio").value) || 0,
+        descripcion: document.getElementById("edit-desc").value,
+        es_destacado: document.getElementById("edit-destacado") ? document.getElementById("edit-destacado").checked : false
+    };
+
+    try {
+        // Manejo de imágenes nuevas (si el usuario seleccionó archivos)
+        for (let i = 1; i <= 3; i++) {
+            const input = document.getElementById(`edit-foto${i}`);
+            if (input && input.files && input.files[0]) {
+                // 1. Borrar imagen antigua de Storage si existe
+                const urlVieja = productoActual[`url_imagen_${i}`];
+                if (urlVieja && urlVieja.includes('fotos-productos')) {
+                    const nombreLimpio = urlVieja.split('/').pop().split('?')[0];
+                    await client.storage.from('fotos-productos').remove([`productos/${nombreLimpio}`]);
+                }
+
+                // 2. Comprimir y Subir nueva imagen
+                const file = input.files[0];
+                const options = { maxSizeMB: 0.8, maxWidthOrHeight: 1200, useWebWorker: true, fileType: 'image/webp' };
+                
+                // Nota: Asegúrate de tener la librería browser-image-compression cargada
+                const compressed = typeof imageCompression !== 'undefined' ? await imageCompression(file, options) : file;
+                
+                const path = `productos/${idProductoEditando}_${i}_${Date.now()}.webp`;
+                const { error: uploadError } = await client.storage.from('fotos-productos').upload(path, compressed);
+                
+                if (uploadError) throw uploadError;
+
+                // 3. Obtener URL pública
+                const { data: pub } = client.storage.from('fotos-productos').getPublicUrl(path);
+                datos[`url_imagen_${i}`] = pub.publicUrl;
+            }
+        }
+
+        // --- ENVIAR A SUPABASE ---
+        const { error } = await client.from('productos').update(datos).eq('id', idProductoEditando);
+        
+        if (error) throw error;
+
+        alert("✅ Producto actualizado con éxito.");
+        closeModal();
+        cargarTablaDesdeSupabase(); // Recargamos la tabla para ver los cambios
+
+    } catch (err) {
+        console.error("Error al guardar:", err);
+        alert("Error al actualizar: " + err.message);
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = originalText;
+        }
+    }
+}
