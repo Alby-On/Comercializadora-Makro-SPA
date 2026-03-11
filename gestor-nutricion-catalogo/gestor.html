@@ -24,7 +24,7 @@
                 if (error || !session) {
                     console.warn("Acceso denegado. Redirigiendo al login...");
                     // Ajusta la ruta si login.html está en otra carpeta
-                    window.location.replace("../login.html"); 
+                    window.location.replace("/login.html"); 
                 } else {
                     // Si hay sesión, liberamos el bloqueo visual
                     document.body.style.display = 'block';
