@@ -275,45 +275,72 @@ function previewEdit(input, imgId) {
     }
 }
 
+// --- VARIABLES GLOBALES PARA LA PRUEBA ---
 let currentPage = 1;
-const recordsPerPage = 50;
-let allProducts = []; // Aquí debes cargar tus datos del inventario
+const recordsPerPage = 50; // Límite solicitado
+let allProducts = []; 
 
+// --- FUNCIÓN QUE SIMULA LA CARGA DE DATOS ---
+function cargarPruebaInventario() {
+    allProducts = []; 
+    // Creamos 125 productos ficticios
+    for (let i = 1; i <= 125; i++) {
+        allProducts.push({
+            foto: 'https://via.placeholder.com/40',
+            sku: `SKU-MAK-${1000 + i}`,
+            nombre: `Producto Industrial ${i}`,
+            categoria: i % 2 === 0 ? 'Ferretería' : 'Construcción',
+            stock: Math.floor(Math.random() * 500)
+        });
+    }
+    displayInventory(); // Renderiza la primera página
+}
+
+// --- FUNCIÓN PARA MOSTRAR LA TABLA PAGINADA ---
 function displayInventory() {
-    const tableBody = document.getElementById('inventory-body');
-    tableBody.innerHTML = '';
+    const tbody = document.getElementById('inventory-body');
+    tbody.innerHTML = '';
 
-    // Calculamos los índices
-    const startIndex = (currentPage - 1) * recordsPerPage;
-    const endIndex = startIndex + recordsPerPage;
-    
-    // Filtramos solo los 50 que corresponden a esta página
-    const paginatedProducts = allProducts.slice(startIndex, endIndex);
+    // Lógica de "rebanado" (Slice)
+    const start = (currentPage - 1) * recordsPerPage;
+    const end = start + recordsPerPage;
+    const currentItems = allProducts.slice(start, end);
 
-    paginatedProducts.forEach(prod => {
-        // Tu lógica actual para crear las filas (TR)
-        const row = `<tr>...</tr>`; 
-        tableBody.innerHTML += row;
+    currentItems.forEach(prod => {
+        tbody.innerHTML += `
+            <tr>
+                <td><img src="${prod.foto}" width="40" style="border-radius:5px"></td>
+                <td>${prod.sku}</td>
+                <td>${prod.nombre}</td>
+                <td>${prod.categoria}</td>
+                <td><strong>${prod.stock}</strong></td>
+                <td><button style="cursor:pointer">⚙️</button></td>
+            </tr>
+        `;
     });
 
-    updatePaginationUI();
+    actualizarControles();
 }
 
-function updatePaginationUI() {
+// --- ACTUALIZA LOS TEXTOS Y BOTONES ---
+function actualizarControles() {
     const total = allProducts.length;
     document.getElementById('total-products').innerText = total;
-    document.getElementById('start-index').innerText = total === 0 ? 0 : (currentPage - 1) * recordsPerPage + 1;
+    document.getElementById('start-index').innerText = (currentPage - 1) * recordsPerPage + 1;
     document.getElementById('end-index').innerText = Math.min(currentPage * recordsPerPage, total);
 
-    // Deshabilitar botones si no hay más páginas
+    // Bloquear botones si no hay más páginas
     document.getElementById('prev-page').disabled = (currentPage === 1);
     document.getElementById('next-page').disabled = (currentPage * recordsPerPage >= total);
-    
-    // Generar números de página opcionalmente
-    renderPageNumbers();
 }
 
-function changePage(step) {
-    currentPage += step;
+// --- FUNCIÓN PARA CAMBIAR DE PÁGINA ---
+function changePage(direction) {
+    currentPage += direction;
     displayInventory();
+    // Scroll hacia arriba de la tabla para comodidad
+    document.querySelector('.table-container').scrollTop = 0;
 }
+
+// LANZAR LA PRUEBA AL CARGAR LA PÁGINA
+window.onload = cargarPruebaInventario;
