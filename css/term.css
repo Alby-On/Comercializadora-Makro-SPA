@@ -1,1 +1,101 @@
+/* ================================================================
+   ESTILOS PÁGINA LEGAL - COMERCIALIZADORA MAKRO SPA
+   ================================================================ */
 
+/* Contenedor Principal con el padding necesario para tu header triple */
+.main-content-area {
+    background-color: #f8fafc;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+.legal-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+.legal-header h1 {
+    font-size: 2.2rem;
+    color: #1e293b;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    margin-bottom: 10px;
+}
+
+.legal-header p {
+    color: #64748b;
+    font-size: 1.1rem;
+}
+
+/* Caja de Identificación (Intro Box) */
+.intro-box {
+    transition: transform 0.3s ease;
+}
+
+.intro-box:hover {
+    transform: translateY(-5px);
+}
+
+.intro-box h4 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.intro-box i {
+    color: #e63946; /* Rojo Makro */
+}
+
+/* Cuerpo del Contenido Legal */
+.legal-content {
+    box-shadow: 0 15px 35px rgba(30, 41, 59, 0.05);
+    border: 1px solid #e2e8f0;
+}
+
+.legal-item {
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 25px;
+}
+
+.legal-item:last-of-type {
+    border-bottom: none;
+}
+
+.legal-item h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.legal-item p {
+    font-size: 1.05rem;
+    color: #475569;
+    text-align: justify;
+}
+
+/* Caja de Cumplimiento (Compliance) */
+.compliance-footer {
+    border-top: 2px solid #e2e8f0;
+    color: #64748b;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.compliance-footer i {
+    font-size: 1.3rem;
+    color: #1e293b;
+    margin-top: 3px;
+}
+
+/* ================================================================
+   RESPONSIVE - OPTIMIZACIÓN MÓVIL (S22 Ultra / iPhone)
+   ================================================================ */
+
+@media (max
