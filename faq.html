@@ -87,4 +87,26 @@
 <script src="js/components.js"></script>
 
 <script src="js/carro_compras.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                // 1. Buscamos si hay otro item abierto y lo cerramos (opcional, para efecto acordeón)
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+
+                // 2. Togleamos la clase 'active' en el item actual
+                item.classList.toggle('active');
+            });
+        });
+    });
+</script>
+    </body>
 </html>
