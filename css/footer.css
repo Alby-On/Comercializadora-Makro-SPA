@@ -81,25 +81,35 @@
     padding-left: 8px; /* Efecto de desplazamiento suave */
 }
 
-/* Ajuste para los iconos de redes sociales - Grandes y Rojos */
-.footer-socials a {
-    color: #e63946;       /* Color base: Rojo Makro */
-    font-size: 2.1rem;    /* Aumentado para mayor presencia (aprox. 34px) */
-    margin-right: 25px;   /* Más espacio para evitar toques accidentales en móvil */
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    display: inline-block;
+/* AJUSTE PARA LOS ICONOS DE REDES SOCIALES (Basado en tu clase .social-icons) */
+.social-icons {
+    display: flex;
+    gap: 25px; /* Espacio entre los iconos */
+    margin-top: 15px;
 }
 
-.footer-socials a:hover {
-    color: #1e293b;       /* Cambio a Azul Industrial en Hover */
-    transform: translateY(-5px) scale(1.1); /* Salto y aumento sutil */
+.social-icons a {
+    color: #e63946 !important; /* Rojo Makro Forzado */
+    font-size: 2.1rem;         /* Tamaño grande (40% extra) */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: inline-block;
+    text-decoration: none;
+}
+
+.social-icons a:hover {
+    color: #1e293b !important; /* Cambio a Azul Industrial en Hover */
+    transform: translateY(-5px) scale(1.1); /* Efecto de salto y agrandado */
+}
+
+/* Ajuste para que los iconos de FontAwesome hereden el color correctamente */
+.social-icons a i {
+    display: block;
 }
 
 /* Ajuste específico para S22 Ultra (Móvil) */
 @media (max-width: 768px) {
-    .footer-socials a {
-        font-size: 1.8rem; /* Un poco más discretos en pantallas pequeñas */
-        margin-right: 20px;
+    .social-icons a {
+        font-size: 1.8rem;
     }
 }
 /* ================================================================
