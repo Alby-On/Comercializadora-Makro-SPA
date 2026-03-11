@@ -64,43 +64,84 @@
     padding-left: 5px;
 }
 
-/* --- BOTÓN WHATSAPP FLOTANTE --- */
+/* ================================================================
+   BOTÓN FLOTANTE WHATSAPP - ANIMACIÓN Y ESTILO
+   ================================================================ */
+
 .wsp-float {
     position: fixed;
     width: 60px;
     height: 60px;
-    right: 40px;
     bottom: 40px;
+    right: 40px;
     background-color: #25d366;
-    color: #FFF;
+    color: #FFF !important;
     border-radius: 50px;
     text-align: center;
     font-size: 35px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    z-index: 2000;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    z-index: 5000; /* Aseguramos que esté sobre todo */
     display: flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    transition: transform 0.3s;
+    transition: all 0.3s ease;
+    
+    /* ANIMACIÓN DE PULSO INICIAL */
+    animation: pulseWsp 2s infinite;
 }
 
 .wsp-float:hover {
+    background-color: #128c7e;
     transform: scale(1.1);
 }
 
+/* Tooltip (El texto que aparece al lado) */
 .wsp-tooltip {
     position: absolute;
-    right: 75px;
+    right: 80px;
     background-color: #1e293b;
-    color: #fff;
+    color: white;
     padding: 8px 15px;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 14px;
     white-space: nowrap;
     opacity: 0;
     visibility: hidden;
-    transition: 0.3s;
+    transition: opacity 0.3s, visibility 0.3s;
+    font-weight: 600;
+}
+
+.wsp-float:hover .wsp-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* KEYFRAMES DE LA ANIMACIÓN */
+@keyframes pulseWsp {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 20px rgba(37, 211, 102, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
+}
+
+/* AJUSTE PARA MÓVILES (S22 Ultra) */
+@media (max-width: 768px) {
+    .wsp-float {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 30px;
+    }
+    .wsp-tooltip {
+        display: none; /* Ocultamos el texto en móvil para no tapar contenido */
+    }
 }
 
 /* ================================================================
@@ -240,30 +281,6 @@
     font-weight: 800;
     color: var(--azul-makro);
     margin-bottom: 15px;
-}
-
-.btn-whatsapp-confirm {
-    width: 100%;
-    background: #25D366;
-    color: white;
-    border: none;
-    padding: 18px;
-    border-radius: 10px;
-    font-weight: 800;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    cursor: pointer;
-    transition: 0.3s;
-    text-transform: uppercase;
-}
-
-.btn-whatsapp-confirm:hover {
-    background: #128c7e;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
 }
 
 /* --- Ajustes Móviles (S22 Ultra) --- */
