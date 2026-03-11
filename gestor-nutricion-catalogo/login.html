@@ -145,51 +145,55 @@
     
     <script>
         async function intentarLogin() {
-    const u = document.getElementById("user").value.trim(); // .trim() elimina espacios accidentales
+    const u = document.getElementById("user").value.trim();
     const p = document.getElementById("pass").value.trim();
     const btn = document.getElementById("btn-login");
     const errorMsg = document.getElementById("error-msg");
-
-    console.log("Intentando conectar con usuario:", u); // DEBUG
 
     if(!u || !p) {
         alert("Por favor, completa todos los campos.");
         return;
     }
 
+    // Estado visual de carga
     btn.innerText = "Verificando...";
     btn.disabled = true;
     errorMsg.style.display = "none";
 
     try {
-        // Aseguramos que el cliente de Supabase esté disponible
-        const client = window.supabase || window._supabase || _supabase;
+        // --- USAMOS TU VARIABLE GLOBAL EXISTENTE ---
+        const client = window._supabase;
 
+        // Verificación de seguridad por si el script falló al cargar
         if (!client) {
-            throw new Error("Cliente Supabase no encontrado. Revisa los scripts cargados.");
+            throw new Error("Sistema de conexión no detectado. Recarga la página.");
         }
 
-        // CONSULTA
+        // Ejecución de la consulta
         const { data, error } = await client
             .from('usuarios_gestion')
             .select('*')
             .eq('usuario', u)
             .eq('password', p)
-            .maybeSingle(); // Usamos maybeSingle para que no explote si no hay datos
+            .maybeSingle();
 
-        console.log("Respuesta BD:", data); // DEBUG: Veremos si llega el objeto o null
-        if (error) console.error("Error BD:", error); // DEBUG: Veremos si hay error de permisos
-
-        if (error || !data) {
-            throw new Error("Datos incorrectos, intenta de nuevo.");
+        if (error) {
+            console.error("Error de Supabase:", error);
+            throw new Error("Error técnico en la base de datos.");
         }
 
-        // Si llegamos aquí, los datos son correctos
+        if (!data) {
+            throw new Error("Usuario o contraseña incorrectos.");
+        }
+
+        // ✅ LOGIN EXITOSO
         console.log("✅ Acceso concedido para:", data.nombre);
         
+        // Guardamos la llave para el gestor
         localStorage.setItem("gestor_auth", "true");
         localStorage.setItem("gestor_user", data.nombre);
         
+        // Redirección blindada para GitHub Pages
         const repoPath = "/Comercializadora-Makro-SPA-2/gestor-nutricion-catalogo/gestor.html";
         window.location.href = repoPath;
 
@@ -197,6 +201,8 @@
         console.error("Fallo de Login:", err.message);
         errorMsg.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${err.message}`;
         errorMsg.style.display = "block";
+        
+        // Restaurar botón
         btn.innerText = "Ingresar al Gestor";
         btn.disabled = false;
     }
