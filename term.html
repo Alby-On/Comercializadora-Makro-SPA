@@ -1,1 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminos y Coondiciones | Comercializadora Makro SPA</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/detalle.css">
+    <link rel="stylesheet" href="css/productos.css"> 
 
+    <link rel="icon" type="image/png" href="images/favicons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="images/favicons/favicon.svg" />
+    <link rel="shortcut icon" href="images/favicons/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Comercializadora Makro SPA" />
+    <link rel="manifest" href="images/favicons/site.webmanifest" />
+    
+</head>
+<body>
+    <div id="header-placeholder"></div>
+<main class="container-detalle" style="padding-top: 345px; padding-bottom: 80px;">
+    <div id="detalle-contenido" class="detalle-layout">
+        <section class="galeria-producto">
+            <div class="main-img-container">
+                <img id="img-principal" src="images/no-image.png" alt="Producto">
+            </div>
+            <div id="thumbnails" class="thumbnails-grid">
+                </div>
+        </section>
+
+        <section class="info-producto">
+            <nav class="breadcrumb">
+                <a href="productos.html">Productos</a> / <span id="bread-categoria">Categoría</span>
+            </nav>
+            
+            <h1 id="det-nombre">Nombre del Producto</h1>
+            <p id="det-precio" class="precio-detalle">$0</p>
+            <div id="det-sku">SKU: Cargando...</div>
+
+            <div class="controles-compra">
+            <div class="selector-cantidad">
+                <button onclick="cambiarCantidad(-1)">-</button>
+                <input type="number" id="input-cantidad" value="1" min="1" readonly>
+                <button onclick="cambiarCantidad(1)">+</button>
+            </div>
+                <button class="btn-agregar-carrito" onclick="prepararAgregado()">
+            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                </button>
+            </div>
+
+            <div class="descripcion-seccion">
+                <h3>Descripción</h3>
+                <p id="det-descripcion">Cargando descripción...</p>
+            </div>
+
+            <div class="acciones-footer">
+                <a href="productos.html" class="btn-volver">
+                    <i class="fas fa-arrow-left"></i> Volver a Productos
+                </a>
+            </div>
+        </section>
+    </div>
+</main>
+<div id="footer-placeholder"></div>
+
+<div id="cart-placeholder"></div>
+    
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script> 
+
+<script src="js/productos-db.js"></script>
+    
+<script src="js/detalle.js"></script>
+    
+<script src="js/components.js"></script>
+
+<script src="js/carro_compras.js"></script>
+</body>
+</html>
