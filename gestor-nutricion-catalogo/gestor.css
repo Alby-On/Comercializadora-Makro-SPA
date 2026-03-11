@@ -382,3 +382,57 @@ td strong {
     font-size: 0.85rem;
     font-weight: bold;
 }
+
+/* Paginacion */
+
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+}
+
+.pagination-info {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.pagination-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-page {
+    padding: 8px 16px;
+    border: 1px solid #cbd5e1;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btn-page:hover:not(:disabled) {
+    background: #1e293b; /* Azul Makro */
+    color: white;
+}
+
+.btn-page:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-link {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.page-link.active {
+    background: #e63946; /* Rojo Makro */
+    color: white;
+    font-weight: bold;
+}
