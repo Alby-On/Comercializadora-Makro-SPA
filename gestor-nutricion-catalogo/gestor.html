@@ -3,17 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <script>
-        (function verificarAcceso() {
-            // Si no existe la marca de auth, redirigir de inmediato
-            if (localStorage.getItem("gestor_auth") !== "true") {
-                window.location.replace("login.html"); 
-                // Usamos .replace para que el usuario no pueda volver atrás con el botón del navegador
-            }
-        })();
+        // --- PROTECCIÓN DE RUTA (Auth Guard) ---
+(async function verificarSeguridad() {
+        // 1. Esperamos a que la librería de Supabase esté lista
+        // Si usas el CDN estándar de Supabase:
+        const supabaseUrl = 'TU_URL_DE_SUPABASE'; 
+        const supabaseKey = 'TU_ANON_KEY_DE_SUPABASE';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // 2. Intentamos obtener la sesión actual
+        const { data: { session }, error } = await supabase.auth.getSession();
+
+        // 3. Lógica de expulsión
+        if (error || !session) {
+            console.error("Acceso denegado. Redirigiendo...");
+            window.location.replace("login.html"); // .replace evita que pueda volver atrás con el botón del navegador
+        } else {
+            // Si hay sesión, mostramos la página
+            document.body.style.display = "block";
+            console.log("Acceso autorizado para:", session.user.email);
+        }
+    })();
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor Energy SPA</title>
     <link rel="stylesheet" href="gestor.css">
+
+    <style>
+    /* Ocultamos el cuerpo de la página por defecto para evitar filtraciones de datos */
+    body { display: none; }
+</style>
 </head>
     
 <body>
