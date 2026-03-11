@@ -3,7 +3,7 @@
    ================================================================ */
 
 .contacto-main {
-    padding-top: 245px; /* Ajuste para tu header triple */
+    padding-top: 245px; 
     padding-bottom: 80px;
     background-color: #f8fafc;
 }
@@ -16,13 +16,13 @@
 
 .contacto-header h1 {
     font-size: 2.5rem;
-    color: #1e293b; /* Azul Makro */
+    color: #1e293b;
     font-weight: 800;
     margin-bottom: 10px;
 }
 
 .highlight {
-    color: #e63946; /* Rojo Makro */
+    color: #e63946;
 }
 
 .linea-decorativa {
@@ -37,7 +37,7 @@
 .contacto-wrapper {
     display: grid;
     grid-template-columns: 0.9fr 1.1fr;
-    gap: 30px;
+    gap: 40px;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
@@ -48,11 +48,11 @@
 .contacto-info {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 25px;
 }
 
 .info-card {
-    background: #1e293b; /* Azul Industrial */
+    background: #1e293b;
     color: white;
     padding: 35px;
     border-radius: 15px;
@@ -63,7 +63,7 @@
     font-size: 1.6rem;
     margin-bottom: 25px;
     color: #ffffff;
-    border-left: 4px solid #e63946;
+    border-left: 5px solid #e63946;
     padding-left: 15px;
 }
 
@@ -80,7 +80,7 @@
 }
 
 .info-item i {
-    color: #e63946; /* Iconos Rojos */
+    color: #e63946;
     font-size: 1.2rem;
     margin-top: 4px;
 }
@@ -99,7 +99,6 @@
     line-height: 1.5;
 }
 
-/* Redes Sociales */
 .contacto-sociales {
     display: flex;
     gap: 15px;
@@ -108,14 +107,14 @@
 
 .contacto-sociales a {
     background: rgba(255,255,255,0.1);
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     color: white;
-    transition: 0.3s;
+    transition: 0.3s ease;
 }
 
 .contacto-sociales a:hover {
@@ -123,19 +122,19 @@
     transform: translateY(-3px);
 }
 
-/* Contenedor del Mapa */
 .mapa-container {
     border-radius: 15px;
     overflow: hidden;
     border: 1px solid #e2e8f0;
     box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    line-height: 0;
 }
 
-/* --- FORMULARIO PROFESIONAL --- */
+/* --- FORMULARIO REORGANIZADO --- */
 .contacto-formulario {
     background: #ffffff;
     padding: 40px;
-    border-radius: 15px;
+    border-radius: 20px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.05);
 }
 
@@ -153,7 +152,7 @@
 
 .input-group label {
     display: block;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: #1e293b;
     margin-bottom: 8px;
@@ -163,12 +162,12 @@
 .input-group select, 
 .input-group textarea {
     width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
+    padding: 14px 18px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
     font-size: 1rem;
     background: #f8fafc;
-    transition: 0.3s;
+    transition: all 0.3s ease;
 }
 
 .input-group input:focus, 
@@ -179,7 +178,7 @@
     box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.1);
 }
 
-/* SELECTOR WHATSAPP / EMAIL */
+/* SELECTOR DE CONTACTO AL FINAL */
 .preferencia-contacto {
     display: flex;
     gap: 15px;
@@ -192,7 +191,7 @@
 }
 
 .radio-label input {
-    display: none; /* Escondemos el radio original */
+    display: none;
 }
 
 .custom-radio {
@@ -200,58 +199,72 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    padding: 14px;
+    padding: 16px;
     border: 2px solid #e2e8f0;
-    border-radius: 8px;
+    border-radius: 10px;
     color: #64748b;
-    font-weight: 600;
-    transition: 0.3s;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.radio-label input:checked + .custom-radio {
+/* Color específico si elige WhatsApp */
+.radio-label input[value="whatsapp"]:checked + .custom-radio {
+    border-color: #25D366;
+    color: #25D366;
+    background: #f0fff4;
+}
+
+/* Color específico si elige Email */
+.radio-label input[value="email"]:checked + .custom-radio {
     border-color: #e63946;
     color: #e63946;
     background: #fff5f5;
 }
 
-/* BOTÓN ENVIAR */
+/* BOTÓN ENVIAR DINÁMICO */
 .btn-enviar {
-    background: #e63946;
+    background: #1e293b;
     color: white;
-    padding: 16px;
+    padding: 18px;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     font-weight: 800;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
     margin-top: 10px;
 }
 
 .btn-enviar:hover {
-    background: #1e293b;
+    background: #e63946;
     transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(30, 41, 59, 0.2);
+    box-shadow: 0 10px 20px rgba(230, 57, 70, 0.2);
 }
 
 /* ================================================================
-   RESPONSIVE (S22 Ultra y Tablets)
+   RESPONSIVE
    ================================================================ */
 @media (max-width: 992px) {
     .contacto-wrapper {
         grid-template-columns: 1fr;
     }
+    
+    .contacto-formulario {
+        order: -1; /* Formulario primero en móviles */
+    }
 }
 
 @media (max-width: 600px) {
-    .form-row {
+    .form-row, .preferencia-contacto {
         grid-template-columns: 1fr;
+        flex-direction: column;
     }
+    
     .contacto-header h1 {
-        font-size: 2rem;
+        font-size: 2.1rem;
     }
 }
