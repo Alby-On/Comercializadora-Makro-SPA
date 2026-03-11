@@ -81,16 +81,18 @@
     padding-left: 8px; /* Efecto de desplazamiento suave */
 }
 
-/* Ajuste para los iconos de redes sociales si los tienes en el footer */
+/* Ajuste para los iconos de redes sociales (Agrandados un 40%) */
 .footer-socials a {
     color: #1e293b;
-    font-size: 1.2rem;
-    margin-right: 15px;
-    transition: 0.3s;
+    font-size: 1.7rem;    /* Aumentado de 1.2rem a 1.7rem */
+    margin-right: 22px;   /* Aumentado el espacio entre ellos para equilibrio visual */
+    transition: all 0.3s ease;
+    display: inline-block; /* Asegura que la transformación funcione bien */
 }
 
 .footer-socials a:hover {
     color: #e63946;
+    transform: translateY(-3px); /* Pequeño salto hacia arriba al pasar el mouse */
 }
 /* ================================================================
    BOTÓN FLOTANTE WHATSAPP - ANIMACIÓN Y ESTILO
