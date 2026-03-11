@@ -1,8 +1,10 @@
-/* faq.css */
+/* faq.css - PALETA CORPORATIVA MAKRO SPA */
+
 .faq-section {
     max-width: 800px;
     margin: 60px auto;
     padding: 0 20px;
+    font-family: 'Inter', sans-serif;
 }
 
 .faq-header {
@@ -12,21 +14,24 @@
 
 .faq-header h1 {
     font-size: 2.2rem;
-    color: #1a202c;
+    color: #1e293b; /* Azul Industrial Makro */
+    font-weight: 800;
 }
 
 .highlight {
-    color: #2563eb; /* Azul corporativo */
+    color: #e63946; /* Rojo Makro SPA */
 }
 
 .faq-container {
-    border-radius: 8px;
+    border-radius: 12px;
     background: #fff;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px rgba(30, 41, 59, 0.1);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
 }
 
 .faq-item {
-    border-bottom: 1px solid #edf2f7;
+    border-bottom: 1px solid #f1f5f9;
 }
 
 .faq-item:last-child {
@@ -35,48 +40,59 @@
 
 .faq-question {
     width: 100%;
-    padding: 22px;
+    padding: 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
     background: none;
     border: none;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #2d3748;
-    transition: all 0.2s;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #334155;
+    transition: all 0.3s ease;
 }
 
+/* Al pasar el mouse, usamos el rojo corporativo */
 .faq-question:hover {
-    color: #2563eb;
+    color: #e63946;
+    background-color: #fffafb;
 }
 
 .faq-answer {
     max-height: 0;
     overflow: hidden;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     background-color: #f8fafc;
 }
 
 .faq-answer p {
-    padding: 0 22px 22px 22px;
-    color: #4a5568;
-    line-height: 1.6;
+    padding: 0 24px 24px 24px;
+    color: #475569;
+    line-height: 1.7;
     margin: 0;
+    font-size: 1.05rem;
 }
 
-/* Estado Activo */
+/* --- ESTADO ACTIVO (Cuando se abre la pregunta) --- */
+
+.faq-item.active .faq-question {
+    color: #e63946;
+    background-color: #fffafb;
+}
+
 .faq-item.active .faq-answer {
-    max-height: 300px; /* Ajustar según largo del texto */
+    max-height: 500px; /* Aumentado para seguridad de textos largos */
 }
 
+/* Icono gira y cambia a rojo */
 .faq-item.active .fa-chevron-down {
     transform: rotate(180deg);
-    color: #2563eb;
+    color: #e63946;
 }
 
 .fa-chevron-down {
-    transition: transform 0.3s;
-    font-size: 0.8rem;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+    color: #94a3b8;
 }
