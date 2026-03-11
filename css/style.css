@@ -13,42 +13,53 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* --- Hero Section - Makro SPA (Ajuste Matemático 2550x800) --- */
+/* --- Hero Section - Makro SPA (Ajuste Matemático + Animación Dinámica) --- */
 .hero-container {
-    /* Ocupará el 90% del ancho de la pantalla, dejando un margen elegante */
     width: 90%; 
-    max-width: 1800px; /* Límite para que en pantallas gigantes no sea infinito */
+    max-width: 1800px; 
     margin: 0 auto;
-    padding-top: 245px; /* Espacio para tu header triple */
+    padding-top: 245px; 
     padding-left: 0;
     padding-right: 0;
 }
 
 .hero-slider {
     width: 100%;
-    /* 3.1875 es el resultado de 2550 / 800. 
-       Esto garantiza que el contenedor tenga la MISMA forma que tus fotos. */
+    /* Ratio exacto para fotos de 2550x800 */
     aspect-ratio: 3.1875 / 1; 
-    
-    /* Quitamos el max-height rígido para que la imagen mande */
     max-height: 650px; 
     min-height: 250px; 
-    
     border-radius: 12px;
-    overflow: hidden;
+    overflow: hidden; /* Vital para que la imagen no se salga al moverse */
     position: relative; 
     box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-    background-color: #f1f5f9; /* Color de fondo mientras carga */
+    background-color: #f1f5f9;
 }
 
 .swiper-slide {
     width: 100%;
     height: 100%;
-    /* 'contain' mostraría la imagen completa con posibles bordes negros si el ratio falla.
-       'cover' con el aspect-ratio exacto hará que se vea el 100% de la foto sin recortes. */
     background-size: cover; 
     background-position: center center;
     background-repeat: no-repeat;
+    /* La imagen base tiene un ligero zoom para tener margen de movimiento */
+    transform: scale(1.1); 
+    transition: transform 0.8s ease-out;
+}
+
+/* --- ANIMACIÓN KEN BURNS (Movimiento Lateral) --- */
+@keyframes moveLeft {
+    0% {
+        transform: scale(1.1) translateX(0%);
+    }
+    100% {
+        transform: scale(1.1) translateX(-3%); /* Mueve un 3% a la izquierda */
+    }
+}
+
+/* Solo se anima el slide visible */
+.swiper-slide-active {
+    animation: moveLeft 10s ease-out forwards;
 }
 
 /* --- Flechas flotantes --- */
@@ -62,6 +73,11 @@
     transition: all 0.3s ease;
 }
 
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background-color: #e63946 !important;
+}
+
 /* --- Ajuste para S22 Ultra (Móvil) --- */
 @media (max-width: 768px) {
     .hero-container {
@@ -70,10 +86,13 @@
     }
     
     .hero-slider {
-        /* En móvil el ratio 3.18 se vería como una linea muy delgada. 
-           Aquí sí permitimos un poco de recorte (cover) para que sea legible. */
         aspect-ratio: 16 / 9; 
         max-height: 300px;
+    }
+
+    /* Desactivamos animación en móvil para ahorrar batería y fluidez */
+    .swiper-slide-active {
+        animation: none;
     }
 }
 /* --- Centrado Header Destacados --- */
