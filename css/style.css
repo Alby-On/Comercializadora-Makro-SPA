@@ -13,7 +13,7 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* --- Hero Section - Makro SPA (2550x800 + Movimiento Dinámico) --- */
+/* --- Hero Section - Makro SPA (2550x800 + Movimiento Dinámico Sincronizado) --- */
 .hero-container {
     width: 90%; 
     max-width: 1800px; 
@@ -25,7 +25,7 @@
 
 .hero-slider {
     width: 100%;
-    /* Ratio matemático exacto para evitar recortes */
+    /* Ratio matemático exacto (2550/800) */
     aspect-ratio: 3.1875 / 1; 
     max-height: 650px; 
     min-height: 250px; 
@@ -36,28 +36,34 @@
     background-color: #f1f5f9;
 }
 
+/* Sincronización del movimiento de empuje lateral */
+.swiper-wrapper {
+    /* Esta curva hace que el slide sea rápido pero con un frenado suave muy pro */
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
 .swiper-slide {
     width: 100%;
     height: 100%;
     background-size: cover; 
     background-position: center center;
     background-repeat: no-repeat;
-    /* Mantenemos un zoom base para el movimiento lateral */
+    /* Zoom base para permitir el paneo lateral */
     transform: scale(1.1); 
-    will-change: transform; /* Optimización para S22 Ultra */
+    will-change: transform; 
 }
 
-/* --- ANIMACIÓN DE DESPLAZAMIENTO INTERNO (Ken Burns Lateral) --- */
+/* --- ANIMACIÓN KEN BURNS LATERAL --- */
 @keyframes moveLeftSlide {
     0% {
-        transform: scale(1.1) translateX(2%); /* Inicia un poco a la derecha */
+        transform: scale(1.1) translateX(2%);
     }
     100% {
-        transform: scale(1.1) translateX(-2%); /* Termina un poco a la izquierda */
+        transform: scale(1.1) translateX(-2%);
     }
 }
 
-/* Solo se activa en la imagen que el usuario está viendo */
+/* Se activa solo en el slide visible */
 .swiper-slide-active {
     animation: moveLeftSlide 7s linear infinite alternate;
 }
@@ -70,7 +76,7 @@
     width: 50px !important; 
     height: 50px !important;
     border-radius: 50%;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.3s ease;
 }
 
 .swiper-button-next:hover,
@@ -87,12 +93,10 @@
     }
     
     .hero-slider {
-        /* En móvil sacrificamos el ratio largo por uno más visible (16:9) */
         aspect-ratio: 16 / 9; 
         max-height: 300px;
     }
 
-    /* En móvil desactivamos la animación interna para máxima fluidez */
     .swiper-slide-active {
         animation: none;
         transform: scale(1);
